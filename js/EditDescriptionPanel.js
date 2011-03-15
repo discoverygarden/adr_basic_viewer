@@ -14,6 +14,10 @@
 EditDescriptionPanel = Ext.extend(EditDescriptionPanelUi, {
     initComponent: function() {
         EditDescriptionPanel.superclass.initComponent.call(this);
+        //this.getForm().loadRecord(descriptionStore.getAt(0));
     }
 });
+
 Ext.reg('editdescriptionpanel', EditDescriptionPanel);
+
+

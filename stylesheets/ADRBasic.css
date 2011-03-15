@@ -54,6 +54,11 @@ table {
 
 }
 
+.adr-overview-footer {
+    font-size: 1.1em;
+    text-align: center;
+}
+
 .adr-title-label, .adr-author-label, .adr-description-label {
     font-size: 2em;
     float: left;
@@ -74,7 +79,7 @@ table {
 }
 
 .adr-file-img {
-    display: block;
+    display: inline;
     margin-left: auto;
     margin-right: auto;
     width: 151px;
@@ -82,6 +87,7 @@ table {
 }
 
 .adr-file-label {
+    display: inline;
     text-align: center;
 }
 
@@ -90,7 +96,6 @@ table {
 }
 
 .adr-edit-file-img {
-    display: block;
     margin-left: auto;
     margin-right: auto;
     width: 151px;
@@ -99,8 +104,4 @@ table {
 
 .adr-edit-file-label {
     text-align: center;
-}
-
-#ext-gen13 {
-    margin-bottom: 0em;
 }

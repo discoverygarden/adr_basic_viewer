@@ -71,7 +71,7 @@ class ADRBasic {
     $foxml = new SimpleXMLElement($this->item->export_as_foxml());
     $foxml->registerXPathNamespace("audit", "info:fedora/fedora-system:def/audit#");
     $audit = $foxml->xpath("(//*[local-name()='responsibility'])[last()]");
-    $this->user = $audit[0];
+    $this->user =  sprintf("%s", $audit[0]);
     $this->dateCreated = new DateTime($this->item->objectProfile->objCreateDate);
     $this->dateCreated = $this->dateCreated->format('F j, Y');
     $this->dateModified = new DateTime($this->item->objectProfile->objLastModDate);
@@ -101,7 +101,8 @@ class ADRBasic {
       $img = $this->getDatastreamIconURL($dsid, $attr['MIMEType']);
       $stream['dsid'] = $dsid;
       $stream['label'] = $attr['label'];
-      $stream['img'] = $img;
+      $stream['img_url'] = $img;
+      $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
       $stream['mime'] = $attr['MIMEType'];
       $response[] = $stream;
     }
@@ -125,6 +126,16 @@ class ADRBasic {
     return $output;
   }
 
+  /**
+   *
+   * @global $base_url $base_url
+   * @param <type> $dsid 
+   */
+  private function getDatastreamDownloadURL($dsid, $label) {
+    global $base_url;
+    return "$base_url/fedora/repository/object_download/" . drupal_urlencode($this->pid) . '/' . $dsid . '/' . drupal_urlencode(preg_replace('/\//i', '${1}_', $label));
+  }
+  
   /**
    *
    * @global  $base_url
@@ -212,8 +223,6 @@ class ADRBasic {
    * @return <type>
    */
   public function render() {
-//    module_load_include('inc', 'fedora_repository', 'plugins/ShowStreamsInFieldSets');
-//    module_load_include('inc', 'fedora_repository', 'plugins/tagging_form');
     $this->includeRequiredScripts();
   }
 
