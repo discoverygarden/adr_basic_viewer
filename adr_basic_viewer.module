@@ -1,0 +1,30 @@
+<?php
+
+// $Id$
+
+/**
+ * @file
+ *
+ */
+function adr_basic_viewer_menu() {
+  $items = array();
+  $items['adrbasic/ajax/getDatastreams/%'] = array(
+    'page callback' => 'adr_basic_viewer_get_datastreams',
+    'access arguments' => array('view detailed list of content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['adrbasic/ajax/getDescription/%'] = array(
+    'page callback' => 'adr_basic_viewer_get_description',
+    'access arguments' => array('view detailed list of content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+function adr_basic_viewer_get_description($pid) {
+
+}
+
+function adr_basic_viewer_get_datastreams($pid) {
+
+}
