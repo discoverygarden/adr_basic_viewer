@@ -8,12 +8,12 @@
  */
 function adr_basic_viewer_menu() {
   $items = array();
-  $items['adrbasic/ajax/getDatastreams/%'] = array(
+  $items['adrbasic/ajax/getDatastreams'] = array(
     'page callback' => 'adr_basic_viewer_get_datastreams',
     'access arguments' => array('view detailed list of content'),
     'type' => MENU_NORMAL_ITEM,
   );
-  $items['adrbasic/ajax/getDescription/%'] = array(
+  $items['adrbasic/ajax/getDescription'] = array(
     'page callback' => 'adr_basic_viewer_get_description',
     'access arguments' => array('view detailed list of content'),
     'type' => MENU_NORMAL_ITEM,
@@ -21,10 +21,20 @@ function adr_basic_viewer_menu() {
   return $items;
 }
 
-function adr_basic_viewer_get_description($pid) {
-
+function adr_basic_viewer_get_description() {
+  if (($pid = $_REQUEST['pid']) && user_access('view detailed list of content')) {
+    module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
+    $viewer = new ADRBasic($pid);
+    $response = $viewer->getDescriptionAjaxResponse();
+    echo $response;
+  }
 }
 
-function adr_basic_viewer_get_datastreams($pid) {
-
+function adr_basic_viewer_get_datastreams() {
+  if (($pid = $_REQUEST['pid']) && user_access('view detailed list of content')) {
+    module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
+    $viewer = new ADRBasic($pid);
+    $response = $viewer->getDatastreamsAjaxResponse();
+    echo $response;
+  }
 }

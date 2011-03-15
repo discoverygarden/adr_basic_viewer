@@ -70,7 +70,9 @@
 				"title": "Overview",
 				"width": "-ext-undefined-",
 				"height": "-ext-undefined-",
-				"layout": "column"
+				"layout": "column",
+				"border": false,
+				"hideBorders": true
 			},
 			"userXType": "overviewpanel",
 			"cn": [
@@ -85,7 +87,7 @@
 						"flex": 1,
 						"width": "-ext-undefined-",
 						"layout": "fit",
-						"columnWidth": 0.7,
+						"columnWidth": 0.8,
 						"height": "-ext-undefined-"
 					},
 					"userComponent": "MyPanel9"
@@ -101,7 +103,7 @@
 						"flex": 0,
 						"width": "-ext-undefined-",
 						"layout": "fit",
-						"columnWidth": 0.3
+						"columnWidth": 0.2
 					},
 					"userComponent": "MyPanel10"
 				}
@@ -195,7 +197,8 @@
 				"frame": true,
 				"hideBorders": true,
 				"border": "-ext-undefined-",
-				"footer": true
+				"footer": true,
+				"style": "-ext-undefined-"
 			},
 			"userXType": "editobjectpanel",
 			"cn": [
@@ -394,8 +397,8 @@
 					"snapToGrid": 10,
 					"userConfig": {
 						"itemSelector": "div",
-						"store": "DatastreamStore",
-						"tpl": "<tpl for=\".\"><img src='{img}' title='label'>{dsid}</div></tpl>"
+						"store": "Datastreams",
+						"tpl": "<tpl for=\".\"><div class=\"adr-edit-file-img-block\"><img src='{img}' title='label' class=\"adr-edit-file-img\"><div class=\"adr-edit-file-label\">{dsid}</div></div></tpl>"
 					}
 				}
 			]
@@ -421,8 +424,8 @@
 					"snapToGrid": 10,
 					"userConfig": {
 						"itemSelector": "div",
-						"store": "(none)",
-						"tpl": "<tpl for=\".\"><div>Title:&nbsp</div><div>{title}</div>\n<div>Author:&nbsp</div><div>{author}</div>\n<div>Description:&nbsp</div><div>{description}</div></tpl>"
+						"store": "Description",
+						"tpl": "<tpl for=\".\">\n<div class=\"adr-title-label\">Title:</div><div class=\"adr-title-value\">{title}</div><br clear=\"all\"/>\n<div class=\"adr-author-label\">Author:</div><div class=\"adr-author-value\">{author}</div><br clear=\"all\"/>\n<div class=\"adr-description-label\">Description:</div><div class=\"adr-description-value\">{description}</div><br clear=\"all\"/>\n</tpl>"
 					}
 				}
 			]
@@ -447,7 +450,7 @@
 					"userConfig": {
 						"itemSelector": "div",
 						"store": "Datastreams",
-						"tpl": "<tpl for=\".\"><div>Template</div></tpl>"
+						"tpl": "<tpl for=\".\"><img src='{img}' title=\"{label}\" class=\"adr-file-img\"><div class=\"adr-file-label\">{dsid}</div></tpl>"
 					}
 				}
 			]
@@ -460,7 +463,12 @@
 			"jsClass": "Description",
 			"snapToGrid": 10,
 			"userConfig": {
-				"storeId": "Description"
+				"storeId": "Description",
+				"url": "/adrbasic/ajax/getDescription/window.location.pathname.split( '/' )",
+				"autoLoad": true,
+				"autoSave": false,
+				"root": "-ext-undefined-",
+				"baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}"
 			},
 			"cn": [
 				{
@@ -500,7 +508,9 @@
 			"userConfig": {
 				"storeId": "Datastreams",
 				"autoLoad": true,
-				"url": "fedora/repository/ajax/getDatastreams"
+				"url": "/adrbasic/ajax/getDatastreams",
+				"root": "-ext-undefined-",
+				"baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}"
 			},
 			"cn": [
 				{

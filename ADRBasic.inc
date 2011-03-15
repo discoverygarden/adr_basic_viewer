@@ -31,8 +31,8 @@ class ADRBasic {
    * @var array
    */
   protected $mods;
-  protected $titles;
-  protected $authors;
+  protected $title;
+  protected $author;
   protected $description;
   protected $dateCreated;
   protected $dateModified;
@@ -56,14 +56,18 @@ class ADRBasic {
   }
 
   /**
-   * 
+   *
    */
   private function setDisplayInfo() {
     $mods = new SimpleXMLElement($this->item->get_datastream_dissemination("MODS"));
     $mods->registerXPathNamespace("mods", "http://www.loc.gov/mods/v3");
-    $this->titles = $mods->xpath('/mods:mods/mods:titleInfo/mods:title');
-    $this->authors = $mods->xpath('//mods:role[mods:roleTerm = "creator"]/../../mods:name/mods:namePart');
-    $this->description = $mods->xpath('//mods:abstract');
+    $titles = $mods->xpath('/mods:mods/mods:titleInfo/mods:title');
+    $this->title = $this->implodeSimpleXMLElementArray(', ', $titles);
+    $authors = $mods->xpath('//mods:role[mods:roleTerm = "creator"]/../../mods:name/mods:namePart');
+    $this->author = $this->implodeSimpleXMLElementArray(', ', $authors);
+    $description = $mods->xpath('//mods:abstract');
+    $this->description = sprintf("%s", $description[0]);
+
     $foxml = new SimpleXMLElement($this->item->export_as_foxml());
     $foxml->registerXPathNamespace("audit", "info:fedora/fedora-system:def/audit#");
     $audit = $foxml->xpath("(//*[local-name()='responsibility'])[last()]");
@@ -75,6 +79,69 @@ class ADRBasic {
   }
 
   /**
+   * Responds to a request for a fedora objects description.
+   * 
+   * @return string
+   *   JSON encoded string.
+   */
+  public function getDescriptionAjaxResponse() {
+    $response = array();
+    $response['title'] = $this->title;
+    $response['author'] = $this->author;
+    $response['description'] = $this->description;
+    $response['date_created'] = $this->dateCreated;
+    $response['date_modified'] = $this->dateModified;
+    $response['user'] = $this->user;
+    return json_encode(array($response)); // One record, within an array.
+  }
+
+  public function getDatastreamsAjaxResponse() {
+    $response = array();
+    foreach ($this->item->datastreams as $dsid => $attr) {
+      $img = $this->getDatastreamIconURL($dsid, $attr['MIMEType']);
+      $stream['dsid'] = $dsid;
+      $stream['label'] = $attr['label'];
+      $stream['img'] = $img;
+      $stream['mime'] = $attr['MIMEType'];
+      $response[] = $stream;
+    }
+    return json_encode($response);
+  }
+
+  /**
+   *
+   * @param <type> $var
+   * @param <type> $values
+   */
+  private function implodeSimpleXMLElementArray($glue, $values) {
+    $output = '';
+    while (($value = array_shift($values)) != NULL) {
+      $value = sprintf("%s", $value);
+      if (trim($value) != '') {
+        $output .= ( $output != '') ? $glue : '';
+        $output .= $value;
+      }
+    }
+    return $output;
+  }
+
+  /**
+   *
+   * @global  $base_url
+   * @param <type> $dsid
+   * @param <type> $mime_type
+   * @return <type> 
+   */
+  private function getDatastreamIconURL($dsid, $mime_type) {
+    // Find in object
+    // If not found use default for mime type.
+    global $base_url;
+    $path_to_default_images = drupal_get_path('module', 'adr_basic_viewer') . '/images/';
+    $image = $this->defaultMimeIcons[$mime_type];
+    return "$base_url/$path_to_default_images$image"; // $image;
+  }
+
+  /**
    * Determines if the user can view the manage tab, this is based on drupal/fedora permissions.
    *
    * @return boolean
@@ -83,14 +150,17 @@ class ADRBasic {
     return FALSE;
   }
 
+  /**
+   * 
+   */
   private function includeRequiredScripts() {
-    $path = drupal_get_path('module', 'fedora_repository');
+    $path = drupal_get_path('module', 'adr_basic_viewer');
     drupal_add_css("$path/stylesheets/ADRBasic.css");
     module_load_include('module', 'ext', 'ext');
     ext_load_library();
-    /*$this->createDescriptionStore();
-    $this->createDatastreamStore();*/
     $include_files = array(
+      'Description.js',
+      'Datastreams.js',
       'ADRBasicViewer.ui.js',
       'ADRBasicViewer.js',
       'OverviewPanel.ui.js',
@@ -109,61 +179,11 @@ class ADRBasic {
       'DescriptionPanel.js',
       'FilesPanel.ui.js',
       'FilesPanel.js',
-      'ADRBasic.js',
-      'Description.js',
-      'Datastreams.js'
+      'ADRBasic.js'
     );
     foreach ($include_files as $file) {
-      drupal_add_js("$path/js/ADRBasic/$file");
+      drupal_add_js("$path/js/$file");
     }
-  }
-
-  private function createDescriptionStore() {
-    $data = array();
-    $fields = array('title', 'author', 'description');
-    $data[] = array(
-      implode(' ', $this->titles), implode(' ', $this->authors), $this->description
-    );
-    $fields = $this->convertPhpArrayToJsString($fields);
-    $data = $this->convertPhpArrayToJsString($data);
-    $datastream = $this->createStore('FedoraObjectInfoStore', $data, $fields);
-    drupal_add_js($datastream, 'inline');
-  }
-
-  private function createDatastreamStore() {
-    $data = array();
-    $fields = array('dsid', 'label', 'mime', 'img');
-    foreach ($this->item->datastreams as $dsid => $attr) {
-      $img = $this->getDatastreamIconURL($dsid, $attr['MIMEType']);
-      $data[] = array($dsid, $attr['label'], $attr['MIMEType'], $img);
-    }
-    $fields = $this->convertPhpArrayToJsString($fields);
-    $data = $this->convertPhpArrayToJsString($data);
-    $datastream = $this->createStore('DatastreamStore', $data, $fields);
-    drupal_add_js($datastream, 'inline');
-  }
-
-  private function getDatastreamIconURL($dsid, $mime_type) {
-    // Find in object
-    // If not found use default for mime type.
-    global $base_url;
-    $path_to_default_images = drupal_get_path('module', 'adr_basic_viewer') . '/images/';
-    $image = $this->defaultMimeIcons[$mime_type];
-    return "$base_url/$path_to_default_images$image"; // $image;
-  }
-
-  private function createStore($storeId, $data, $fields) {
-    return "$storeId = Ext.extend(Ext.data.ArrayStore, {
-    constructor: function(cfg) {
-        cfg = cfg || {};
-        $storeId.superclass.constructor.call(this, Ext.apply({
-            storeId: '$storeId',
-            idIndex: 0,
-            autoDestroy: true,
-            data: $data,
-            fields: $fields}, cfg));
-    }});
-    new $storeId()";
   }
 
   /**
@@ -192,8 +212,8 @@ class ADRBasic {
    * @return <type>
    */
   public function render() {
-    module_load_include('inc', 'fedora_repository', 'plugins/ShowStreamsInFieldSets');
-    module_load_include('inc', 'fedora_repository', 'plugins/tagging_form');
+//    module_load_include('inc', 'fedora_repository', 'plugins/ShowStreamsInFieldSets');
+//    module_load_include('inc', 'fedora_repository', 'plugins/tagging_form');
     $this->includeRequiredScripts();
   }
 
