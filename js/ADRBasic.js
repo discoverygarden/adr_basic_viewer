@@ -8,6 +8,9 @@ Ext.onReady(function(){
     Ext.QuickTips.init();
     var adrbasic = new ADRBasicViewer({
         renderTo: 'content-fedora',
+        defaults: {
+            autoScroll: true
+        },
         listeners: {
             afterrender: function() {
                 $('#center form').css('margin-bottom', 0);

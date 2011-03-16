@@ -605,7 +605,8 @@
 							"dock": "fbar",
 							"snapToGrid": 10,
 							"userConfig": {
-								"id": "add-file-form-toolbar"
+								"id": "add-file-form-toolbar",
+								"autoHeight": "-ext-undefined-"
 							},
 							"cn": [
 								{
