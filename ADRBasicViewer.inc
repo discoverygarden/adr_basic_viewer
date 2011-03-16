@@ -13,6 +13,21 @@ class ADRBasicViewer {
   protected $item;
   protected $mimeType;
 
+  public static function includeRequiredJSForViewers($pid) {
+    self::includeJSForFlash($pid);
+  }
+
+  private static function includeJSForFlash($pid) {
+    $path = drupal_get_path('module', 'Fedora_Repository');
+    $full_path = base_path() . $path;
+    $path_to_js = "$path/js/swfobject.js";
+    drupal_add_js("$path_to_js");
+    drupal_add_js("var s1 = new SWFObject('$full_path/flash/flvplayer.swf', 'single', '320', '240', '7');
+    s1.addParam('allowfullscreen', 'TRUE');
+    s1.addVariable('file', '". base_path() . "fedora/repository/$pid/FLV/FLV.flv');
+    s1.write('player{$pid}FLV');", 'inline', 'footer');
+  }
+
   public function __construct($pid, $dsid = NULL) {
     module_load_include('inc', 'fedora_repository', 'api/fedora_item');
     $this->item = new Fedora_Item($pid);
@@ -27,7 +42,7 @@ class ADRBasicViewer {
    */
   private function getDefaultDsid() {
     $keys = array_keys($this->item->datastreams);
-    return 'PDF';//$keys[0];
+    return $keys[0];
   }
 
   /**

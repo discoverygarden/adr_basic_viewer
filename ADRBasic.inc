@@ -42,6 +42,7 @@ class ADRBasic {
     'application/rdf+xml' => 'pdf.png',
     'text/xml' => 'pdf.png',
     'image/jpeg' => 'pdf.png',
+    'video/x-flv' => 'pdf.png'
   );
   protected $defaultIcon = 'default.png';
 
@@ -169,6 +170,8 @@ class ADRBasic {
   private function includeRequiredScripts() {
     $path = drupal_get_path('module', 'adr_basic_viewer');
     drupal_add_css("$path/stylesheets/ADRBasic.css");
+    module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
+    //ADRBasicViewer::includeRequiredJSForViewers($this->pid);
     module_load_include('module', 'ext', 'ext');
     ext_load_library();
     $include_files = array(

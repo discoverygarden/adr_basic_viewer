@@ -408,7 +408,10 @@
 					"userConfig": {
 						"itemSelector": "div",
 						"store": "Datastreams",
-						"tpl": "<tpl for=\".\"><div class=\"adr-edit-file-img-block\"><img src='{img_url}' title='label' class=\"adr-edit-file-img\"><div class=\"adr-edit-file-label\">{dsid}</div></div></tpl>"
+						"tpl": "<tpl for=\".\"><div class=\"adr-edit-file-img-block\"><img src='{img_url}' title='label' class=\"adr-edit-file-img\"><div class=\"adr-edit-file-label\">{dsid}</div></div></tpl>",
+						"overClass": "x-view-over",
+						"singleSelect": true,
+						"trackOver": true
 					}
 				}
 			]
@@ -458,9 +461,13 @@
 					"jsClass": "MyDataView2",
 					"snapToGrid": 10,
 					"userConfig": {
-						"itemSelector": "div",
+						"itemSelector": "img",
 						"store": "Datastreams",
-						"tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"1\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n    <td style=\"vertical-align: middle;\">\n       <div class=\"adr-file-label\">{dsid}</div>\n       <a href=\"#mange\" class=\"adr-file-view\">View</a>\n       <div>\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>"
+						"tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"1\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n    <td style=\"vertical-align: middle;\">\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div>\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>",
+						"singleSelect": true,
+						"simpleSelect": "-ext-undefined-",
+						"trackOver": true,
+						"overClass": "x-view-over"
 					}
 				}
 			]
