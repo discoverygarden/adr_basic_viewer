@@ -16,5 +16,13 @@
 <script type="text/javascript" src="DescriptionPanel.js"></script>
 <script type="text/javascript" src="FilesPanel.ui.js"></script>
 <script type="text/javascript" src="FilesPanel.js"></script>
+<script type="text/javascript" src="EditObjectWindow.ui.js"></script>
+<script type="text/javascript" src="EditObjectWindow.js"></script>
+<script type="text/javascript" src="DeleteObjectWindow.ui.js"></script>
+<script type="text/javascript" src="DeleteObjectWindow.js"></script>
+<script type="text/javascript" src="AddFileWindow.ui.js"></script>
+<script type="text/javascript" src="AddFileWindow.js"></script>
+<script type="text/javascript" src="EditFileWindow.ui.js"></script>
+<script type="text/javascript" src="EditFileWindow.js"></script>
 <script type="text/javascript" src="Description.js"></script>
 <script type="text/javascript" src="Datastreams.js"></script>

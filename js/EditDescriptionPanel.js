@@ -14,7 +14,44 @@
 EditDescriptionPanel = Ext.extend(EditDescriptionPanelUi, {
     initComponent: function() {
         EditDescriptionPanel.superclass.initComponent.call(this);
-        //this.getForm().loadRecord(descriptionStore.getAt(0));
+        var pid = window.location.pathname.split('/');
+        pid = pid[3];
+        var form = this.getForm();
+        var store = Ext.StoreMgr.lookup('Description');
+        store.addListener('load', function(store, records, options) {
+            var record = store.getAt(0);
+            form.loadRecord(record);
+        });
+        var record = store.getAt(0);
+        if(record) {
+            form.loadRecord(record);
+        }
+        this.buttons[0].addListener('click', function(button, event) {
+            form.submit({
+                url: '/adrbasic/ajax/setDescription',
+                params: {
+                    pid: pid
+                },
+                success: function(form, action) {
+                    store.loadData(action.result.data);
+                },
+                failure: function(form, action) {
+                    switch (action.failureType) {
+                        case Ext.form.Action.CLIENT_INVALID:
+                            Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
+                            break;
+                        case Ext.form.Action.CONNECT_FAILURE:
+                            Ext.Msg.alert('Failure', 'Ajax communication failed');
+                            break;
+                        case Ext.form.Action.SERVER_INVALID:
+                            Ext.Msg.alert('Failure', action.result.msg);
+                    }
+                }
+            });
+        });
+        this.buttons[1].addListener('click', function(button, event) {
+           store.reload();
+        });
     }
 });
 

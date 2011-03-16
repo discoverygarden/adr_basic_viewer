@@ -262,7 +262,7 @@
 				"frame": true,
 				"unstyled": "-ext-undefined-",
 				"fileUpload": "-ext-undefined-",
-				"standardSubmit": true,
+				"standardSubmit": "-ext-undefined-",
 				"id": "edit-description-form",
 				"method": "POST"
 			},
@@ -467,10 +467,55 @@
 						"singleSelect": true,
 						"simpleSelect": "-ext-undefined-",
 						"trackOver": true,
-						"overClass": "x-view-over"
+						"overClass": "x-view-over",
+						"id": "adr-files"
 					}
 				}
 			]
+		},
+		{
+			"id": "MyWindow",
+			"cid": "window",
+			"jsClass": "EditObjectWindow",
+			"snapToGrid": 10,
+			"userConfig": {
+				"title": "My Window",
+				"width": 400,
+				"height": 250
+			}
+		},
+		{
+			"id": "MyWindow1",
+			"cid": "window",
+			"jsClass": "DeleteObjectWindow",
+			"snapToGrid": 10,
+			"userConfig": {
+				"title": "My Window",
+				"width": 400,
+				"height": 250
+			}
+		},
+		{
+			"id": "MyWindow2",
+			"cid": "window",
+			"jsClass": "AddFileWindow",
+			"snapToGrid": 10,
+			"userConfig": {
+				"title": "My Window",
+				"width": 400,
+				"height": 250
+			}
+		},
+		{
+			"id": "MyWindow3",
+			"cid": "window",
+			"jsClass": "EditFileWindow",
+			"snapToGrid": 10,
+			"userConfig": {
+				"title": "My Window",
+				"width": 400,
+				"height": 250
+			}
 		}
 	],
 	"stores": [

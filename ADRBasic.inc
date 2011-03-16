@@ -74,7 +74,7 @@ class ADRBasic {
     $foxml = new SimpleXMLElement($this->item->export_as_foxml());
     $foxml->registerXPathNamespace("audit", "info:fedora/fedora-system:def/audit#");
     $audit = $foxml->xpath("(//*[local-name()='responsibility'])[last()]");
-    $this->user =  sprintf("%s", $audit[0]);
+    $this->user = sprintf("%s", $audit[0]);
     $this->dateCreated = new DateTime($this->item->objectProfile->objCreateDate);
     $this->dateCreated = $this->dateCreated->format('F j, Y');
     $this->dateModified = new DateTime($this->item->objectProfile->objLastModDate);
@@ -96,6 +96,21 @@ class ADRBasic {
     $response['date_modified'] = $this->dateModified;
     $response['user'] = $this->user;
     return json_encode(array($response)); // One record, within an array.
+  }
+
+  public function setDescriptionAjaxRequest() {
+    $this->title = $_POST['title'];
+    $this->author = $_POST['author'];
+    $this->description = $_POST['description'];
+    $data = array(
+      'title' => $this->title,
+      'author' => $this->author,
+      'description' => $this->description,
+      'date_created' => $this->dateCreated,
+      'date_modified' => $this->dateModified,
+      'user' => $this->user
+    );
+    return json_encode(array('success' => true, 'msg' => 'Successfully updated description.', 'data' => array($data)));
   }
 
   public function getDatastreamsAjaxResponse() {
@@ -138,7 +153,7 @@ class ADRBasic {
     global $base_url;
     return "$base_url/fedora/repository/object_download/" . drupal_urlencode($this->pid) . '/' . $dsid . '/' . drupal_urlencode(preg_replace('/\//i', '${1}_', $label));
   }
-  
+
   /**
    *
    * @global  $base_url
