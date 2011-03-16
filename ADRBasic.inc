@@ -134,11 +134,13 @@ class ADRBasic {
    */
   private function implodeSimpleXMLElementArray($glue, $values) {
     $output = '';
-    while (($value = array_shift($values)) != NULL) {
-      $value = sprintf("%s", $value);
-      if (trim($value) != '') {
-        $output .= ( $output != '') ? $glue : '';
-        $output .= $value;
+    if (isset($values)) {
+      while (($value = array_shift($values)) != NULL) {
+        $value = sprintf("%s", $value);
+        if (trim($value) != '') {
+          $output .= ( $output != '') ? $glue : '';
+          $output .= $value;
+        }
       }
     }
     return $output;
@@ -192,6 +194,16 @@ class ADRBasic {
     $include_files = array(
       'Description.js',
       'Datastreams.js',
+      'ControlGroups.js',
+      'MIMETypes.js',
+      'EditObjectWindow.ui.js',
+      'EditObjectWindow.js',
+      'DeleteObjectWindow.ui.js',
+      'DeleteObjectWindow.js',
+      'AddFileWindow.ui.js',
+      'AddFileWindow.js',
+      'EditFileWindow.ui.js',
+      'EditFileWindow.js',
       'ADRBasicViewer.ui.js',
       'ADRBasicViewer.js',
       'OverviewPanel.ui.js',

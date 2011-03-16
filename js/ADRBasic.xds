@@ -361,8 +361,10 @@
 					"dock": "tbar",
 					"snapToGrid": 10,
 					"userConfig": {
-						"hideBorders": true,
-						"labelSeparator": "-ext-undefined-"
+						"hideBorders": "-ext-undefined-",
+						"labelSeparator": "-ext-undefined-",
+						"enableOverflow": "-ext-undefined-",
+						"id": "edit-files-panel-toolbar"
 					},
 					"cn": [
 						{
@@ -382,7 +384,7 @@
 							"jsClass": "MyButton4",
 							"snapToGrid": 10,
 							"userConfig": {
-								"text": "Edit",
+								"text": "Replace",
 								"width": 75,
 								"scale": "large"
 							}
@@ -411,7 +413,8 @@
 						"tpl": "<tpl for=\".\"><div class=\"adr-edit-file-img-block\"><img src='{img_url}' title='label' class=\"adr-edit-file-img\"><div class=\"adr-edit-file-label\">{dsid}</div></div></tpl>",
 						"overClass": "x-view-over",
 						"singleSelect": true,
-						"trackOver": true
+						"trackOver": true,
+						"id": "edit-files-panel-data-viewer"
 					}
 				}
 			]
@@ -501,10 +504,111 @@
 			"jsClass": "AddFileWindow",
 			"snapToGrid": 10,
 			"userConfig": {
-				"title": "My Window",
-				"width": 400,
-				"height": 250
-			}
+				"title": "Add File",
+				"width": 590,
+				"height": 255
+			},
+			"cn": [
+				{
+					"id": "MyForm3",
+					"cid": "form",
+					"jsClass": "MyForm3",
+					"snapToGrid": 10,
+					"userConfig": {
+						"title": "My Form",
+						"fileUpload": true,
+						"frame": true,
+						"headerAsText": false,
+						"header": "-ext-undefined-",
+						"footer": true
+					},
+					"cn": [
+						{
+							"id": "MyTextField2",
+							"cid": "textfield",
+							"jsClass": "MyTextField2",
+							"snapToGrid": 10,
+							"userConfig": {
+								"fieldLabel": "DSID",
+								"anchor": "100%",
+								"name": "dsid"
+							}
+						},
+						{
+							"id": "MyTextField3",
+							"cid": "textfield",
+							"jsClass": "MyTextField3",
+							"snapToGrid": 10,
+							"userConfig": {
+								"fieldLabel": "Label",
+								"anchor": "100%",
+								"name": "label"
+							}
+						},
+						{
+							"id": "MyCombo",
+							"cid": "combobox",
+							"jsClass": "MyCombo",
+							"snapToGrid": 10,
+							"userConfig": {
+								"fieldLabel": "Control Group",
+								"anchor": "100%",
+								"name": "control_group",
+								"store": "ControlGroups"
+							}
+						},
+						{
+							"id": "MyCombo1",
+							"cid": "combobox",
+							"jsClass": "MyCombo1",
+							"snapToGrid": 10,
+							"userConfig": {
+								"name": "mime_type",
+								"store": "MIMETypes"
+							}
+						},
+						{
+							"id": "MyCheckbox",
+							"cid": "checkbox",
+							"jsClass": "MyCheckbox",
+							"snapToGrid": 10,
+							"userConfig": {
+								"fieldLabel": "State",
+								"boxLabel": "Active",
+								"anchor": "100%",
+								"name": "state"
+							}
+						},
+						{
+							"id": "MyToolbar3",
+							"cid": "toolbar",
+							"jsClass": "MyToolbar3",
+							"dock": "fbar",
+							"snapToGrid": 10,
+							"cn": [
+								{
+									"id": "MyButton6",
+									"cid": "button",
+									"jsClass": "MyButton6",
+									"snapToGrid": 10,
+									"userConfig": {
+										"text": "Add"
+									}
+								},
+								{
+									"id": "MyButton8",
+									"cid": "button",
+									"jsClass": "MyButton8",
+									"snapToGrid": 10,
+									"userConfig": {
+										"text": "Cancel"
+									}
+								}
+							]
+						}
+					]
+				}
+			]
 		},
 		{
 			"id": "MyWindow3",
@@ -648,6 +752,37 @@
 					}
 				}
 			]
+		},
+		{
+			"id": "MyStore2",
+			"cid": "arraystore",
+			"jsClass": "ControlGroups",
+			"snapToGrid": 10,
+			"userConfig": {
+				"storeId": "ControlGroups",
+				"data": "[ [\"Inline XML (X)\"], [\"Managed Resource (M)\"] ]"
+			},
+			"cn": [
+				{
+					"id": "MyField11",
+					"cid": "datafield",
+					"jsClass": "MyField11",
+					"snapToGrid": 10,
+					"userConfig": {
+						"name": "type"
+					}
+				}
+			]
+		},
+		{
+			"id": "MyStore3",
+			"cid": "arraystore",
+			"jsClass": "MIMETypes",
+			"snapToGrid": 10,
+			"userConfig": {
+				"storeId": "MIMETypes",
+				"data": "[ ['text/xml']]"
+			}
 		}
 	]
 }
