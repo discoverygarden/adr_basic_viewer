@@ -14,9 +14,14 @@
 EditFilesPanel = Ext.extend(EditFilesPanelUi, {
     initComponent: function() {
         EditFilesPanel.superclass.initComponent.call(this);
-        //var toolbar = this.getCmp('edit-files-panel-toolbar');
-        //var viewer = this.getCmp('edit-files-panel-data-viewer');
-        //var add = toolbar.buttons[0];
+        var viewer = this.get('edit-files-panel-data-viewer');
+        var add = this.buttons[0];
+        var replace = this.buttons[1];
+        var remove = this.buttons[2];
+        add.addListener('click', function(button, event) {
+            var window = new AddFileWindow();
+            window.show(this);
+        });
     }
 });
 Ext.reg('editfilespanel', EditFilesPanel);

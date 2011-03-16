@@ -358,7 +358,7 @@
 					"id": "MyToolbar2",
 					"cid": "toolbar",
 					"jsClass": "MyToolbar2",
-					"dock": "tbar",
+					"dock": "fbar",
 					"snapToGrid": 10,
 					"userConfig": {
 						"hideBorders": "-ext-undefined-",
@@ -505,23 +505,31 @@
 			"snapToGrid": 10,
 			"userConfig": {
 				"title": "Add File",
-				"width": 590,
-				"height": 255
+				"width": 586,
+				"height": 209,
+				"layout": "form",
+				"defaultType": "form"
 			},
 			"cn": [
 				{
 					"id": "MyForm3",
 					"cid": "form",
-					"jsClass": "MyForm3",
+					"jsClass": "AddFileForm",
 					"snapToGrid": 10,
 					"userConfig": {
-						"title": "My Form",
-						"fileUpload": true,
+						"title": "-ext-undefined-",
 						"frame": true,
 						"headerAsText": false,
 						"header": "-ext-undefined-",
-						"footer": true
+						"border": "-ext-undefined-",
+						"hideBorders": true,
+						"autoScroll": "-ext-undefined-",
+						"layout": "-ext-undefined-",
+						"animCollapse": false,
+						"height": 180,
+						"method": "POST"
 					},
+					"userXType": "addfileform",
 					"cn": [
 						{
 							"id": "MyTextField2",
@@ -554,7 +562,11 @@
 								"fieldLabel": "Control Group",
 								"anchor": "100%",
 								"name": "control_group",
-								"store": "ControlGroups"
+								"store": "ControlGroups",
+								"displayField": "type",
+								"typeAhead": true,
+								"mode": "local",
+								"forceSelection": true
 							}
 						},
 						{
@@ -564,7 +576,13 @@
 							"snapToGrid": 10,
 							"userConfig": {
 								"name": "mime_type",
-								"store": "MIMETypes"
+								"store": "MIMETypes",
+								"title": "Mime Type",
+								"fieldLabel": "MIME Type",
+								"forceSelection": true,
+								"triggerAction": "all",
+								"displayField": "mime",
+								"typeAhead": true
 							}
 						},
 						{
@@ -585,6 +603,9 @@
 							"jsClass": "MyToolbar3",
 							"dock": "fbar",
 							"snapToGrid": 10,
+							"userConfig": {
+								"id": "add-file-form-toolbar"
+							},
 							"cn": [
 								{
 									"id": "MyButton6",
@@ -592,16 +613,8 @@
 									"jsClass": "MyButton6",
 									"snapToGrid": 10,
 									"userConfig": {
-										"text": "Add"
-									}
-								},
-								{
-									"id": "MyButton8",
-									"cid": "button",
-									"jsClass": "MyButton8",
-									"snapToGrid": 10,
-									"userConfig": {
-										"text": "Cancel"
+										"text": "Add",
+										"formBind": "-ext-undefined-"
 									}
 								}
 							]
@@ -620,6 +633,13 @@
 				"width": 400,
 				"height": 250
 			}
+		},
+		{
+			"id": "MyTextField4",
+			"cid": "textfield",
+			"jsClass": "FileUploadField",
+			"snapToGrid": 10,
+			"userXType": "fileuploadfield"
 		}
 	],
 	"stores": [
@@ -760,7 +780,7 @@
 			"snapToGrid": 10,
 			"userConfig": {
 				"storeId": "ControlGroups",
-				"data": "[ [\"Inline XML (X)\"], [\"Managed Resource (M)\"] ]"
+				"data": "[ [\"Inline XML (X)\"], [\"Managed Resource (M)\"], [\"Redirect (R)\"], [\"External Reference (E)\"]]"
 			},
 			"cn": [
 				{
@@ -769,20 +789,33 @@
 					"jsClass": "MyField11",
 					"snapToGrid": 10,
 					"userConfig": {
-						"name": "type"
+						"name": "type",
+						"type": "string"
 					}
 				}
 			]
 		},
 		{
-			"id": "MyStore3",
-			"cid": "arraystore",
+			"id": "MyStore4",
+			"cid": "jsonstore",
 			"jsClass": "MIMETypes",
 			"snapToGrid": 10,
 			"userConfig": {
 				"storeId": "MIMETypes",
-				"data": "[ ['text/xml']]"
-			}
+				"url": "/adrbasic/ajax/getAllowedMIMETypes",
+				"baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}"
+			},
+			"cn": [
+				{
+					"id": "MyField12",
+					"cid": "datafield",
+					"jsClass": "MyField12",
+					"snapToGrid": 10,
+					"userConfig": {
+						"name": "mime"
+					}
+				}
+			]
 		}
 	]
 }

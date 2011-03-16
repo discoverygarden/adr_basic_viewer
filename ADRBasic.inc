@@ -113,6 +113,17 @@ class ADRBasic {
     return json_encode(array('success' => true, 'msg' => 'Successfully updated description.', 'data' => array($data)));
   }
 
+  public function getAllowedMIMETypesAjaxResponse() {
+    module_load_include('inc', 'fedora_repository', 'ContentModel');
+    $content_model = ContentModel::loadFromObject($this->pid);
+    $mime_types = $content_model->getMimetypes();
+    $response = array();
+    foreach($mime_types as $type) {
+      $response[] = array('mime' => $type);
+    }
+    return json_encode($response);
+  }
+
   public function getDatastreamsAjaxResponse() {
     $response = array();
     foreach ($this->item->datastreams as $dsid => $attr) {

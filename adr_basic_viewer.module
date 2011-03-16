@@ -29,11 +29,30 @@ function adr_basic_viewer_menu() {
     'access arguments' => array('view detailed list of content'),
     'type' => MENU_NORMAL_ITEM,
   );
+  $items['adrbasic/ajax/addDatastream'] = array(
+    'page callback' => 'adr_basic_viewer_add_datastream',
+    'access arguments' => array('add fedora datastreams'),
+    'access callback' => 'user_access',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['adrbasic/ajax/removeDatastream'] = array(
+    'page callback' => 'adr_basic_viewer_remove_datastream',
+    'access arguments' => array('purge objects and datastreams'),
+    'access callback' => 'user_access',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['adrbasic/ajax/getAllowedMIMETypes'] = array(
+    'page callback' => 'adr_basic_viewer_get_allowed_mime_types',
+    'access arguments' => array('add fedora datastreams'),
+    'access callback' => 'user_access',
+    'type' => MENU_NORMAL_ITEM,
+  );
   return $items;
 }
 
 function adr_basic_viewer_get_description() {
-  if (($pid = $_REQUEST['pid']) && user_access('view detailed list of content')) {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
     $viewer = new ADRBasic($pid);
     $response = $viewer->getDescriptionAjaxResponse();
@@ -42,7 +61,8 @@ function adr_basic_viewer_get_description() {
 }
 
 function adr_basic_viewer_set_description() {
-  if (($pid = $_REQUEST['pid']) && user_access('view detailed list of content')) {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
     $viewer = new ADRBasic($pid);
     $response = $viewer->setDescriptionAjaxRequest();
@@ -51,7 +71,8 @@ function adr_basic_viewer_set_description() {
 }
 
 function adr_basic_viewer_get_datastreams() {
-  if (($pid = $_REQUEST['pid']) && user_access('view detailed list of content')) {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
     $viewer = new ADRBasic($pid);
     $response = $viewer->getDatastreamsAjaxResponse();
@@ -60,10 +81,35 @@ function adr_basic_viewer_get_datastreams() {
 }
 
 function adr_basic_viewer_get_viewer() {
-  if (($pid = $_REQUEST['pid']) && user_access('view detailed list of content')) {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
     $dsid = isset($_REQUEST['dsid']) ? $_REQUEST['dsid'] : NULL;
     $viewer = new ADRBasicViewer($pid, $dsid);
     echo $viewer->getViewer();
+  }
+}
+
+function adr_basic_viewer_add_datastream() {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
+    
+  }
+}
+
+function adr_basic_viewer_remove_datastream() {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
+
+  }
+}
+
+function adr_basic_viewer_get_allowed_mime_types() {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
+    module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
+    $viewer = new ADRBasic($pid);
+    $response = $viewer->getAllowedMIMETypesAjaxResponse();
+    echo $response;
   }
 }
