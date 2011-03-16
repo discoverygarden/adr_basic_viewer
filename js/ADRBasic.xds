@@ -100,8 +100,8 @@
 					"userConfig": {
 						"jsClass": "FilesPanel",
 						"userXType": "filespanel",
-						"layout": "fit",
-						"columnWidth": 0.3
+						"columnWidth": 0.3,
+						"layout": "fit"
 					},
 					"userComponent": "MyPanel"
 				}
@@ -115,7 +115,11 @@
 			"userConfig": {
 				"title": "Viewer",
 				"width": 400,
-				"height": 250
+				"height": 250,
+				"autoLoad": "{ \n  url: \"/adrbasic/ajax/getViewer\",\n  params: { pid: (window.location.pathname.split( '/' )[3])} \n}",
+				"bodyCssClass": "-ext-undefined-",
+				"cls": "-ext-undefined-",
+				"id": "adr-viewer"
 			},
 			"userXType": "viewerpanel"
 		},
@@ -404,7 +408,7 @@
 					"userConfig": {
 						"itemSelector": "div",
 						"store": "Datastreams",
-						"tpl": "<tpl for=\".\"><div class=\"adr-edit-file-img-block\"><img src='{img}' title='label' class=\"adr-edit-file-img\"><div class=\"adr-edit-file-label\">{dsid}</div></div></tpl>"
+						"tpl": "<tpl for=\".\"><div class=\"adr-edit-file-img-block\"><img src='{img_url}' title='label' class=\"adr-edit-file-img\"><div class=\"adr-edit-file-label\">{dsid}</div></div></tpl>"
 					}
 				}
 			]
@@ -456,7 +460,7 @@
 					"userConfig": {
 						"itemSelector": "div",
 						"store": "Datastreams",
-						"tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"0\">\n  <tr>\n    <td rowspan=\"3\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n    <td>{dsid}</td>\n  </tr>\n  <tr>\n    <td><a href=\"#mange\">View</a></td>\n  </tr>\n  <tr>\n    <td><form method=\"GET\" action=\"{download_url}\"><input type=\"submit\" value=\"Download\"></form></td>\n  </tr>\n</table>\n</tpl>"
+						"tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"1\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n    <td style=\"vertical-align: middle;\">\n       <div class=\"adr-file-label\">{dsid}</div>\n       <a href=\"#mange\" class=\"adr-file-view\">View</a>\n       <div>\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>"
 					}
 				}
 			]

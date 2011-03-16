@@ -79,16 +79,20 @@ table {
 }
 
 .adr-file-img {
-    display: inline;
     margin-left: auto;
     margin-right: auto;
-    width: 151px;
+    /*width: 151px;*/
     height: 141px;
 }
 
 .adr-file-label {
-    display: inline;
-    text-align: center;
+    text-align: left;
+    font-size: 1.1em;
+}
+
+.adr-file-view {
+    text-align: left;
+    font-size: 1.1em;
 }
 
 .adr-edit-file-img-block {
@@ -104,4 +108,9 @@ table {
 
 .adr-edit-file-label {
     text-align: center;
+}
+
+.adr-viewer {
+    vertical-align: middle;
+    
 }

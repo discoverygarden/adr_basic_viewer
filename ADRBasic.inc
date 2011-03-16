@@ -38,10 +38,12 @@ class ADRBasic {
   protected $dateModified;
   protected $user;
   protected $defaultMimeIcons = array(
+    'application/pdf' => 'pdf.png',
     'application/rdf+xml' => 'pdf.png',
     'text/xml' => 'pdf.png',
     'image/jpeg' => 'pdf.png',
   );
+  protected $defaultIcon = 'default.png';
 
   /**
    * Create a view for describing/managing an object.
@@ -148,7 +150,7 @@ class ADRBasic {
     // If not found use default for mime type.
     global $base_url;
     $path_to_default_images = drupal_get_path('module', 'adr_basic_viewer') . '/images/';
-    $image = $this->defaultMimeIcons[$mime_type];
+    $image = isset($this->defaultMimeIcons[$mime_type]) ? $this->defaultMimeIcons[$mime_type] : $this->defaultIcon;
     return "$base_url/$path_to_default_images$image"; // $image;
   }
 
