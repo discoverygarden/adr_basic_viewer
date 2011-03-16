@@ -507,7 +507,7 @@
 				"title": "Add File",
 				"width": 586,
 				"height": 209,
-				"layout": "form",
+				"layout": "anchor",
 				"defaultType": "form"
 			},
 			"cn": [
@@ -527,7 +527,8 @@
 						"layout": "-ext-undefined-",
 						"animCollapse": false,
 						"height": 180,
-						"method": "POST"
+						"method": "POST",
+						"anchor": "100% 100%"
 					},
 					"userXType": "addfileform",
 					"cn": [
