@@ -11,6 +11,7 @@
  * class.
  */
 
+Ext.ux.form = {};
 Ext.ux.form.FileUploadField = Ext.extend(FileUploadFieldUi, {
     /**
      * @cfg {String} buttonText The button text to display on the upload button (defaults to
@@ -68,14 +69,6 @@ Ext.ux.form.FileUploadField = Ext.extend(FileUploadFieldUi, {
         this.el.dom.removeAttribute('name');
         this.createFileInput();
 
-        var btnCfg = Ext.applyIf(this.buttonCfg || {}, {
-            text: this.buttonText
-        });
-        this.button = new Ext.Button(Ext.apply(btnCfg, {
-            renderTo: this.wrap,
-            cls: 'x-form-file-btn' + (btnCfg.iconCls ? ' x-btn-icon' : '')
-        }));
-
         if(this.buttonOnly){
             this.el.hide();
             this.wrap.setWidth(this.button.getEl().getWidth());
@@ -88,18 +81,6 @@ Ext.ux.form.FileUploadField = Ext.extend(FileUploadFieldUi, {
     bindListeners: function(){
         this.fileInput.on({
             scope: this,
-            mouseenter: function() {
-                this.button.addClass(['x-btn-over','x-btn-focus'])
-            },
-            mouseleave: function(){
-                this.button.removeClass(['x-btn-over','x-btn-focus','x-btn-click'])
-            },
-            mousedown: function(){
-                this.button.addClass('x-btn-click')
-            },
-            mouseup: function(){
-                this.button.removeClass(['x-btn-over','x-btn-focus','x-btn-click'])
-            },
             change: function(){
                 var v = this.fileInput.dom.value;
                 this.setValue(v);
@@ -138,8 +119,8 @@ Ext.ux.form.FileUploadField = Ext.extend(FileUploadFieldUi, {
         this.wrap.setWidth(w);
 
         if(!this.buttonOnly){
-            var w = this.wrap.getWidth() - this.button.getEl().getWidth() - this.buttonOffset;
-            this.el.setWidth(w);
+            var width = this.wrap.getWidth() - this.button.getEl().getWidth() - this.buttonOffset;
+            this.el.setWidth(width);
         }
     },
 
@@ -175,7 +156,7 @@ Ext.ux.form.FileUploadField = Ext.extend(FileUploadFieldUi, {
     },
     
     initComponent: function() {
-        FileUploadField.superclass.initComponent.call(this);
+        Ext.ux.form.FileUploadField.superclass.initComponent.call(this);
     }
 });
 Ext.reg('fileuploadfield', Ext.ux.form.FileUploadField);

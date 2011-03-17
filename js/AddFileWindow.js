@@ -14,6 +14,7 @@
 AddFileWindow = Ext.extend(AddFileWindowUi, {
     initComponent: function() {
         AddFileWindow.superclass.initComponent.call(this);
+        var addWindow = this;
         var pid = window.location.pathname.split('/');
         pid = pid[3];
         var formPanel = this.get(0);
@@ -27,7 +28,13 @@ AddFileWindow = Ext.extend(AddFileWindowUi, {
                     pid: pid
                 },
                 success: function(form, action) {
-                    store.loadData(action.result.data);
+                    var store = Ext.StoreMgr.lookup('Description');
+                    store.reload(store.lastOptions);
+                    store = Ext.StoreMgr.lookup('Datastreams');
+                    store.reload(store.lastOptions);
+                    store = Ext.StoreMgr.lookup('OverviewDatastreams');
+                    store.reload(store.lastOptions);
+                    addWindow.close();
                 },
                 failure: function(form, action) {
                     switch (action.failureType) {

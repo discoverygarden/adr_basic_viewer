@@ -110,7 +110,9 @@ function adr_basic_viewer_get_viewer() {
 function adr_basic_viewer_add_datastream() {
   $pid = $_REQUEST['pid'];
   if (isset($pid)) {
-    
+    module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
+    $viewer = new ADRBasic($pid);
+    echo $viewer->addDatastreamAjaxRequest();
   }
 }
 

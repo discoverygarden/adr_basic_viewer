@@ -577,7 +577,7 @@
             "userConfig": {
                 "title": "Add File",
                 "width": 586,
-                "height": 209,
+                "height": 229,
                 "layout": "anchor",
                 "defaultType": "form"
             },
@@ -597,10 +597,12 @@
                         "autoScroll": "-ext-undefined-",
                         "layout": "-ext-undefined-",
                         "animCollapse": false,
-                        "height": 180,
+                        "height": 220,
                         "method": "POST",
                         "anchor": "100% 100%",
-                        "autoHeight": true
+                        "autoHeight": true,
+                        "standardSubmit": "-ext-undefined-",
+                        "fileUpload": true
                     },
                     "userXType": "addfileform",
                     "cn": [
@@ -612,7 +614,8 @@
                             "userConfig": {
                                 "fieldLabel": "DSID",
                                 "anchor": "100%",
-                                "name": "dsid"
+                                "name": "dsid",
+                                "allowBlank": false
                             }
                         },
                         {
@@ -623,7 +626,8 @@
                             "userConfig": {
                                 "fieldLabel": "Label",
                                 "anchor": "100%",
-                                "name": "label"
+                                "name": "label",
+                                "allowBlank": false
                             }
                         },
                         {
@@ -637,9 +641,15 @@
                                 "name": "control_group",
                                 "store": "ControlGroups",
                                 "displayField": "type",
-                                "typeAhead": true,
+                                "typeAhead": "-ext-undefined-",
                                 "mode": "local",
-                                "forceSelection": true
+                                "forceSelection": "-ext-undefined-",
+                                "editable": false,
+                                "autoSelect": "-ext-undefined-",
+                                "allowBlank": false,
+                                "triggerAction": "all",
+                                "valueField": "value",
+                                "submitValue": true
                             }
                         },
                         {
@@ -652,10 +662,12 @@
                                 "store": "MIMETypes",
                                 "title": "Mime Type",
                                 "fieldLabel": "MIME Type",
-                                "forceSelection": true,
+                                "forceSelection": "-ext-undefined-",
                                 "triggerAction": "all",
                                 "displayField": "mime",
-                                "typeAhead": true
+                                "typeAhead": "-ext-undefined-",
+                                "editable": false,
+                                "allowBlank": false
                             }
                         },
                         {
@@ -671,6 +683,18 @@
                             }
                         },
                         {
+                            "id": "MyUserComponent8",
+                            "cid": "usercomponent",
+                            "jsClass": "FileUploadField",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "jsClass": "FileUploadField",
+                                "userXType": "fileuploadfield",
+                                "fieldLabel": "Upload File"
+                            },
+                            "userComponent": "MyTextField4"
+                        },
+                        {
                             "id": "MyToolbar3",
                             "cid": "toolbar",
                             "jsClass": "MyToolbar3",
@@ -679,7 +703,8 @@
                             "userConfig": {
                                 "id": "add-file-form-toolbar",
                                 "autoHeight": true,
-                                "forceLayout": true
+                                "forceLayout": true,
+                                "height": 28
                             },
                             "cn": [
                                 {
@@ -714,6 +739,9 @@
             "cid": "textfield",
             "jsClass": "FileUploadField",
             "snapToGrid": 10,
+            "userConfig": {
+                "allowBlank": false
+            },
             "userXType": "fileuploadfield"
         }
     ],
@@ -865,7 +893,7 @@
             "snapToGrid": 10,
             "userConfig": {
                 "storeId": "ControlGroups",
-                "data": "[ [\"Inline XML (X)\"], [\"Managed Resource (M)\"], [\"Redirect (R)\"], [\"External Reference (E)\"]]"
+                "data": "[ [\"Inline XML (X)\", \"X\"], [\"Managed Resource (M)\", \"M\"], [\"Redirect (R)\", \"R\"], [\"External Reference (E)\", \"E\"]]"
             },
             "cn": [
                 {
@@ -876,6 +904,15 @@
                     "userConfig": {
                         "name": "type",
                         "type": "string"
+                    }
+                },
+                {
+                    "id": "MyField20",
+                    "cid": "datafield",
+                    "jsClass": "MyField20",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "value"
                     }
                 }
             ]
@@ -888,7 +925,8 @@
             "userConfig": {
                 "storeId": "MIMETypes",
                 "url": "/adrbasic/ajax/getAllowedMIMETypes",
-                "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}"
+                "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}",
+                "autoLoad": true
             },
             "cn": [
                 {

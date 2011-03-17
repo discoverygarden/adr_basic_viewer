@@ -113,6 +113,32 @@ class ADRBasic {
     return json_encode(array('success' => true, 'msg' => 'Successfully updated description.', 'data' => array($data)));
   }
 
+  public function addDatastreamAjaxRequest() {
+    $controls = array(
+      'Inline XML (X)' => "X",
+      'Managed Resource (M)' => "M",
+      'Redirect (R)' => "R",
+      'External Reference (E)' => "E",
+    );
+    $dsid = $_POST['dsid'];
+    $label= $_POST['label'];
+    $control = $controls[$_POST['control_group']];
+    $mime = $_POST['mime_type'];
+    $state = $_POST['state'];
+    $file = array_shift($_FILES);
+    if($file['type'] != $mime) {
+      return json_encode(array('success' => false, 'msg' => 'Mime type of file does not match the mime type specified.'));
+    }
+    else {
+      if($this->item->add_datastream_from_file($file['tmp_name'], $dsid, $label, $mime, $control)) {
+          return json_encode(array('success' => true, 'msg' => 'Successfully added datastream.'));
+      }
+      else {
+        return json_encode(array('success' => false, 'msg' => 'Failed to add datastream.'));
+      }
+    }
+  }
+
   public function getAllowedMIMETypesAjaxResponse() {
     module_load_include('inc', 'fedora_repository', 'ContentModel');
     $content_model = ContentModel::loadFromObject($this->pid);
@@ -235,6 +261,8 @@ class ADRBasic {
       'OverviewDatastreams.js',
       'ControlGroups.js',
       'MIMETypes.js',
+      'FileUploadField.ui.js',
+      'FileUploadField.js',
       'EditObjectWindow.ui.js',
       'EditObjectWindow.js',
       'DeleteObjectWindow.ui.js',
