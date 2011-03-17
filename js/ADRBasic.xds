@@ -447,6 +447,16 @@
                                 "scale": "-ext-undefined-",
                                 "disabled": true
                             }
+                        },
+                        {
+                            "id": "MyButton9",
+                            "cid": "button",
+                            "jsClass": "MyButton9",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "text": "View",
+                                "disabled": true
+                            }
                         }
                     ]
                 },

@@ -26,9 +26,26 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
         var edit = this.buttons[1];
         var replace = this.buttons[2];
         var remove = this.buttons[3];
+        var view = this.buttons[4];
         add.addListener('click', function(button, event) {
             var window = new AddFileWindow();
             window.show(this);
+        });
+        view.addListener('click', function(button, event) {
+            var records = viewer.getSelectedRecords();
+            var record = records[0];
+            if(record) {
+                var store = viewer.getStore();
+                var pid = store.baseParams.pid;
+                Ext.getCmp('adr-viewer').show();
+                Ext.getCmp('adr-viewer').load({
+                    url: "/adrbasic/ajax/getViewer",
+                    params: {
+                        pid: pid,
+                        dsid: record.get('dsid')
+                    }
+                });
+            }
         });
         viewer.addListener('click', function(dataviewer, index, node, event) {
             var record = dataviewer.getStore().getAt(index);
@@ -44,11 +61,13 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
                 }
                 replace.enable();
                 remove.enable();
+                view.enable();
             }
             else {
                 edit.disable();
                 replace.disable();
                 remove.disable();
+                view.disable();
             }
         });
     }

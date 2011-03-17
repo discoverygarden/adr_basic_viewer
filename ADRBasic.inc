@@ -142,7 +142,7 @@ class ADRBasic {
   public function getOverviewDatastreamsAjaxResponse() {
     $response = array();
     foreach ($this->item->datastreams as $dsid => $attr) {
-  $should_add = self::canShowDatastreamInOverview($dsid, $attr);
+      $should_add = self::canShowDatastreamInOverview($dsid, $attr);
       if ($should_add) {
         $img = $this->getDatastreamIconURL($dsid, $attr['MIMEType']);
         $stream['dsid'] = $dsid;
