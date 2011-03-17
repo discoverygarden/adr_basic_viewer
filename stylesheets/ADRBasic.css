@@ -5,6 +5,7 @@
     Description:
         Purpose of the stylesheet follows.
 */
+/*
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -25,7 +26,6 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
@@ -48,19 +48,28 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
-
+*/
 
 .adr-overview {
 
 }
 
+#adr-overview-description-cell {
+    vertical-align: top;
+    margin-left: 2px;
+}
+
+#adr-overview-files-cell {
+    vertical-align: top;
+}
+
 .adr-overview-footer {
-    font-size: 1.1em;
+    font-size: 0.9em;
     text-align: center;
 }
 
 .adr-title-label, .adr-author-label, .adr-description-label {
-    font-size: 2em;
+    font-size: 1.3em;
     float: left;
     width: 30%;
     padding: 5px 5px 5px 5px;
@@ -68,7 +77,7 @@ table {
 }
 
 .adr-title-value, .adr-author-value, .adr-description-value {
-    font-size: 1.5em;
+    font-size: 1.0em;
     margin: 5px 5px 5px 5px;
     padding: 5px 5px 5px 5px;
     float: left;
@@ -81,13 +90,18 @@ table {
 .adr-file-img {
     margin-left: auto;
     margin-right: auto;
-    /*width: 151px;*/
-    height: 141px;
+    display: block;
 }
 
 .adr-file-label {
-    text-align: left;
+    text-align: center;
     font-size: 1.1em;
+}
+
+.adr-file-download input {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 .adr-file-view {
@@ -102,8 +116,8 @@ table {
 .adr-edit-file-img {
     margin-left: auto;
     margin-right: auto;
-    width: 151px;
-    height: 141px;
+    max-width: 100%;
+    display: block;
 }
 
 .adr-edit-file-label {
@@ -112,17 +126,29 @@ table {
 
 .adr-viewer {
     vertical-align: middle;
-    
 }
 
 .x-view-over{
-
     background: #efefef url(../images/row-over.gif) repeat-x left top;
-
 }
 
 .x-view-selected{
     background: #eff5fb url(../images/selected.gif) no-repeat right bottom;
-    
- 
+}
+
+.x-plain-body {
+    background: none;
+}
+
+.x-tab-panel-body {
+    background: none;
+}
+
+.x-table-layout {
+    margin: 0px 0px 0px 0px;
+}
+
+#content-fedora table {
+    width: 100%;
+    margin: 0px 0px 0px 0px;
 }

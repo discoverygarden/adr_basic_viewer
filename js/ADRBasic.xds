@@ -20,9 +20,16 @@
 			"jsClass": "ADRBasicViewer",
 			"snapToGrid": 10,
 			"userConfig": {
-				"activeTab": 2,
+				"activeTab": 0,
 				"width": 960,
-				"height": 1000
+				"height": "-ext-undefined-",
+				"activeItem": "-ext-undefined-",
+				"plain": true,
+				"tabMargin": "-ext-undefined-",
+				"tabPosition": "-ext-undefined-",
+				"tabWidth": 130,
+				"layoutOnTabChange": true,
+				"border": false
 			},
 			"cn": [
 				{
@@ -32,7 +39,8 @@
 					"snapToGrid": 10,
 					"userConfig": {
 						"jsClass": "OverviewPanel",
-						"userXType": "overviewpanel"
+						"userXType": "overviewpanel",
+						"layout": "-ext-undefined-"
 					},
 					"userComponent": "MyPanel3"
 				},
@@ -66,13 +74,23 @@
 			"cid": "panel",
 			"jsClass": "OverviewPanel",
 			"snapToGrid": 10,
+			"layoutConfig": {
+				"columns": 2
+			},
 			"userConfig": {
 				"title": "Overview",
 				"width": "-ext-undefined-",
 				"height": "-ext-undefined-",
-				"layout": "column",
-				"border": false,
-				"hideBorders": true
+				"layout": "table",
+				"border": "-ext-undefined-",
+				"hideBorders": true,
+				"frame": "-ext-undefined-",
+				"autoScroll": "-ext-undefined-",
+				"padding": "-ext-undefined-",
+				"preventBodyReset": true,
+				"unstyled": true,
+				"autoHeight": true,
+				"defaults": "-ext-undefined-"
 			},
 			"userXType": "overviewpanel",
 			"cn": [
@@ -81,14 +99,20 @@
 					"cid": "usercomponent",
 					"jsClass": "DescriptionPanel",
 					"snapToGrid": 10,
+					"layoutConfig": {
+						"columns": 2
+					},
 					"userConfig": {
 						"jsClass": "DescriptionPanel",
 						"userXType": "descriptionpanel",
 						"flex": 1,
 						"width": "-ext-undefined-",
-						"layout": "fit",
-						"columnWidth": 0.7,
-						"height": "-ext-undefined-"
+						"layout": "table",
+						"columnWidth": 0.6,
+						"height": "-ext-undefined-",
+						"cellId": "adr-overview-description-cell",
+						"colspan": 1,
+						"rowspan": 1
 					},
 					"userComponent": "MyPanel9"
 				},
@@ -100,8 +124,11 @@
 					"userConfig": {
 						"jsClass": "FilesPanel",
 						"userXType": "filespanel",
-						"columnWidth": 0.3,
-						"layout": "fit"
+						"columnWidth": 0.19,
+						"layout": "fit",
+						"cellId": "adr-overview-files-cell",
+						"colspan": 1,
+						"rowspan": 1
 					},
 					"userComponent": "MyPanel"
 				}
@@ -114,12 +141,13 @@
 			"snapToGrid": 10,
 			"userConfig": {
 				"title": "Viewer",
-				"width": 400,
+				"width": "-ext-undefined-",
 				"height": 250,
 				"autoLoad": "{ \n  url: \"/adrbasic/ajax/getViewer\",\n  params: { pid: (window.location.pathname.split( '/' )[3])} \n}",
 				"bodyCssClass": "-ext-undefined-",
 				"cls": "-ext-undefined-",
-				"id": "adr-viewer"
+				"id": "adr-viewer",
+				"autoHeight": true
 			},
 			"userXType": "viewerpanel"
 		},
@@ -129,17 +157,18 @@
 			"jsClass": "ManagePanel",
 			"snapToGrid": 10,
 			"layoutConfig": {
-				"align": "stretch"
+				"columns": 1
 			},
 			"userConfig": {
 				"title": "Manage",
 				"width": "-ext-undefined-",
 				"height": "-ext-undefined-",
-				"layout": "vbox",
+				"layout": "table",
 				"defaults": "",
 				"defaultType": "auto",
 				"style": "-ext-undefined-",
-				"frame": true
+				"frame": true,
+				"autoHeight": true
 			},
 			"userXType": "managepanel",
 			"cn": [
@@ -429,7 +458,13 @@
 				"width": "-ext-undefined-",
 				"height": "-ext-undefined-",
 				"data": "-ext-undefined-",
-				"layout": "fit"
+				"layout": "table",
+				"frame": true,
+				"autoHeight": true,
+				"forceLayout": true,
+				"padding": "-ext-undefined-",
+				"border": false,
+				"hideBorders": "-ext-undefined-"
 			},
 			"userXType": "descriptionpanel",
 			"cn": [
@@ -454,7 +489,11 @@
 			"userConfig": {
 				"title": "Files",
 				"width": "-ext-undefined-",
-				"height": "-ext-undefined-"
+				"height": "-ext-undefined-",
+				"autoScroll": true,
+				"frame": true,
+				"border": false,
+				"hideBorders": "-ext-undefined-"
 			},
 			"userXType": "filespanel",
 			"cn": [
@@ -466,7 +505,7 @@
 					"userConfig": {
 						"itemSelector": "img",
 						"store": "Datastreams",
-						"tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"1\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n    <td style=\"vertical-align: middle;\">\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div>\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>",
+						"tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"0\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   </tr>\n    <td>\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div class=\"adr-file-download\">\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\" style=\"display:block;\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>",
 						"singleSelect": true,
 						"simpleSelect": "-ext-undefined-",
 						"trackOver": true,

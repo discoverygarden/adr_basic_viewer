@@ -38,11 +38,11 @@ class ADRBasic {
   protected $dateModified;
   protected $user;
   protected $defaultMimeIcons = array(
-    'application/pdf' => 'pdf.png',
-    'application/rdf+xml' => 'pdf.png',
-    'text/xml' => 'pdf.png',
-    'image/jpeg' => 'pdf.png',
-    'video/x-flv' => 'pdf.png'
+    'application/pdf' => 'application-pdf.png',
+    'application/rdf+xml' => 'text-txt.png',
+    'text/xml' => 'text-txt.png',
+    'image/jpeg' => 'image-default.png',
+    'video/x-flv' => 'video-x-generic-mplayer.png'
   );
   protected $defaultIcon = 'default.png';
 
@@ -176,9 +176,10 @@ class ADRBasic {
    */
   private function getDatastreamIconURL($dsid, $mime_type) {
     // Find in object
+    
     // If not found use default for mime type.
     global $base_url;
-    $path_to_default_images = drupal_get_path('module', 'adr_basic_viewer') . '/images/';
+    $path_to_default_images = drupal_get_path('module', 'adr_basic_viewer') . '/images/mime/';
     $image = isset($this->defaultMimeIcons[$mime_type]) ? $this->defaultMimeIcons[$mime_type] : $this->defaultIcon;
     return "$base_url/$path_to_default_images$image"; // $image;
   }
@@ -197,11 +198,11 @@ class ADRBasic {
    */
   private function includeRequiredScripts() {
     $path = drupal_get_path('module', 'adr_basic_viewer');
+    module_load_include('module', 'ext', 'ext');
+    ext_load_library();
     drupal_add_css("$path/stylesheets/ADRBasic.css", 'theme', 'all');
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
     //ADRBasicViewer::includeRequiredJSForViewers($this->pid);
-    module_load_include('module', 'ext', 'ext');
-    ext_load_library();
     $include_files = array(
       'Description.js',
       'Datastreams.js',
