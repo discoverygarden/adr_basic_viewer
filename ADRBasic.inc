@@ -145,7 +145,7 @@ class ADRBasic {
    */
   private function implodeSimpleXMLElementArray($glue, $values) {
     $output = '';
-    if (isset($values)) {
+    if (isset($values) && $values !== FALSE) {
       while (($value = array_shift($values)) != NULL) {
         $value = sprintf("%s", $value);
         if (trim($value) != '') {
