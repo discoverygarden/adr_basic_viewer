@@ -118,7 +118,7 @@ class ADRBasic {
     $content_model = ContentModel::loadFromObject($this->pid);
     $mime_types = $content_model->getMimetypes();
     $response = array();
-    foreach($mime_types as $type) {
+    foreach ($mime_types as $type) {
       $response[] = array('mime' => $type);
     }
     return json_encode($response);
@@ -133,9 +133,18 @@ class ADRBasic {
       $stream['img_url'] = $img;
       $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
       $stream['mime'] = $attr['MIMEType'];
+      $stream['overview'] = $this->canShowDatastreamInOverview($dsid, $attr);
       $response[] = $stream;
     }
     return json_encode($response);
+  }
+
+  public function canShowDatastreamInOverview($dsid, $attributes) {
+    $mime_types_allowed_in_overview = array(
+      'application/pdf', 'image/jpeg', 'video/x-flv'
+    );
+    $mime = $attributes['MIMEType'];
+    return array_search($mime, $mime_types_allowed_in_overview) !== FALSE;
   }
 
   /**
@@ -176,7 +185,6 @@ class ADRBasic {
    */
   private function getDatastreamIconURL($dsid, $mime_type) {
     // Find in object
-    
     // If not found use default for mime type.
     global $base_url;
     $path_to_default_images = drupal_get_path('module', 'adr_basic_viewer') . '/images/mime/';

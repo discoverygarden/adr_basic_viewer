@@ -126,7 +126,7 @@
                         "jsClass": "FilesPanel",
                         "userXType": "filespanel",
                         "columnWidth": 0.19,
-                        "layout": "fit",
+                        "layout": "table",
                         "cellId": "adr-overview-files-cell",
                         "colspan": 1,
                         "rowspan": 1
@@ -148,7 +148,8 @@
                 "bodyCssClass": "-ext-undefined-",
                 "cls": "-ext-undefined-",
                 "id": "adr-viewer",
-                "autoHeight": true
+                "autoHeight": true,
+                "forceLayout": true
             },
             "userXType": "viewerpanel"
         },
@@ -452,7 +453,7 @@
                     "userConfig": {
                         "itemSelector": "div .adr-edit-file-img-block",
                         "store": "Datastreams",
-                        "tpl": "<tpl for=\".\"><div class=\"adr-edit-file-img-block\"><img src='{img_url}' title='label' class=\"adr-edit-file-img\"><div class=\"adr-edit-file-label\">{dsid}</div></div></tpl>",
+                        "tpl": "<tpl for=\".\">\n<div class=\"adr-edit-file-img-block\">\n<img src='{img_url}' title='label' class=\"adr-edit-file-img\">\n<div class=\"adr-edit-file-label\">{dsid}</div></div>\n</tpl>",
                         "overClass": "x-view-over",
                         "singleSelect": true,
                         "trackOver": true,
@@ -507,7 +508,7 @@
                 "frame": true,
                 "border": false,
                 "hideBorders": "-ext-undefined-",
-                "boxMinHeight": 600,
+                "boxMinHeight": "-ext-undefined-",
                 "footer": true
             },
             "userXType": "filespanel",
@@ -520,7 +521,7 @@
                     "userConfig": {
                         "itemSelector": "table .adr-file-img-block",
                         "store": "Datastreams",
-                        "tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"0\" class=\"adr-file-img-block\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   </tr>\n    <td>\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div class=\"adr-file-download\">\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\" style=\"display:block;\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>",
+                        "tpl": "<tpl for=\".\">\n<tpl if=\"overview\">\n<table width=\"100%\" border=\"0\" class=\"adr-file-img-block\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   </tr>\n    <td>\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div class=\"adr-file-download\">\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\" style=\"display:block;\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>\n</tpl>",
                         "singleSelect": true,
                         "simpleSelect": "-ext-undefined-",
                         "trackOver": true,
@@ -827,6 +828,16 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "name": "download_url"
+                    }
+                },
+                {
+                    "id": "MyField13",
+                    "cid": "datafield",
+                    "jsClass": "MyField13",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "overview",
+                        "type": "boolean"
                     }
                 }
             ]
