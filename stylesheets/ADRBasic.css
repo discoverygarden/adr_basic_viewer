@@ -152,3 +152,7 @@ table {
     width: 100%;
     margin: 0px 0px 0px 0px;
 }
+
+.x-panel-fbar table{
+    margin: 0px;
+}

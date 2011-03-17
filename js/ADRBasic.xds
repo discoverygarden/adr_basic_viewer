@@ -567,7 +567,8 @@
 						"animCollapse": false,
 						"height": 180,
 						"method": "POST",
-						"anchor": "100% 100%"
+						"anchor": "100% 100%",
+						"autoHeight": true
 					},
 					"userXType": "addfileform",
 					"cn": [
@@ -645,7 +646,7 @@
 							"snapToGrid": 10,
 							"userConfig": {
 								"id": "add-file-form-toolbar",
-								"autoHeight": "-ext-undefined-"
+								"autoHeight": true
 							},
 							"cn": [
 								{
