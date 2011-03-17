@@ -133,13 +133,31 @@ class ADRBasic {
       $stream['img_url'] = $img;
       $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
       $stream['mime'] = $attr['MIMEType'];
-      $stream['overview'] = $this->canShowDatastreamInOverview($dsid, $attr);
+      $stream['overview'] = self::canShowDatastreamInOverview($dsid, $attr);
       $response[] = $stream;
     }
     return json_encode($response);
   }
 
-  public function canShowDatastreamInOverview($dsid, $attributes) {
+  public function getOverviewDatastreamsAjaxResponse() {
+    $response = array();
+    foreach ($this->item->datastreams as $dsid => $attr) {
+  $should_add = self::canShowDatastreamInOverview($dsid, $attr);
+      if ($should_add) {
+        $img = $this->getDatastreamIconURL($dsid, $attr['MIMEType']);
+        $stream['dsid'] = $dsid;
+        $stream['label'] = $attr['label'];
+        $stream['img_url'] = $img;
+        $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
+        $stream['mime'] = $attr['MIMEType'];
+        $stream['overview'] = $should_add;
+        $response[] = $stream;
+      }
+    }
+    return json_encode($response);
+  }
+
+  static public function canShowDatastreamInOverview($dsid, $attributes) {
     $mime_types_allowed_in_overview = array(
       'application/pdf', 'image/jpeg', 'video/x-flv'
     );
@@ -214,6 +232,7 @@ class ADRBasic {
     $include_files = array(
       'Description.js',
       'Datastreams.js',
+      'OverviewDatastreams.js',
       'ControlGroups.js',
       'MIMETypes.js',
       'EditObjectWindow.ui.js',

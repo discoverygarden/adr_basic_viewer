@@ -15,6 +15,7 @@ FilesPanel = Ext.extend(FilesPanelUi, {
     initComponent: function() {
         FilesPanel.superclass.initComponent.call(this);
         this.get(0).addListener('click', function(dataview, index, node, event) {
+            var record = dataview.getRecord(node);
             var pid = dataview.store.baseParams.pid;
             var dsid = dataview.store.getAt(index).get('dsid');
             var viewer = Ext.getCmp('adr-viewer');

@@ -525,13 +525,14 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "itemSelector": "table .adr-file-img-block",
-                        "store": "Datastreams",
-                        "tpl": "<tpl for=\".\">\n<tpl if=\"overview\">\n<table width=\"100%\" border=\"0\" class=\"adr-file-img-block\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   </tr>\n    <td>\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div class=\"adr-file-download\">\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\" style=\"display:block;\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>\n</tpl>",
+                        "store": "OverviewDatastreams",
+                        "tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"0\" class=\"adr-file-img-block\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   </tr>\n    <td>\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div class=\"adr-file-download\">\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\" style=\"display:block;\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>",
                         "singleSelect": true,
                         "simpleSelect": "-ext-undefined-",
                         "trackOver": true,
                         "overClass": "x-view-over",
-                        "id": "adr-files"
+                        "id": "adr-files",
+                        "autoShow": true
                     }
                 }
             ]
@@ -887,6 +888,74 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "name": "mime"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "MyStore3",
+            "cid": "jsonstore",
+            "jsClass": "OverviewDatastreams",
+            "snapToGrid": 10,
+            "userConfig": {
+                "storeId": "OverviewDatastreams",
+                "url": "/adrbasic/ajax/getOverviewDatastreams",
+                "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}",
+                "autoLoad": true
+            },
+            "cn": [
+                {
+                    "id": "MyField14",
+                    "cid": "datafield",
+                    "jsClass": "MyField14",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "dsid"
+                    }
+                },
+                {
+                    "id": "MyField15",
+                    "cid": "datafield",
+                    "jsClass": "MyField15",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "label"
+                    }
+                },
+                {
+                    "id": "MyField16",
+                    "cid": "datafield",
+                    "jsClass": "MyField16",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "img_url"
+                    }
+                },
+                {
+                    "id": "MyField17",
+                    "cid": "datafield",
+                    "jsClass": "MyField17",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "mime"
+                    }
+                },
+                {
+                    "id": "MyField18",
+                    "cid": "datafield",
+                    "jsClass": "MyField18",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "download_url"
+                    }
+                },
+                {
+                    "id": "MyField19",
+                    "cid": "datafield",
+                    "jsClass": "MyField19",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "overview"
                     }
                 }
             ]

@@ -13,6 +13,13 @@ function adr_basic_viewer_menu() {
     'access arguments' => array('view detailed list of content'),
     'type' => MENU_NORMAL_ITEM,
   );
+  
+  $items['adrbasic/ajax/getOverviewDatastreams'] = array(
+    'page callback' => 'adr_basic_viewer_get_overview_datastreams',
+    'access arguments' => array('view detailed list of content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
   $items['adrbasic/ajax/getDescription'] = array(
     'page callback' => 'adr_basic_viewer_get_description',
     'access arguments' => array('view detailed list of content'),
@@ -76,6 +83,16 @@ function adr_basic_viewer_get_datastreams() {
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
     $viewer = new ADRBasic($pid);
     $response = $viewer->getDatastreamsAjaxResponse();
+    echo $response;
+  }
+}
+
+function adr_basic_viewer_get_overview_datastreams() {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
+    module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
+    $viewer = new ADRBasic($pid);
+    $response = $viewer->getOverviewDatastreamsAjaxResponse();
     echo $response;
   }
 }

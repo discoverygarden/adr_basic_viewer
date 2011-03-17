@@ -24,7 +24,7 @@ class ADRBasicViewer {
     drupal_add_js("$path_to_js");
     drupal_add_js("var s1 = new SWFObject('$full_path/flash/flvplayer.swf', 'single', '320', '240', '7');
     s1.addParam('allowfullscreen', 'TRUE');
-    s1.addVariable('file', '". base_path() . "fedora/repository/$pid/FLV/FLV.flv');
+    s1.addVariable('file', '" . base_path() . "fedora/repository/$pid/FLV/FLV.flv');
     s1.write('player{$pid}FLV');", 'inline', 'footer');
   }
 
@@ -41,8 +41,12 @@ class ADRBasicViewer {
    * @return string
    */
   private function getDefaultDsid() {
-    $keys = array_keys($this->item->datastreams);
-    return $keys[0];
+    module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
+    foreach ($this->item->datastreams as $dsid => $attr) {
+      if (ADRBasic::canShowDatastreamInOverview($dsid, $attr)) {
+        return $dsid;
+      }
+    }
   }
 
   /**
