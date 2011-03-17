@@ -197,7 +197,7 @@ class ADRBasic {
    */
   private function includeRequiredScripts() {
     $path = drupal_get_path('module', 'adr_basic_viewer');
-    drupal_add_css("$path/stylesheets/ADRBasic.css");
+    drupal_add_css("$path/stylesheets/ADRBasic.css", 'theme', 'all');
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
     //ADRBasicViewer::includeRequiredJSForViewers($this->pid);
     module_load_include('module', 'ext', 'ext');

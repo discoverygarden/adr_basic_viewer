@@ -20,7 +20,7 @@
 			"jsClass": "ADRBasicViewer",
 			"snapToGrid": 10,
 			"userConfig": {
-				"activeTab": 0,
+				"activeTab": 2,
 				"width": 960,
 				"height": 1000
 			},
@@ -374,7 +374,7 @@
 							"snapToGrid": 10,
 							"userConfig": {
 								"text": "Add",
-								"scale": "large",
+								"scale": "-ext-undefined-",
 								"width": 75
 							}
 						},
@@ -386,7 +386,7 @@
 							"userConfig": {
 								"text": "Replace",
 								"width": 75,
-								"scale": "large"
+								"scale": "-ext-undefined-"
 							}
 						},
 						{
@@ -397,7 +397,7 @@
 							"userConfig": {
 								"text": "Delete",
 								"width": 75,
-								"scale": "large"
+								"scale": "-ext-undefined-"
 							}
 						}
 					]
