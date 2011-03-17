@@ -162,3 +162,28 @@ table {
 .x-panel-fbar table{
     margin: 0px;
 }
+
+.adr-remove-margin {
+    margin: 0px;
+}
+/*
+.x-panel-mr, .x-panel-ml, .x-panel-mc {
+    padding: 0px;
+}*/
+
+#adr-overview-tab .x-panel-ml,
+#adr-overview-tab .x-panel-mr,
+#adr-overview-tab .x-panel-mc
+{
+    padding:0px;
+    
+}
+
+#adr-overview-tab .x-panel-ml
+{
+    padding-left: 1px;
+}
+#adr-overview-tab .x-panel-mr
+{
+    padding-right: 1px;
+}

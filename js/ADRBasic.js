@@ -15,7 +15,7 @@ Ext.onReady(function(){
         }
     });
     adrbasic.show();
-    // Ugly get around for Drupal thems stuff
+    /*/ Ugly get around for Drupal thems stuff
     var themeSheetIndex =  document.styleSheets.length -1; // Always the last one.
     var themeSheet = document.styleSheets[themeSheetIndex];
     var rules = themeSheet.cssRules? themeSheet.cssRules: themeSheet.rules
@@ -24,5 +24,5 @@ Ext.onReady(function(){
             themeSheet.deleteRule? themeSheet.deleteRule(i) : themeSheet.removeRule(i);
             break;
         }
-    }
+    }*/
 });

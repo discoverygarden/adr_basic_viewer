@@ -25,12 +25,14 @@
                 "width": 960,
                 "height": "-ext-undefined-",
                 "activeItem": "-ext-undefined-",
-                "plain": true,
+                "plain": "-ext-undefined-",
                 "tabMargin": "-ext-undefined-",
                 "tabPosition": "-ext-undefined-",
                 "tabWidth": 130,
                 "layoutOnTabChange": true,
-                "border": false
+                "border": false,
+                "minTabWidth": "-ext-undefined-",
+                "tabCls": "adr-remove-margin"
             },
             "cn": [
                 {
@@ -41,7 +43,8 @@
                     "userConfig": {
                         "jsClass": "OverviewPanel",
                         "userXType": "overviewpanel",
-                        "layout": "-ext-undefined-"
+                        "layout": "-ext-undefined-",
+                        "id": "adr-overview-tab"
                     },
                     "userComponent": "MyPanel3"
                 },
@@ -84,14 +87,16 @@
                 "height": "-ext-undefined-",
                 "layout": "table",
                 "border": "-ext-undefined-",
-                "hideBorders": true,
-                "frame": "-ext-undefined-",
+                "hideBorders": "-ext-undefined-",
+                "frame": true,
                 "autoScroll": "-ext-undefined-",
                 "padding": "-ext-undefined-",
                 "preventBodyReset": true,
-                "unstyled": true,
+                "unstyled": "-ext-undefined-",
                 "autoHeight": true,
-                "defaults": "-ext-undefined-"
+                "defaults": "{ padding: 0px }",
+                "defaultType": "-ext-undefined-",
+                "forceLayout": "-ext-undefined-"
             },
             "userXType": "overviewpanel",
             "cn": [
@@ -473,7 +478,7 @@
                 "height": "-ext-undefined-",
                 "data": "-ext-undefined-",
                 "layout": "table",
-                "frame": true,
+                "frame": "-ext-undefined-",
                 "autoHeight": true,
                 "forceLayout": true,
                 "padding": "-ext-undefined-",
@@ -505,7 +510,7 @@
                 "width": "-ext-undefined-",
                 "height": "-ext-undefined-",
                 "autoScroll": true,
-                "frame": true,
+                "frame": "-ext-undefined-",
                 "border": false,
                 "hideBorders": "-ext-undefined-",
                 "boxMinHeight": "-ext-undefined-",
