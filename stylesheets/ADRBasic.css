@@ -129,11 +129,17 @@ table {
 }
 
 .x-view-over{
-    background: #efefef url(../images/row-over.gif) repeat-x left top;
+    /*background: #efefef url(../images/row-over.gif) repeat-x left top;*/
+    background-color: #efefef;
+    background-repeat: repeat-x;
+    background-position: left top;
 }
 
 .x-view-selected{
-    background: #eff5fb url(../images/selected.gif) no-repeat right bottom;
+    background-color: #eff5fb;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    /*background: #eff5fb url(../images/selected.gif) no-repeat right bottom;*/
 }
 
 .x-plain-body {

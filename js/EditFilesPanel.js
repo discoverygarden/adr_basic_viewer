@@ -11,16 +11,45 @@
  * class.
  */
 
+function gotoEditModsPage() {
+    var pid = window.location.pathname.split('/')[3];
+    var location = window.location;
+    var page = location.protocol + '//' + location.host + '/formbuilder/edit/' + pid + '/MODS/colorado';
+    window.location = page;
+}
+
 EditFilesPanel = Ext.extend(EditFilesPanelUi, {
     initComponent: function() {
         EditFilesPanel.superclass.initComponent.call(this);
         var viewer = this.get('edit-files-panel-data-viewer');
         var add = this.buttons[0];
-        var replace = this.buttons[1];
-        var remove = this.buttons[2];
+        var edit = this.buttons[1];
+        var replace = this.buttons[2];
+        var remove = this.buttons[3];
         add.addListener('click', function(button, event) {
             var window = new AddFileWindow();
             window.show(this);
+        });
+        viewer.addListener('click', function(dataviewer, index, node, event) {
+            var record = dataviewer.getStore().getAt(index);
+            if(record) {
+                var dsid = record.get('dsid');
+                if(dsid == 'MODS') {
+                    edit.enable();
+                    edit.addListener('click', gotoEditModsPage);
+                }
+                else {
+                    edit.disable();
+                    edit.removeListener('click', gotoEditModsPage);
+                }
+                replace.enable();
+                remove.enable();
+            }
+            else {
+                edit.disable();
+                replace.disable();
+                remove.disable();
+            }
         });
     }
 });
