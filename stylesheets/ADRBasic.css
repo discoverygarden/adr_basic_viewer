@@ -193,3 +193,9 @@ table {
     margin-left: auto;
     margin-right: auto;
 }
+
+#playerFlexPaper embed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

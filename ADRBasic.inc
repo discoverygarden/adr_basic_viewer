@@ -256,6 +256,7 @@ class ADRBasic {
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
     ADRBasicViewer::includeRequiredJSForViewers($this->pid);
     $include_files = array(
+      'IncludeFirst.js',
       'Description.js',
       'Datastreams.js',
       'OverviewDatastreams.js',

@@ -23,10 +23,11 @@ FilesPanel = Ext.extend(FilesPanelUi, {
                 var loadOptions = viewer.autoLoad;
                 loadOptions.params.dsid = dsid;
                 viewer.load(loadOptions);
-                Ext.ns.viewerDSID = dsid;
+                ADRBasic.viewerDSID = dsid;
                 viewer.show();
             }
             else {
+                ADRBasic.viewerDSID = dsid;
                 viewer.autoLoad.params.dsid = dsid;
                 viewer.show();
             }

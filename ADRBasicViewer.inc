@@ -15,24 +15,69 @@ class ADRBasicViewer {
 
   public static function includeRequiredJSForViewers($pid) {
     self::includeJSForFlash($pid);
+    self::includeJSForFlexPaper($pid);
   }
 
   private static function includeJSForFlash($pid) {
     $path = drupal_get_path('module', 'Fedora_Repository');
     $base_path = base_path();
     $full_path = $base_path . $path;
-    $path_to_js = "$path/js/swfobject.js";
-    drupal_add_js("$path_to_js");
+    drupal_add_js("$path/js/swfobject.js");
     $js = <<<EOT
-    function swfLoad(dsid) {
+    function loadFLVPlayer(dsid) {
       var basePath = window.location.protocol + '//' + window.location.hostname;
-      var filePath = '/sites/' + window.location.hostname + '/all/modules/fedora_repository';
       var pid = window.location.pathname.split('/')[3];
       var s1 = new SWFObject( '$full_path/flash/flvplayer.swf', 'single', '320', '240', '7');
       s1.addParam('allowfullscreen', 'TRUE');
       s1.addVariable('file', '{$base_path}fedora/repository/$pid/' + dsid);
       s1.write('playerFLV');
     }
+EOT;
+    drupal_add_js($js, 'inline');
+  }
+
+  private static function includeJSForFlexPaper($pid) {
+    global $base_url;
+    drupal_add_js("sites/all/libraries/flexpaper/js/flexpaper_flash.js");
+    drupal_add_js("sites/all/libraries/swfobject/swfobject.js");
+    $js = <<<EOT
+    function loadFlexPlayer(dsid) {
+      var swfURL = '$base_url/fedora/repository/{$pid}/' + dsid;
+      var swfVersionStr = "10.0.0";
+      var xiSwfUrlStr = "/sites/all/libraries/flexpaper/js/swfobject/expressInstall.swf";
+      var flashvars = {
+        SwfFile : escape(swfURL),
+        Scale : 0.6,
+        ZoomTransition : "easeOut",
+				ZoomTime : 0.5,
+        ZoomInterval : 0.1,
+  			FitPageOnLoad : false,
+        FitWidthOnLoad : true,
+  			PrintEnabled : true,
+    		FullScreenAsMaxWindow : false,
+  			ProgressiveLoading : true,
+  			PrintToolsVisible : true,
+  			ViewModeToolsVisible : true,
+  			ZoomToolsVisible : true,
+  			FullScreenVisible : true,
+  			NavToolsVisible : true,
+  			CursorToolsVisible : true,
+  			SearchToolsVisible : true,
+  			localeChain: "en_US"
+      };
+      var params = {}
+      params.quality = "high";
+      params.bgcolor = "#ffffff";
+      params.allowscriptaccess = "sameDomain";
+      params.allowfullscreen = "true";
+      var attributes = {};
+      attributes.id = "FlexPaperViewer";
+      attributes.name = "FlexPaperViewer";
+      swfobject.embedSWF(
+        "$base_url/sites/all/libraries/flexpaper/FlexPaperViewer.swf", "playerFlexPaper",
+        "960", "800", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
+      swfobject.createCSS("#playerFlexPaper", "display:block;text-align:left;");
+   }
 EOT;
     drupal_add_js($js, 'inline');
   }
@@ -70,15 +115,15 @@ EOT;
         $xmlstr = $this->item->get_datastream_dissemination($this->dsid);
         $content = htmlentities($xmlstr);
         return "<div>$content</div>";
-      case 'application/pdf':
       case 'video/x-flv':
         return "<div id='playerFLV' style='margin-left:auto; margin-right: auto;'></div>";
       case 'application/pdf':
-        return "<iframe src='http://docs.google.com/viewer?url=$base_url/fedora/repository/{$this->pid}/{$this->dsid}/&embedded=TRUE' style='width:960px; height:953px;' frameborder='0'></iframe>";
+        //return "<iframe src='http://docs.google.com/viewer?url=$base_url/fedora/repository/{$this->pid}/{$this->dsid}/&embedded=TRUE' style='width:960px; height:953px;' frameborder='0'></iframe>";
+        return '<div id="playerFlexPaper"></div>';
       case 'image/jpeg':
-        $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer';
-        return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 400px;">Errors: unable to load viewer</iframe>';
-        //return "<a href='$base_url/fedora/repository/{$this->pid}/{$this->dsid}/'><img src='$base_url/fedora/repository/{$this->pid}/{$this->dsid}'/></a>";
+        //$viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer';
+        //return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 400px;">Errors: unable to load viewer</iframe>';
+        return "<a href='$base_url/fedora/repository/{$this->pid}/{$this->dsid}/'><img src='$base_url/fedora/repository/{$this->pid}/{$this->dsid}' style='display:block; margin-left:auto; margin-right: auto;'/></a>";
       default:
         return '<div>There is no viewer for the selected file type.</div>';
     }

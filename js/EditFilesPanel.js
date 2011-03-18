@@ -43,10 +43,11 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
                     var loadOptions = viewerPanel.autoLoad;
                     loadOptions.params.dsid = dsid;
                     viewerPanel.load(loadOptions);
-                    Ext.ns.viewerDSID = dsid;
+                    ADRBasic.viewerDSID = dsid;
                     viewerPanel.show();
                 }
                 else {
+                    ADRBasic.viewerDSID = dsid;
                     viewerPanel.autoLoad.params.dsid = dsid;
                     viewerPanel.show();
                 }

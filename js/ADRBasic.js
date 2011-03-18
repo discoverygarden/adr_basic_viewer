@@ -2,19 +2,37 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
+function getViewerDSID() {
+    if(!ADRBasic.viewerDSID) {
+        var store = Ext.StoreMgr.lookup('OverviewDatastreams');
+        var record = store.getAt(0);
+        ADRBasic.viewerDSID = record.get('dsid');
+    }
+    return ADRBasic.viewerDSID;
+
+}
+
 // Ugly global stuff cause of deadline...
 $(document).ready(function() { 
     $('body').ajaxComplete(function(event, request, settings) {
         var el = $('#playerFLV');
         if(el.length != 0 && !$(el).hasClass('.loaded-flv-player')) {
             el.addClass('.loaded-flv-player');
-            swfLoad(Ext.ns.viewerDSID);
+            loadFLVPlayer(getViewerDSID());
+        }
+        el = $('#playerFlexPaper');
+        if(el.length != 0 && !$(el).hasClass('.loaded-flex-player')) {
+            el.addClass('.loaded-flex-player');
+            loadFlexPlayer(getViewerDSID());
         }
     });
 });
 
 Ext.onReady(function(){
+    //
     $('#content-fedora').empty();
+
     Ext.QuickTips.init();
     var adrbasic = new ADRBasicViewer({
         renderTo: 'content-fedora',
@@ -25,7 +43,7 @@ Ext.onReady(function(){
         }
     });
     adrbasic.show();
-    /*/ Ugly get around for Drupal thems stuff
+/*/ Ugly get around for Drupal thems stuff
     var themeSheetIndex =  document.styleSheets.length -1; // Always the last one.
     var themeSheet = document.styleSheets[themeSheetIndex];
     var rules = themeSheet.cssRules? themeSheet.cssRules: themeSheet.rules
