@@ -42,6 +42,7 @@ EOT;
     drupal_add_js("sites/all/libraries/swfobject/swfobject.js");
     $js = <<<EOT
     function loadFlexPlayer(dsid) {
+      var dsid = dsid.replace('pdf', 'swf');
       var swfURL = '$base_url/fedora/repository/{$pid}/' + dsid;
       var swfVersionStr = "10.0.0";
       var xiSwfUrlStr = "/sites/all/libraries/flexpaper/js/swfobject/expressInstall.swf";
