@@ -121,17 +121,17 @@ class ADRBasic {
       'External Reference (E)' => "E",
     );
     $dsid = $_POST['dsid'];
-    $label= $_POST['label'];
+    $label = $_POST['label'];
     $control = $controls[$_POST['control_group']];
     $mime = $_POST['mime_type'];
     $state = $_POST['state'];
     $file = array_shift($_FILES);
-    if($file['type'] != $mime) {
+    if ($file['type'] != $mime) {
       return json_encode(array('success' => false, 'msg' => 'Mime type of file does not match the mime type specified.'));
     }
     else {
-      if($this->item->add_datastream_from_file($file['tmp_name'], $dsid, $label, $mime, $control)) {
-          return json_encode(array('success' => true, 'msg' => 'Successfully added datastream.'));
+      if ($this->item->add_datastream_from_file($file['tmp_name'], $dsid, $label, $mime, $control)) {
+        return json_encode(array('success' => true, 'msg' => 'Successfully added datastream.'));
       }
       else {
         return json_encode(array('success' => false, 'msg' => 'Failed to add datastream.'));
@@ -188,7 +188,9 @@ class ADRBasic {
       'application/pdf', 'image/jpeg', 'video/x-flv'
     );
     $mime = $attributes['MIMEType'];
-    return array_search($mime, $mime_types_allowed_in_overview) !== FALSE;
+    $mime_allowed = array_search($mime, $mime_types_allowed_in_overview) !== FALSE;
+    $is_thumbnail = ($dsid == 'TN') || (preg_match("/tn\.jpg/", $dsid) > 0);
+    return $mime_allowed && !$is_thumbnail;
   }
 
   /**
@@ -228,9 +230,20 @@ class ADRBasic {
    * @return <type> 
    */
   private function getDatastreamIconURL($dsid, $mime_type) {
-    // Find in object
     // If not found use default for mime type.
     global $base_url;
+    // Find in object
+    $is_thumbnail = ($dsid == 'TN') || (preg_match('/-tn\.jpg/i', $dsid) > 0);
+    if ($is_thumbnail) {
+      return "$base_url/fedora/repository/{$this->pid}/$dsid";
+    }
+    if (preg_match('/\..+$/i', $dsid) > 0) { // Has extension.
+      $thumbnail = preg_replace('/\..+$/i', '-tn.jpg', $dsid);
+      if (array_key_exists($thumbnail, $this->item->datastreams)) {
+        return "$base_url/fedora/repository/{$this->pid}/$thumbnail";
+      }
+    }
+    // Use default.
     $path_to_default_images = drupal_get_path('module', 'adr_basic_viewer') . '/images/mime/';
     $image = isset($this->defaultMimeIcons[$mime_type]) ? $this->defaultMimeIcons[$mime_type] : $this->defaultIcon;
     return "$base_url/$path_to_default_images$image"; // $image;
