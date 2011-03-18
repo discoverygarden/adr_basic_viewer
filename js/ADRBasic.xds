@@ -154,7 +154,10 @@
                 "cls": "-ext-undefined-",
                 "id": "adr-viewer",
                 "autoHeight": true,
-                "forceLayout": true
+                "forceLayout": true,
+                "autoShow": "-ext-undefined-",
+                "html": "<br/>",
+                "autoDestroy": "-ext-undefined-"
             },
             "userXType": "viewerpanel"
         },
@@ -548,28 +551,6 @@
             ]
         },
         {
-            "id": "MyWindow",
-            "cid": "window",
-            "jsClass": "EditObjectWindow",
-            "snapToGrid": 10,
-            "userConfig": {
-                "title": "My Window",
-                "width": 400,
-                "height": 250
-            }
-        },
-        {
-            "id": "MyWindow1",
-            "cid": "window",
-            "jsClass": "DeleteObjectWindow",
-            "snapToGrid": 10,
-            "userConfig": {
-                "title": "My Window",
-                "width": 400,
-                "height": 250
-            }
-        },
-        {
             "id": "MyWindow2",
             "cid": "window",
             "jsClass": "AddFileWindow",
@@ -724,17 +705,6 @@
             ]
         },
         {
-            "id": "MyWindow3",
-            "cid": "window",
-            "jsClass": "EditFileWindow",
-            "snapToGrid": 10,
-            "userConfig": {
-                "title": "My Window",
-                "width": 400,
-                "height": 250
-            }
-        },
-        {
             "id": "MyTextField4",
             "cid": "textfield",
             "jsClass": "FileUploadField",
@@ -743,6 +713,51 @@
                 "allowBlank": false
             },
             "userXType": "fileuploadfield"
+        },
+        {
+            "id": "MyWindow4",
+            "cid": "window",
+            "jsClass": "ReplaceFileWindow",
+            "snapToGrid": 10,
+            "userConfig": {
+                "title": "Replace File",
+                "width": 400,
+                "height": 250
+            },
+            "cn": [
+                {
+                    "id": "MyForm4",
+                    "cid": "form",
+                    "jsClass": "MyForm4",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "title": "Replace File",
+                        "headerAsText": false,
+                        "hideBorders": "-ext-undefined-",
+                        "fileUpload": true,
+                        "hideLabels": "-ext-undefined-",
+                        "autoShow": "-ext-undefined-",
+                        "animCollapse": "-ext-undefined-",
+                        "autoHeight": true,
+                        "maskDisabled": false,
+                        "frame": true
+                    },
+                    "cn": [
+                        {
+                            "id": "MyUserComponent9",
+                            "cid": "usercomponent",
+                            "jsClass": "FileUploadField",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "jsClass": "FileUploadField",
+                                "userXType": "fileuploadfield",
+                                "fieldLabel": "Upload File"
+                            },
+                            "userComponent": "MyTextField4"
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "stores": [

@@ -19,14 +19,17 @@ FilesPanel = Ext.extend(FilesPanelUi, {
             var pid = dataview.store.baseParams.pid;
             var dsid = dataview.store.getAt(index).get('dsid');
             var viewer = Ext.getCmp('adr-viewer');
-            viewer.show();
-            viewer.load({
-                url: "/adrbasic/ajax/getViewer",
-                params: {
-                    pid: pid,
-                    dsid: dsid
-                }
-            });
+            if(viewer.rendered) {
+                var loadOptions = viewer.autoLoad;
+                loadOptions.params.dsid = dsid;
+                viewer.load(loadOptions);
+                Ext.ns.viewerDSID = dsid;
+                viewer.show();
+            }
+            else {
+                viewer.autoLoad.params.dsid = dsid;
+                viewer.show();
+            }
         });
     }
 });

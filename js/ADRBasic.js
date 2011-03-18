@@ -2,6 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+// Ugly global stuff cause of deadline...
+$(document).ready(function() { 
+    $('body').ajaxComplete(function(event, request, settings) {
+        var el = $('#playerFLV');
+        if(el.length != 0 && !$(el).hasClass('.loaded-flv-player')) {
+            el.addClass('.loaded-flv-player');
+            swfLoad(Ext.ns.viewerDSID);
+        }
+    });
+});
 
 Ext.onReady(function(){
     $('#content-fedora').empty();

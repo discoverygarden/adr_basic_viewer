@@ -187,3 +187,9 @@ table {
 {
     padding-right: 1px;
 }
+
+#playerFLV embed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

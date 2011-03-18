@@ -254,7 +254,7 @@ class ADRBasic {
     ext_load_library();
     drupal_add_css("$path/stylesheets/ADRBasic.css", 'theme', 'all');
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
-    //ADRBasicViewer::includeRequiredJSForViewers($this->pid);
+    ADRBasicViewer::includeRequiredJSForViewers($this->pid);
     $include_files = array(
       'Description.js',
       'Datastreams.js',
@@ -263,12 +263,10 @@ class ADRBasic {
       'MIMETypes.js',
       'FileUploadField.ui.js',
       'FileUploadField.js',
-      'EditObjectWindow.ui.js',
-      'EditObjectWindow.js',
-      'DeleteObjectWindow.ui.js',
-      'DeleteObjectWindow.js',
       'AddFileWindow.ui.js',
       'AddFileWindow.js',
+      'ReplaceFileWindow.ui.js',
+      'ReplaceFileWindow.js',
       'EditFileWindow.ui.js',
       'EditFileWindow.js',
       'ADRBasicViewer.ui.js',

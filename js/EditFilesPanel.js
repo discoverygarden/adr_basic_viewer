@@ -37,15 +37,24 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
             if(record) {
                 var store = viewer.getStore();
                 var pid = store.baseParams.pid;
-                Ext.getCmp('adr-viewer').show();
-                Ext.getCmp('adr-viewer').load({
-                    url: "/adrbasic/ajax/getViewer",
-                    params: {
-                        pid: pid,
-                        dsid: record.get('dsid')
-                    }
-                });
+                var dsid = record.get('dsid');
+                var viewerPanel = Ext.getCmp('adr-viewer');
+                if(viewerPanel.rendered) {
+                    var loadOptions = viewerPanel.autoLoad;
+                    loadOptions.params.dsid = dsid;
+                    viewerPanel.load(loadOptions);
+                    Ext.ns.viewerDSID = dsid;
+                    viewerPanel.show();
+                }
+                else {
+                    viewerPanel.autoLoad.params.dsid = dsid;
+                    viewerPanel.show();
+                }
             }
+        });
+        replace.addListener('click', function(button, event) {
+            var window = new ReplaceFileWindow();
+            window.show(this);
         });
         viewer.addListener('click', function(dataviewer, index, node, event) {
             var record = dataviewer.getStore().getAt(index);
