@@ -496,22 +496,10 @@
                 "forceLayout": true,
                 "padding": "-ext-undefined-",
                 "border": false,
-                "hideBorders": "-ext-undefined-"
+                "hideBorders": "-ext-undefined-",
+                "autoLoad": "{\nurl: '/adrbasic/ajax/getDescription',\nparams: { pid: (window.location.pathname.split( '/' )[3])} \n}"
             },
-            "userXType": "descriptionpanel",
-            "cn": [
-                {
-                    "id": "MyDataView1",
-                    "cid": "dataview",
-                    "jsClass": "MyDataView1",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "itemSelector": "div",
-                        "store": "Description",
-                        "tpl": "<tpl for=\".\">\n<div class=\"adr-title-label\">Title:</div><div class=\"adr-title-value\">{title}</div><br clear=\"all\"/>\n<div class=\"adr-author-label\">Author:</div><div class=\"adr-author-value\">{author}</div><br clear=\"all\"/>\n<div class=\"adr-description-label\">Description:</div><div class=\"adr-description-value\">{description}</div><br clear=\"all\"/>\n<div class=\"adr-overview-footer\">This object was added {date_created}. This object was last updated {date_modified} by {user}.</div>\n</tpl>"
-                    }
-                }
-            ]
+            "userXType": "descriptionpanel"
         },
         {
             "id": "MyPanel",

@@ -55,6 +55,7 @@ class ADRBasic {
     module_load_include('inc', 'fedora_repository', 'api/fedora_item');
     $this->pid = $pid;
     $this->item = new Fedora_Item($this->pid);
+    $this->mods = new SimpleXMLElement($this->item->get_datastream_dissemination("MODS"));
     $this->setDisplayInfo();
   }
 
@@ -62,7 +63,7 @@ class ADRBasic {
    *
    */
   private function setDisplayInfo() {
-    $mods = new SimpleXMLElement($this->item->get_datastream_dissemination("MODS"));
+    $mods = $this->mods;
     $mods->registerXPathNamespace("mods", "http://www.loc.gov/mods/v3");
     $titles = $mods->xpath('/mods:mods/mods:titleInfo/mods:title');
     $this->title = $this->implodeSimpleXMLElementArray(', ', $titles);
@@ -88,14 +89,90 @@ class ADRBasic {
    *   JSON encoded string.
    */
   public function getDescriptionAjaxResponse() {
-    $response = array();
-    $response['title'] = $this->title;
-    $response['author'] = $this->author;
-    $response['description'] = $this->description;
-    $response['date_created'] = $this->dateCreated;
-    $response['date_modified'] = $this->dateModified;
-    $response['user'] = $this->user;
-    return json_encode(array($response)); // One record, within an array.
+    /* $response = array();
+      $response['title'] = $this->title;
+      $response['author'] = $this->author;
+      $response['description'] = $this->description;
+      $response['date_created'] = $this->dateCreated;
+      $response['date_modified'] = $this->dateModified;
+      $response['user'] = $this->user;
+      return json_encode(array($response)); */// One record, within an array.
+    $rows = array(
+      'Title' => '/mods:mods/mods:titleInfo[not(@type)]/mods:title',
+      'Alternative Title' => '/mods:mods/mods:titleInfo[@type="alternative"]/mods:title',
+      'Family Name' => '(/mods:mods/mods:name[@type="personal"]/mods:role[mods:roleTerm="creator"]/..)/mods:namePart[not(@type)]',
+      'Given Name' => '(/mods:mods/mods:name[@type="personal"]/mods:role[mods:roleTerm="creator"]/..)/mods:namePart[@type="family"]',
+      'Terms of Address' => '(/mods:mods/mods:name[@type="personal"]/mods:role[mods:roleTerm="creator"]/..)/mods:namePart[@type="given"]',
+      'Family Name' => '(/mods:mods/mods:name[@type="personal"]/mods:role[mods:roleTerm="creator"]/..)/mods:namePart[@type="termsOfAddress"]',
+      'Given Name' => '(/mods:mods/mods:name[@type="personal"]/mods:role[mods:roleTerm="contributor"]/..)/mods:namePart[not(@type)]',
+      'Terms of Address' => '(/mods:mods/mods:name[@type="personal"]/mods:role[mods:roleTerm="contributor"]/..)/mods:namePart[@type="family"]',
+      'Corporate Creator' => '(/mods:mods/mods:name[@type="personal"]/mods:role[mods:roleTerm="contributor"]/..)/mods:namePart[@type="given"]',
+      'Corporate Contributor' => '(/mods:mods/mods:name[@type="personal"]/mods:role[mods:roleTerm="contributor"]/..)/mods:namePart[@type="termsOfAddress"]',
+      'Type of Resource' => '(/mods:mods/mods:name[@type="corporate"]/mods:role[mods:roleTerm="creator"]/..)/mods:namePart[not(@type)]',
+      'Origin Information' => '(/mods:mods/mods:name[@type="corporate"]/mods:role[mods:roleTerm="contributor"]/..)/mods:namePart[not(@type)]',
+      'Place of Publication' => '/mods:mods/mods:typeOfResource',
+      'Publisher' => '/mods:mods/mods:originInfo/mods:place/mods:placeTerm[@type="text"]',
+      'Date Issued' => '/mods:mods/mods:originInfo/mods:publisher',
+      'Date Created' => '/mods:mods/mods:originInfo/mods:dateIssued',
+      'Copyright Date' => '/mods:mods/mods:originInfo/mods:dateCreated',
+      'Other Date' => '/mods:mods/mods:originInfo/mods:copyrightDate',
+      'Genre' => '/mods:mods/mods:originInfo/mods:dateOther',
+      'Language' => '/mods:mods/mods:genre[@type="marcgt"]',
+      'Physical Description' => '/mods:mods/mods:language',
+      'Extent' => '/mods:mods/mods:physicalDescription/mods:extent',
+      'Form' => '/mods:mods/mods:physicalDescription/mods:form',
+      'Digitial Origin' => '/mods:mods/mods:physicalDescription/mods:digitalOrigin',
+      'Physical Node' => '/mods:mods/mods:physicalDescription/mods:note',
+      'Description' => '/mods:mods/mods:abstract',
+      'Target Audience' => '/mods:mods/mods:targetAudience',
+      'Notes' => '/mods:mods/mods:note[not(@type)]',
+      'Administrative Notes' => '/mods:mods/mods:note[@type="admin"]',
+      'Funding Notes' => '/mods:mods/mods:note[@type="funding"]',
+      'Topics' => '/mods:mods/mods:subject/mods:topic',
+      'Places' => '/mods:mods/mods:subject/mods:geographic',
+      'Dates' => '/mods:mods/mods:subject/mods:temporal',
+      'People' => '/mods:mods/mods:subject/mods:name[@type="personal"]',
+      'Organizations' => '/mods:mods/mods:subject/mods:name[@type="corporate"]',
+      'Host Object' => '/mods:mods/mods:relatedItem[@type="host"]/mods:titleInfo/mods:title',
+      'Constituent Object' => '/mods:mods/mods:relatedItem[@type="constituent"]/mods:titleInfo/mods:title',
+      'Series' => '/mods:mods/mods:relatedItem[@type="series"]/mods:titleInfo/mods:title',
+      'Local Identifier' => '/mods:mods/mods:identifier[@type="local"]',
+      'ISBN' => '/mods:mods/mods:identifier[@type="isbn"]',
+      'ISSN' => '/mods:mods/mods:identifier[@type="issn"]',
+      'Handle' => '/mods:mods/mods:location/mods:url[@usage="primary display"]',
+      'Rights Statement' => '/mods:mods/mods:accessCondition[@type="useAndReproduction"]'
+    );
+    $content = '';
+    foreach ($rows as $label => $path) {
+      $value = $this->getValueFromPath($path);
+      if ($value != '') {
+        $content .= $this->createRow($label, $value);
+      }
+    }
+    $footer = "<tr><td colspan='2'><br/></td></tr>";
+    $footer .= "<tr><td colspan='2' style='text-align: center;font-size:0.9em;'>This object was added {$this->dateCreated}. This object was last updated {$this->dateModified} by {$this->user}.</td></tr>";
+    $html = <<<EOT
+    <table>
+      {$content}
+      {$footer}
+    </table>
+EOT;
+    return $html;
+  }
+
+  private function getValueFromPath($path) {
+    $value = $this->mods->xpath($path);
+    return trim($this->implodeSimpleXMLElementArray(', ', $value));
+  }
+
+  private function createRow($label, $value) {
+    return <<<EOD
+      <tr>
+        <td style="padding:5px;font-size:1.5em;">$label</td>
+        <td style="padding:5px;font-size:1.2em;">$value</td>
+      </tr>
+      
+EOD;
   }
 
   public function setDescriptionAjaxRequest() {
