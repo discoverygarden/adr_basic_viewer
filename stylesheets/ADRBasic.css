@@ -111,6 +111,8 @@ table {
 
 .adr-edit-file-img-block {
     float: left;
+    width: 186px;
+    height: 160px;
 }
 
 .adr-edit-file-img {
@@ -119,6 +121,7 @@ table {
     max-width: 100%;
     width: 128px;
     height: 128px;
+    clip: rect(0px 128px 128px 0px);
     display: block;
 }
 
