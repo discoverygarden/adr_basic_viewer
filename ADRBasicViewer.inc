@@ -16,6 +16,20 @@ class ADRBasicViewer {
   public static function includeRequiredJSForViewers($pid) {
     self::includeJSForFlash($pid);
     self::includeJSForFlexPaper($pid);
+    self::includeJSForFlowPlayer($pid);
+  }
+
+  private static function includeJSForFlowPlayer($pid) {
+    $path = drupal_get_path('module', 'adr_basic_viewer');
+    $base_path = base_path();
+    $full_path = $base_path . $path;
+    drupal_add_js("$path/flowplayer/flowplayer-3.2.6.min.js");
+    $js = <<<EOT
+    function loadFlowPlayer(dsid) {
+      flowplayer("playerFlow", "$full_path/flowplayer/flowplayer-3.2.7.swf");
+    }
+EOT;
+    drupal_add_js($js, 'inline');
   }
 
   private static function includeJSForFlash($pid) {
@@ -118,13 +132,16 @@ EOT;
         return "<div>$content</div>";
       case 'video/x-flv':
         return "<div id='playerFLV' style='margin-left:auto; margin-right: auto;'></div>";
+      case 'audio/mpeg':
+      case 'audio/x-mpeg':
+      case 'video/mp4':
+        $file_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . "/{$this->dsid}";
+        return "<a href='$file_url' style='display:block;width:520px;height:330px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
       case 'application/pdf':
-        //return "<iframe src='http://docs.google.com/viewer?url=$base_url/fedora/repository/{$this->pid}/{$this->dsid}/&embedded=TRUE' style='width:960px; height:953px;' frameborder='0'></iframe>";
         return '<div id="playerFlexPaper"></div>';
       case 'image/jpeg':
-        //$viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer';
-        //return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 400px;">Errors: unable to load viewer</iframe>';
-        return "<a href='$base_url/fedora/repository/{$this->pid}/{$this->dsid}/'><img src='$base_url/fedora/repository/{$this->pid}/{$this->dsid}' style='display:block; margin-left:auto; margin-right: auto;'/></a>";
+        $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
+        return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 400px;">Errors: unable to load viewer</iframe>';
       default:
         return '<div>There is no viewer for the selected file type.</div>';
     }

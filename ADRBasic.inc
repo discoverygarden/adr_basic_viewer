@@ -262,7 +262,7 @@ EOD;
 
   static public function canShowDatastreamInOverview($dsid, $attributes) {
     $mime_types_allowed_in_overview = array(
-      'application/pdf', 'image/jpeg', 'video/x-flv'
+      'application/pdf', 'image/jpeg', 'video/mp4'
     );
     $mime = $attributes['MIMEType'];
     $mime_allowed = array_search($mime, $mime_types_allowed_in_overview) !== FALSE;
