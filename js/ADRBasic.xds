@@ -196,19 +196,6 @@
                     "userComponent": "MyForm"
                 },
                 {
-                    "id": "MyUserComponent1",
-                    "cid": "usercomponent",
-                    "jsClass": "EditDescriptionPanel",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "jsClass": "EditDescriptionPanel",
-                        "userXType": "editdescriptionpanel",
-                        "flex": 2,
-                        "margins": "0 0 10 0"
-                    },
-                    "userComponent": "MyForm1"
-                },
-                {
                     "id": "MyUserComponent2",
                     "cid": "usercomponent",
                     "jsClass": "EditFilesPanel",

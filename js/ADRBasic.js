@@ -26,6 +26,16 @@ $(document).ready(function() {
             el.addClass('.loaded-flex-player');
             loadFlexPlayer(getViewerDSID());
         }
+        el = $('#playerFlow');
+        if(el.length != 0 && !$(el).hasClass('.loaded-flow-player')) {
+            el.addClass('.loaded-flow-player');
+            loadFlowPlayer(getViewerDSID());
+        }
+        var el = $('.prettyprint');
+        if(el.length != 0 && !$(el).hasClass('.loaded-pretty-print')) {
+            el.addClass('.loaded-pretty-print');
+            prettyPrint();
+        }
     });
 });
 

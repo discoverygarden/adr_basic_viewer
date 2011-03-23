@@ -17,6 +17,7 @@ class ADRBasicViewer {
     self::includeJSForFlash($pid);
     self::includeJSForFlexPaper($pid);
     self::includeJSForFlowPlayer($pid);
+    self::includeJSForPrettyPrint();
   }
 
   private static function includeJSForFlowPlayer($pid) {
@@ -97,6 +98,12 @@ EOT;
     drupal_add_js($js, 'inline');
   }
 
+  private static function includeJSForPrettyPrint() {
+    $path = drupal_get_path('module', 'adr_basic_viewer');
+    drupal_add_js("$path/pretty-print/prettify.js");
+    drupal_add_css("$path/pretty-print/prettify.css");
+  }
+
   public function __construct($pid, $dsid = NULL) {
     module_load_include('inc', 'fedora_repository', 'api/fedora_item');
     $this->item = new Fedora_Item($pid);
@@ -122,36 +129,63 @@ EOT;
    *
    * @return string
    */
+  private function getTextXmlViewer() {
+    $filename = drupal_get_path('module', 'adr_basic_viewer') . '/xsl/PrettyPrint.xsl';
+    $xsl = new DOMDocument();
+    $xsl->load($filename);
+    $doc = new DOMDocument();
+    $doc->loadXML($this->item->get_datastream_dissemination($this->dsid));
+    $proc = new XSLTProcessor();
+    $proc->importStylesheet($xsl);
+    $content = $proc->transformToXml($doc);
+    $content = htmlentities($content);
+    $output = '';
+    foreach (preg_split("/(\r?\n)/", $content) as $line) {
+      $output .= $line . '<br/>';
+    }
+    return "<code class='prettyprint xml'>$output</code>";
+  }
+
+  /**
+   *
+   * @return string
+   */
+  private function getDjatokaViewer() {
+    $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
+    return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 400px;">Errors: unable to load viewer</iframe>';
+  }
+
+  /**
+   *
+   * @return string
+   */
+  private function getVideoViewer() {
+    $file_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . "/{$this->dsid}";
+    return "<a href='$file_url' style='display:block;width:520px;height:330px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
+  }
+
+  /**
+   *
+   * @return string
+   */
   public function getViewer() {
-    global $base_url;
     switch ($this->mimeType) {
       case 'application/rdf+xml':
       case 'text/xml':
-        $filename = drupal_get_path('module', 'adr_basic_viewer') . '/xsl/PrettyPrint.xsl';
-        $xsl = new DOMDocument();
-        $xsl->load($filename);
-        $doc = new DOMDocument();
-        $doc->loadXML($this->item->get_datastream_dissemination($this->dsid));
-        $proc = new XSLTProcessor();
-        $proc->importStylesheet($xsl);
-        $output = $proc->transformToXml($doc);
-        $content = htmlentities($output);
-        return "<div>$content</div>";
+        return $this->getTextXmlViewer();
       case 'video/x-flv':
         return "<div id='playerFLV' style='margin-left:auto; margin-right: auto;'></div>";
       case 'audio/mpeg':
       case 'audio/x-mpeg':
       case 'video/mp4':
-        $file_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . "/{$this->dsid}";
-        return "<a href='$file_url' style='display:block;width:520px;height:330px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
+        return $this->getVideoViewer();
       case 'application/pdf':
         return '<div id="playerFlexPaper"></div>';
       case 'image/jpeg':
       case 'image/jp2':
       case 'image/tiff':
       case 'image/png':
-        $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
-        return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 400px;">Errors: unable to load viewer</iframe>';
+        return $this->getDjatokaViewer();
       default:
         return '<div>There is no viewer for the selected file type.</div>';
     }
