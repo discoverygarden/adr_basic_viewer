@@ -127,8 +127,15 @@ EOT;
     switch ($this->mimeType) {
       case 'application/rdf+xml':
       case 'text/xml':
-        $xmlstr = $this->item->get_datastream_dissemination($this->dsid);
-        $content = htmlentities($xmlstr);
+        $filename = drupal_get_path('module', 'adr_basic_viewer') . '/xsl/PrettyPrint.xsl';
+        $xsl = new DOMDocument();
+        $xsl->load($filename);
+        $doc = new DOMDocument();
+        $doc->loadXML($this->item->get_datastream_dissemination($this->dsid));
+        $proc = new XSLTProcessor();
+        $proc->importStylesheet($xsl);
+        $output = $proc->transformToXml($doc);
+        $content = htmlentities($output);
         return "<div>$content</div>";
       case 'video/x-flv':
         return "<div id='playerFLV' style='margin-left:auto; margin-right: auto;'></div>";
@@ -140,6 +147,9 @@ EOT;
       case 'application/pdf':
         return '<div id="playerFlexPaper"></div>';
       case 'image/jpeg':
+      case 'image/jp2':
+      case 'image/tiff':
+      case 'image/png':
         $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
         return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 400px;">Errors: unable to load viewer</iframe>';
       default:
