@@ -31,6 +31,7 @@ class ADRBasic {
    * @var array
    */
   protected $mods;
+  protected $relsInt;
   protected $title;
   protected $author;
   protected $description;
@@ -56,6 +57,7 @@ class ADRBasic {
     $this->pid = $pid;
     $this->item = new Fedora_Item($this->pid);
     $this->mods = new SimpleXMLElement($this->item->get_datastream_dissemination("MODS"));
+    $this->relsInt = new SimpleXMLElement($this->item->get_datastream_dissemination("RELS-INT"));
     $this->setDisplayInfo();
   }
 
@@ -230,7 +232,7 @@ EOD;
   public function getDatastreamsAjaxResponse() {
     $response = array();
     foreach ($this->item->datastreams as $dsid => $attr) {
-      $img = $this->getDatastreamIconURL($dsid, $attr['MIMEType']);
+      $img = $this->getThumbnail($dsid, $attr['MIMEType']);
       $stream['dsid'] = $dsid;
       $stream['label'] = $attr['label'];
       $stream['img_url'] = $img;
@@ -247,7 +249,7 @@ EOD;
     foreach ($this->item->datastreams as $dsid => $attr) {
       $should_add = self::canShowDatastreamInOverview($dsid, $attr);
       if ($should_add) {
-        $img = $this->getDatastreamIconURL($dsid, $attr['MIMEType']);
+        $img = $this->getThumbnail($dsid, $attr['MIMEType']);
         $stream['dsid'] = $dsid;
         $stream['label'] = $attr['label'];
         $stream['img_url'] = $img;
@@ -304,26 +306,51 @@ EOD;
    * @global  $base_url
    * @param <type> $dsid
    * @param <type> $mime_type
-   * @return <type> 
+   * @return string
    */
-  private function getDatastreamIconURL($dsid, $mime_type) {
-    // If not found use default for mime type.
+  private function getThumbnail($dsid, $mime_type) {
     global $base_url;
-    // Find in object
-    $is_thumbnail = ($dsid == 'TN') || (preg_match('/-tn\.jpg/i', $dsid) > 0);
-    if ($is_thumbnail) {
-      return "$base_url/fedora/repository/{$this->pid}/$dsid";
+    $thumbnail = $this->isIcon($dsid) ? "$base_url/fedora/repository/{$this->pid}/$dsid" : FALSE;
+    $thumbnail = empty($thumbnail) ? $this->getThumbnailFromRELSINT($dsid) : $thumbnail;
+    $thumbnail = empty($thumbnail) ? $this->getThumbnailFromName($dsid) : $thumbnail;
+    if($thumbnail) {
+      return $thumbnail;
     }
+    else {
+      $default_image_path = drupal_get_path('module', 'adr_basic_viewer') . '/images/mime';
+      $image = isset($this->defaultMimeIcons[$mime_type]) ? $this->defaultMimeIcons[$mime_type] : $this->defaultIcon;
+      return "$base_url/$default_image_path/$image";
+    }
+  }
+
+  private function isIcon($dsid) {
+    return ($dsid == 'TN') || (preg_match('/-tn\.jpg/i', $dsid) > 0);
+  }
+
+  private function getThumbnailFromRELSINT($dsid) {
+    global $base_url;
+    $path = "/rdf:RDF/rdf:Description[@rdf:about='info:fedora/{$this->pid}/{$dsid}']/coal:hasThumbnail";
+    $results = $this->relsInt->xpath($path);
+    if (count($results) > 0) {
+      $attributes = $results[0]->attributes('rdf', TRUE);
+      if (isset($attributes['resource'])) {
+        $thumbnail = sprintf("%s", $attributes['resource']);
+        $thumbnail = preg_filter('/^.*\/([^\/]*)$/', '$1', $thumbnail);
+        return "$base_url/fedora/repository/{$this->pid}/$thumbnail";
+      }
+    }
+    return FALSE;
+  }
+
+  private function getThumbnailFromName($dsid) {
+    global $base_url;
     if (preg_match('/\..+$/i', $dsid) > 0) { // Has extension.
       $thumbnail = preg_replace('/\..+$/i', '-tn.jpg', $dsid);
       if (array_key_exists($thumbnail, $this->item->datastreams)) {
         return "$base_url/fedora/repository/{$this->pid}/$thumbnail";
       }
     }
-    // Use default.
-    $path_to_default_images = drupal_get_path('module', 'adr_basic_viewer') . '/images/mime/';
-    $image = isset($this->defaultMimeIcons[$mime_type]) ? $this->defaultMimeIcons[$mime_type] : $this->defaultIcon;
-    return "$base_url/$path_to_default_images$image"; // $image;
+    return FALSE;
   }
 
   /**
