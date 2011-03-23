@@ -57,7 +57,10 @@ class ADRBasic {
     $this->pid = $pid;
     $this->item = new Fedora_Item($this->pid);
     $this->mods = new SimpleXMLElement($this->item->get_datastream_dissemination("MODS"));
-    $this->relsInt = new SimpleXMLElement($this->item->get_datastream_dissemination("RELS-INT"));
+    $rels_int = $this->item->get_datastream_dissemination("RELS-INT");
+    if(trim($rels_int) != '') {
+      $this->relsInt = new SimpleXMLElement($rels_int);
+    }
     $this->setDisplayInfo();
   }
 
@@ -329,6 +332,8 @@ EOD;
 
   private function getThumbnailFromRELSINT($dsid) {
     global $base_url;
+    if(!isset($this->relsInt))
+        return FALSE;
     $path = "/rdf:RDF/rdf:Description[@rdf:about='info:fedora/{$this->pid}/{$dsid}']/coal:hasThumbnail";
     $results = $this->relsInt->xpath($path);
     if (count($results) > 0) {
