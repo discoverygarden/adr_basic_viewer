@@ -24,9 +24,9 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
         var viewer = this.get('edit-files-panel-data-viewer');
         var add = this.buttons[0];
         var edit = this.buttons[1];
-        var replace = this.buttons[2];
+        var view = this.buttons[2];
         var remove = this.buttons[3];
-        var view = this.buttons[4];
+
         add.addListener('click', function(button, event) {
             var window = new AddFileWindow();
             window.show(this);
@@ -86,10 +86,6 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
                 }
             }
         });
-        replace.addListener('click', function(button, event) {
-            var window = new ReplaceFileWindow();
-            window.show(this);
-        });
         viewer.addListener('click', function(dataviewer, index, node, event) {
             var record = dataviewer.getStore().getAt(index);
             if(record) {
@@ -102,13 +98,11 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
                     edit.disable();
                     edit.removeListener('click', gotoEditModsPage);
                 }
-                replace.enable();
                 remove.enable();
                 view.enable();
             }
             else {
                 edit.disable();
-                replace.disable();
                 remove.disable();
                 view.disable();
             }

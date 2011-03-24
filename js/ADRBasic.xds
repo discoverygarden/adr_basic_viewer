@@ -415,14 +415,12 @@
                             }
                         },
                         {
-                            "id": "MyButton4",
+                            "id": "MyButton9",
                             "cid": "button",
-                            "jsClass": "MyButton4",
+                            "jsClass": "MyButton9",
                             "snapToGrid": 10,
                             "userConfig": {
-                                "text": "Replace",
-                                "width": 75,
-                                "scale": "-ext-undefined-",
+                                "text": "View",
                                 "disabled": true
                             }
                         },
@@ -435,16 +433,6 @@
                                 "text": "Delete",
                                 "width": 75,
                                 "scale": "-ext-undefined-",
-                                "disabled": true
-                            }
-                        },
-                        {
-                            "id": "MyButton9",
-                            "cid": "button",
-                            "jsClass": "MyButton9",
-                            "snapToGrid": 10,
-                            "userConfig": {
-                                "text": "View",
                                 "disabled": true
                             }
                         }
