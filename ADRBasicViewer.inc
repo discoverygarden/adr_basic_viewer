@@ -164,6 +164,43 @@ EOT;
     return "<a href='$file_url' style='display:block;width:520px;height:330px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
   }
 
+  private function getFlashImageViewer($imageList=null) {
+    global $base_url;
+    $path = drupal_get_path('module', 'Fedora_Repository');
+    $fullPath = base_path() . $path;
+    $swfURL = $base_url . base_path() . '/fedora/repository/' . $this->pid . '/WEB/web.jpg';
+    $swfURL = 'image0=' . $swfURL . '&title0=IMAGE0';
+    if (!empty($imageList)) {
+      $swfURL = "";
+      $counter = 0;
+      foreach ($imageList as $image) {
+        $swfURL .= 'image' . $counter . '=' . $base_url . base_path() . 'fedora/repository/' . $this->pid . '/' . $image . '&title' . $counter . '=IMAGE' . $counter++ . '&';
+      }
+      $swfURL = substr($swfURL, 0, strlen($swfURL) - 1);
+    }
+    $content = "";
+    $content = '<div id="flashpictureviewer">
+      <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="540" height="300" style="margin-left: auto; margin-right: auto;display:block;">
+      <param name="movie" value="/sites/all/libraries/flash_image_viewer.swf" />
+      <param name="quality" value="high" />
+      <param name="wmode" value="transparent" />
+      <param name="allowFullScreen" value="true" />
+      <param name="allowScriptAccess" value="always" />
+      <param name="FlashVars" value="' . $swfURL . '" / >
+      <embed src="/sites/all/libraries/flash_image_viewer.swf"
+      FlashVars="' . $swfURL . '"
+      quality="high"
+      type="application/x-shockwave-flash"
+      WMODE="transparent"
+      width="640"
+      height="480"
+      allowFullScreen="true"
+      allowScriptAccess="always"
+      pluginspage="http://www.macromedia.com/go/getflashplayer" />
+      </object></div>';
+    return $content;
+  }
+
   /**
    *
    * @return string
@@ -182,6 +219,7 @@ EOT;
       case 'application/pdf':
         return '<div id="playerFlexPaper"></div>';
       case 'image/jpeg':
+        return $this->getFlashImageViewer(array($this->dsid));
       case 'image/jp2':
       case 'image/tiff':
       case 'image/png':
