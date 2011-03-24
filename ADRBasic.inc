@@ -336,7 +336,7 @@ EOD;
         return FALSE;
     $path = "/rdf:RDF/rdf:Description[@rdf:about='info:fedora/{$this->pid}/{$dsid}']/coal:hasThumbnail";
     $results = $this->relsInt->xpath($path);
-    if (count($results) > 0) {
+    if (is_array($results) && count($results) > 0) {
       $attributes = $results[0]->attributes('rdf', TRUE);
       if (isset($attributes['resource'])) {
         $thumbnail = sprintf("%s", $attributes['resource']);
