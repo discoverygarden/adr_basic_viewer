@@ -220,6 +220,15 @@ EOD;
     }
   }
 
+  public function removeDatastreamAjaxRequest($dsid) {
+    if($this->item->purge_datastream($dsid)) {
+      return json_encode(array('success' => true, 'msg' => 'Successfully Deleted datastream.'));
+    }
+    else {
+      return json_encode(array('success' => false, 'msg' => 'Failed to deleted file.'));
+    }
+  }
+
   public function getAllowedMIMETypesAjaxResponse() {
     module_load_include('inc', 'fedora_repository', 'ContentModel');
     $content_model = ContentModel::loadFromObject($this->pid);

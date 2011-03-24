@@ -31,6 +31,39 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
             var window = new AddFileWindow();
             window.show(this);
         });
+        remove.addListener('click', function(button, event) {
+            var records = viewer.getSelectedRecords();
+            var record = records[0];
+            if(record) {
+                var store = viewer.getStore();
+                var pid = store.baseParams.pid;
+                var dsid = record.get('dsid');
+                Ext.Msg.confirm('Delete', 'Are you sure you want to delete this file?', function(btn, text){
+                    if (btn == 'yes') {
+                        Ext.Ajax.request({
+                            url: '/adrbasic/ajax/removeDatastream',
+                            success: function() {
+                                var store = Ext.StoreMgr.lookup('Description');
+                                store.reload(store.lastOptions);
+                                store = Ext.StoreMgr.lookup('Datastreams');
+                                store.reload(store.lastOptions);
+                                store = Ext.StoreMgr.lookup('OverviewDatastreams');
+                                store.reload(store.lastOptions);
+                            },
+                            failure: function() {
+                                Ext.Msg.alert('Failure', 'Could not delete file.');
+                            },
+                            params: {
+                                pid: pid,
+                                dsid: dsid
+                            }
+                        });
+
+                    }
+                });
+            }
+
+        });
         view.addListener('click', function(button, event) {
             var records = viewer.getSelectedRecords();
             var record = records[0];

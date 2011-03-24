@@ -118,8 +118,11 @@ function adr_basic_viewer_add_datastream() {
 
 function adr_basic_viewer_remove_datastream() {
   $pid = $_REQUEST['pid'];
-  if (isset($pid)) {
-
+  $dsid = $_REQUEST['dsid'];
+  if (isset($pid) && isset($dsid)) {
+    module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
+    $viewer = new ADRBasic($pid);
+    echo $viewer->removeDatastreamAjaxRequest($dsid);
   }
 }
 
