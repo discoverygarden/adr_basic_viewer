@@ -206,7 +206,6 @@ EOD;
     $label = $_POST['label'];
     $control = $controls[$_POST['control_group']];
     $mime = $_POST['mime_type'];
-    $state = $_POST['state'];
     $file = array_shift($_FILES);
     if ($file['type'] != $mime) {
       return json_encode(array('success' => false, 'msg' => 'Mime type of file does not match the mime type specified.'));

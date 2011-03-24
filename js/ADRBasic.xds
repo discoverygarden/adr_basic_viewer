@@ -13,7 +13,7 @@
         "exportXDSFiles": true,
         "genTimestamps": true
     },
-    "xdsVersion": "1.1.0",
+    "xdsVersion": "1.1.2",
     "components": [
         {
             "id": "MyTabPanel",
@@ -21,7 +21,7 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 0,
+                "activeTab": 2,
                 "width": 960,
                 "height": "-ext-undefined-",
                 "activeItem": "-ext-undefined-",
@@ -533,7 +533,7 @@
             "userConfig": {
                 "title": "Add File",
                 "width": 586,
-                "height": 229,
+                "height": 205,
                 "layout": "anchor",
                 "defaultType": "form"
             },
@@ -624,18 +624,6 @@
                                 "typeAhead": "-ext-undefined-",
                                 "editable": false,
                                 "allowBlank": false
-                            }
-                        },
-                        {
-                            "id": "MyCheckbox",
-                            "cid": "checkbox",
-                            "jsClass": "MyCheckbox",
-                            "snapToGrid": 10,
-                            "userConfig": {
-                                "fieldLabel": "State",
-                                "boxLabel": "Active",
-                                "anchor": "100%",
-                                "name": "state"
                             }
                         },
                         {
