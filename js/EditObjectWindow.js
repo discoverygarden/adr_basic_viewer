@@ -14,5 +14,37 @@
 EditObjectWindow = Ext.extend(EditObjectWindowUi, {
     initComponent: function() {
         EditObjectWindow.superclass.initComponent.call(this);
+        var editObjectWindow = this;
+        var pid = window.location.pathname.split('/')[3];
+        var formPanel = this.get(0);
+        var form = formPanel.getForm();
+        var store = Ext.StoreMgr.lookup('ObjectProperties');
+        var record = store.getAt(0);
+        form.loadRecord(record);
+        var save = formPanel.buttons[0];
+        save.addListener('click', function(button, event) {
+            form.submit({
+                url: '/adrbasic/ajax/setObjectProperties',
+                params: {
+                    pid: pid
+                },
+                success: function(form, action) {
+                    store.loadData(action.result.data);
+                    editObjectWindow.close();
+                },
+                failure: function(form, action) {
+                    switch (action.failureType) {
+                        case Ext.form.Action.CLIENT_INVALID:
+                            Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
+                            break;
+                        case Ext.form.Action.CONNECT_FAILURE:
+                            Ext.Msg.alert('Failure', 'Ajax communication failed');
+                            break;
+                        case Ext.form.Action.SERVER_INVALID:
+                            Ext.Msg.alert('Failure', action.result.msg);
+                    }
+                }
+            });
+        });
     }
 });

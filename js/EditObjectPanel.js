@@ -14,6 +14,16 @@
 EditObjectPanel = Ext.extend(EditObjectPanelUi, {
     initComponent: function() {
         EditObjectPanel.superclass.initComponent.call(this);
+        var edit = this.buttons[0];
+        var permissions = this.buttons[1];
+        var remove = this.buttons[2];
+        edit.addListener('click', function(button, event) {
+            var window = new EditObjectWindow();
+            window.show(this);
+        });
+        permissions.addListener('click', function(button, event) {
+            Ext.Msg.alert('Failure', 'This will redirect to the XCAML form, once its available.');
+        });
     }
 });
 Ext.reg('editobjectpanel', EditObjectPanel);

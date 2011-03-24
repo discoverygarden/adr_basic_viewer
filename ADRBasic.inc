@@ -87,6 +87,10 @@ class ADRBasic {
     $this->dateModified = $this->dateModified->format('F j, Y');
   }
 
+  public function getObjectPropertiesAjaxResponse() {
+    
+  }
+
   /**
    * Responds to a request for a fedora objects description.
    * 
@@ -387,19 +391,25 @@ EOD;
     ADRBasicViewer::includeRequiredJSForViewers($this->pid);
     $include_files = array(
       'IncludeFirst.js',
+      // Data Stores
       'Description.js',
       'Datastreams.js',
+      'ObjectProperties.js',
       'OverviewDatastreams.js',
       'ControlGroups.js',
       'MIMETypes.js',
+      'State.js',
+      // Custom Components
       'FileUploadField.ui.js',
       'FileUploadField.js',
+      // Windows
       'AddFileWindow.ui.js',
       'AddFileWindow.js',
-      'ReplaceFileWindow.ui.js',
-      'ReplaceFileWindow.js',
-      'EditFileWindow.ui.js',
-      'EditFileWindow.js',
+      //'ReplaceFileWindow.ui.js',
+      //'ReplaceFileWindow.js',
+      'EditObjectWindow.ui.js',
+      'EditObjectWindow.js',
+      // Main Viewer
       'ADRBasicViewer.ui.js',
       'ADRBasicViewer.js',
       'OverviewPanel.ui.js',
@@ -410,14 +420,13 @@ EOD;
       'ManagePanel.js',
       'EditObjectPanel.ui.js',
       'EditObjectPanel.js',
-      'EditDescriptionPanel.ui.js',
-      'EditDescriptionPanel.js',
       'EditFilesPanel.ui.js',
       'EditFilesPanel.js',
       'DescriptionPanel.ui.js',
       'DescriptionPanel.js',
       'FilesPanel.ui.js',
       'FilesPanel.js',
+      // Create the Viewer
       'ADRBasic.js'
     );
     foreach ($include_files as $file) {

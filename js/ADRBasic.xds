@@ -216,7 +216,7 @@
             "jsClass": "EditObjectPanel",
             "snapToGrid": 10,
             "userConfig": {
-                "title": "Edit Object",
+                "title": "Object Properties",
                 "width": "-ext-undefined-",
                 "height": "-ext-undefined-",
                 "layout": "-ext-undefined-",
@@ -230,15 +230,6 @@
             },
             "userXType": "editobjectpanel",
             "cn": [
-                {
-                    "id": "MyContainer",
-                    "cid": "container",
-                    "jsClass": "MyContainer",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "html": "Will markup some info about permissions ect here."
-                    }
-                },
                 {
                     "id": "MyToolbar",
                     "cid": "toolbar",
@@ -255,8 +246,17 @@
                             "jsClass": "MyButton",
                             "snapToGrid": 10,
                             "userConfig": {
-                                "text": "Edit",
+                                "text": "Edit Object",
                                 "formBind": "-ext-undefined-"
+                            }
+                        },
+                        {
+                            "id": "MyButton4",
+                            "cid": "button",
+                            "jsClass": "MyButton4",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "text": "Edit Permissions"
                             }
                         },
                         {
@@ -265,11 +265,22 @@
                             "jsClass": "MyButton1",
                             "snapToGrid": 10,
                             "userConfig": {
-                                "text": "Delete",
+                                "text": "Delete Object",
                                 "formBind": "-ext-undefined-"
                             }
                         }
                     ]
+                },
+                {
+                    "id": "MyDataView1",
+                    "cid": "dataview",
+                    "jsClass": "MyDataView1",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "itemSelector": "div",
+                        "store": "ObjectProperties",
+                        "tpl": "<tpl for=\".\">\n <table>\n  <tr><td>Label</td><td>{label}</td></tr>\n  <tr><td>Created</td><td>{created}</td></tr>\n  <tr><td>Modified</td><td>{modified}</td></tr>\n  <tr><td>Owner</td><td>{owner}</td></tr>\n  <tr><td>State</td><td>{state}</td></tr>\n </table>\n</tpl>"
+                    }
                 }
             ]
         },
@@ -520,10 +531,13 @@
             "snapToGrid": 10,
             "userConfig": {
                 "title": "Add File",
-                "width": 586,
-                "height": 205,
+                "width": 637,
+                "height": 259,
                 "layout": "anchor",
-                "defaultType": "form"
+                "defaultType": "form",
+                "header": true,
+                "headerAsText": "-ext-undefined-",
+                "constrainHeader": "-ext-undefined-"
             },
             "cn": [
                 {
@@ -532,21 +546,24 @@
                     "jsClass": "AddFileForm",
                     "snapToGrid": 10,
                     "userConfig": {
-                        "title": "-ext-undefined-",
+                        "title": "Add File",
                         "frame": true,
                         "headerAsText": false,
                         "header": "-ext-undefined-",
                         "border": "-ext-undefined-",
-                        "hideBorders": true,
+                        "hideBorders": "-ext-undefined-",
                         "autoScroll": "-ext-undefined-",
                         "layout": "-ext-undefined-",
                         "animCollapse": false,
-                        "height": 220,
+                        "height": "-ext-undefined-",
                         "method": "POST",
                         "anchor": "100% 100%",
-                        "autoHeight": true,
+                        "autoHeight": "-ext-undefined-",
                         "standardSubmit": "-ext-undefined-",
-                        "fileUpload": true
+                        "fileUpload": true,
+                        "forceLayout": "-ext-undefined-",
+                        "collapseFirst": "-ext-undefined-",
+                        "shim": "-ext-undefined-"
                     },
                     "userXType": "addfileform",
                     "cn": [
@@ -587,13 +604,14 @@
                                 "displayField": "type",
                                 "typeAhead": "-ext-undefined-",
                                 "mode": "local",
-                                "forceSelection": "-ext-undefined-",
+                                "forceSelection": true,
                                 "editable": false,
                                 "autoSelect": "-ext-undefined-",
                                 "allowBlank": false,
                                 "triggerAction": "all",
                                 "valueField": "value",
-                                "submitValue": true
+                                "submitValue": true,
+                                "value": "Please Select..."
                             }
                         },
                         {
@@ -606,7 +624,7 @@
                                 "store": "MIMETypes",
                                 "title": "Mime Type",
                                 "fieldLabel": "MIME Type",
-                                "forceSelection": "-ext-undefined-",
+                                "forceSelection": true,
                                 "triggerAction": "all",
                                 "displayField": "mime",
                                 "typeAhead": "-ext-undefined-",
@@ -705,6 +723,100 @@
                                 "fieldLabel": "Upload File"
                             },
                             "userComponent": "MyTextField4"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "MyWindow",
+            "cid": "window",
+            "jsClass": "EditObjectWindow",
+            "snapToGrid": 10,
+            "userConfig": {
+                "title": "Edit Object",
+                "width": 453,
+                "height": 181,
+                "layout": "anchor",
+                "titleCollapse": "-ext-undefined-"
+            },
+            "cn": [
+                {
+                    "id": "MyForm5",
+                    "cid": "form",
+                    "jsClass": "MyForm5",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "title": "Edit Object",
+                        "unstyled": "-ext-undefined-",
+                        "headerAsText": false,
+                        "anchor": "100% 100%",
+                        "header": true,
+                        "layout": "-ext-undefined-",
+                        "autoLoad": "-ext-undefined-",
+                        "frame": true
+                    },
+                    "cn": [
+                        {
+                            "id": "MyTextField6",
+                            "cid": "textfield",
+                            "jsClass": "MyTextField6",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "fieldLabel": "Label",
+                                "anchor": "100%",
+                                "name": "label"
+                            }
+                        },
+                        {
+                            "id": "MyTextField5",
+                            "cid": "textfield",
+                            "jsClass": "MyTextField5",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "fieldLabel": "Owner",
+                                "anchor": "100%",
+                                "name": "owner"
+                            }
+                        },
+                        {
+                            "id": "MyCombo2",
+                            "cid": "combobox",
+                            "jsClass": "MyCombo2",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "fieldLabel": "State",
+                                "anchor": "-ext-undefined-",
+                                "name": "state",
+                                "store": "State",
+                                "displayField": "type",
+                                "valueField": "value",
+                                "value": "Please Select...",
+                                "submitValue": true,
+                                "mode": "local",
+                                "allowBlank": false,
+                                "editable": false,
+                                "triggerAction": "all",
+                                "forceSelection": true
+                            }
+                        },
+                        {
+                            "id": "MyToolbar4",
+                            "cid": "toolbar",
+                            "jsClass": "MyToolbar4",
+                            "dock": "fbar",
+                            "snapToGrid": 10,
+                            "cn": [
+                                {
+                                    "id": "MyButton10",
+                                    "cid": "button",
+                                    "jsClass": "MyButton10",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "text": "Save"
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
@@ -859,7 +971,10 @@
             "snapToGrid": 10,
             "userConfig": {
                 "storeId": "ControlGroups",
-                "data": "[ [\"Inline XML (X)\", \"X\"], [\"Managed Resource (M)\", \"M\"], [\"Redirect (R)\", \"R\"], [\"External Reference (E)\", \"E\"]]"
+                "data": "[ [\"Inline XML (X)\", \"X\"], [\"Managed Resource (M)\", \"M\"], [\"Redirect (R)\", \"R\"], [\"External Reference (E)\", \"E\"]]",
+                "autoLoad": "-ext-undefined-",
+                "autoSave": "-ext-undefined-",
+                "batch": "-ext-undefined-"
             },
             "cn": [
                 {
@@ -970,6 +1085,99 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "name": "overview"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "MyStore5",
+            "cid": "jsonstore",
+            "jsClass": "ObjectProperties",
+            "snapToGrid": 10,
+            "userConfig": {
+                "storeId": "ObjectProperties",
+                "url": "/adrbasic/ajax/getObjectProperties",
+                "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}",
+                "autoLoad": true
+            },
+            "cn": [
+                {
+                    "id": "MyField21",
+                    "cid": "datafield",
+                    "jsClass": "MyField21",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "label"
+                    }
+                },
+                {
+                    "id": "MyField22",
+                    "cid": "datafield",
+                    "jsClass": "MyField22",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "created"
+                    }
+                },
+                {
+                    "id": "MyField23",
+                    "cid": "datafield",
+                    "jsClass": "MyField23",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "modified"
+                    }
+                },
+                {
+                    "id": "MyField24",
+                    "cid": "datafield",
+                    "jsClass": "MyField24",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "owner"
+                    }
+                },
+                {
+                    "id": "MyField25",
+                    "cid": "datafield",
+                    "jsClass": "MyField25",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "state"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "MyStore6",
+            "cid": "arraystore",
+            "jsClass": "State",
+            "snapToGrid": 10,
+            "userConfig": {
+                "storeId": "State",
+                "data": "[ [ \"Active\" , \"A\"], [ \"Inactive\", \"I\" ],[ \"Deleted\", \"D\" ] ]",
+                "autoLoad": "-ext-undefined-",
+                "autoSave": "-ext-undefined-",
+                "batch": "-ext-undefined-"
+            },
+            "cn": [
+                {
+                    "id": "MyField26",
+                    "cid": "datafield",
+                    "jsClass": "MyField26",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "type",
+                        "type": "string"
+                    }
+                },
+                {
+                    "id": "MyField27",
+                    "cid": "datafield",
+                    "jsClass": "MyField27",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "value"
                     }
                 }
             ]

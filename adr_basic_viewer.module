@@ -8,6 +8,19 @@
  */
 function adr_basic_viewer_menu() {
   $items = array();
+
+  $items['adrbasic/ajax/getObjectProperties'] = array(
+    'page callback' => 'adr_basic_viewer_get_object_properties',
+    'access arguments' => array('view detailed list of content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['adrbasic/ajax/setObjectProperties'] = array(
+    'page callback' => 'adr_basic_viewer_set_object_properties',
+    'access arguments' => array('edit fedora meta data'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
   $items['adrbasic/ajax/getDatastreams'] = array(
     'page callback' => 'adr_basic_viewer_get_datastreams',
     'access arguments' => array('view detailed list of content'),
@@ -133,5 +146,25 @@ function adr_basic_viewer_get_allowed_mime_types() {
     $viewer = new ADRBasic($pid);
     $response = $viewer->getAllowedMIMETypesAjaxResponse();
     echo $response;
+  }
+}
+
+function adr_basic_viewer_get_object_properties() {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
+    module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
+    $handler = new AjaxHandler($pid);
+    $reponse = $handler->getObjectProperties();
+    echo json_encode($reponse);
+  }
+}
+
+function adr_basic_viewer_set_object_properties() {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
+    module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
+    $handler = new AjaxHandler($pid);
+    $response = $handler->setObjectProperties($_POST);
+    echo json_encode($response);
   }
 }
