@@ -111,18 +111,13 @@
                     "userComponent": "MyPanel9"
                 },
                 {
-                    "id": "MyUserComponent4",
+                    "id": "MyUserComponent1",
                     "cid": "usercomponent",
                     "jsClass": "FilesPanel",
                     "snapToGrid": 10,
                     "userConfig": {
                         "jsClass": "FilesPanel",
-                        "userXType": "filespanel",
-                        "columnWidth": 0.19,
-                        "layout": "table",
-                        "cellId": "adr-overview-files-cell",
-                        "colspan": 1,
-                        "rowspan": 1
+                        "userXType": "filespanel"
                     },
                     "userComponent": "MyPanel"
                 }
@@ -499,9 +494,9 @@
                     "jsClass": "MyDataView2",
                     "snapToGrid": 10,
                     "userConfig": {
-                        "itemSelector": "table .adr-file-img-block",
+                        "itemSelector": "td .adr-overview-img",
                         "store": "OverviewDatastreams",
-                        "tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"0\" class=\"adr-file-img-block\">\n  <tr>\n    <td style=\"vertical-align: middle;\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   </tr>\n    <td>\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div class=\"adr-file-download\">\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\" style=\"display:block;\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>",
+                        "tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"0\" class=\"adr-file-img-block\">\n  <tr>\n    <td style=\"vertical-align: middle;\" class=\"adr-overview-img\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   </tr>\n    <td>\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div class=\"adr-file-download\">\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\" style=\"display:block;\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>",
                         "singleSelect": true,
                         "simpleSelect": "-ext-undefined-",
                         "trackOver": true,
