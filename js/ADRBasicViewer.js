@@ -14,5 +14,8 @@
 ADRBasicViewer = Ext.extend(ADRBasicViewerUi, {
     initComponent: function() {
         ADRBasicViewer.superclass.initComponent.call(this);
+        if(typeof(ManagePanel) == "function" && typeof(ManagePanel.prototype) == "object") {
+            this.add(new ManagePanel());
+        }
     }
 });

@@ -58,7 +58,7 @@ class ADRBasic {
     $this->item = new Fedora_Item($this->pid);
     $this->mods = new SimpleXMLElement($this->item->get_datastream_dissemination("MODS"));
     $rels_int = $this->item->get_datastream_dissemination("RELS-INT");
-    if(trim($rels_int) != '') {
+    if (trim($rels_int) != '') {
       $this->relsInt = new SimpleXMLElement($rels_int);
     }
     $this->setDisplayInfo();
@@ -225,7 +225,7 @@ EOD;
   }
 
   public function removeDatastreamAjaxRequest($dsid) {
-    if($this->item->purge_datastream($dsid)) {
+    if ($this->item->purge_datastream($dsid)) {
       return json_encode(array('success' => true, 'msg' => 'Successfully Deleted datastream.'));
     }
     else {
@@ -328,7 +328,7 @@ EOD;
     $thumbnail = $this->isIcon($dsid) ? "$base_url/fedora/repository/{$this->pid}/$dsid" : FALSE;
     $thumbnail = empty($thumbnail) ? $this->getThumbnailFromRELSINT($dsid) : $thumbnail;
     $thumbnail = empty($thumbnail) ? $this->getThumbnailFromName($dsid) : $thumbnail;
-    if($thumbnail) {
+    if ($thumbnail) {
       return $thumbnail;
     }
     else {
@@ -344,8 +344,8 @@ EOD;
 
   private function getThumbnailFromRELSINT($dsid) {
     global $base_url;
-    if(!isset($this->relsInt))
-        return FALSE;
+    if (!isset($this->relsInt))
+      return FALSE;
     $path = "/rdf:RDF/rdf:Description[@rdf:about='info:fedora/{$this->pid}/{$dsid}']/coal:hasThumbnail";
     $results = $this->relsInt->xpath($path);
     if (is_array($results) && count($results) > 0) {
@@ -389,9 +389,8 @@ EOD;
     drupal_add_css("$path/stylesheets/ADRBasic.css", 'theme', 'all');
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
     ADRBasicViewer::includeRequiredJSForViewers($this->pid);
-    $include_files = array(
-      'IncludeFirst.js',
-      // Data Stores
+
+    $data_stores = array(
       'Description.js',
       'Datastreams.js',
       'ObjectProperties.js',
@@ -399,37 +398,57 @@ EOD;
       'ControlGroups.js',
       'MIMETypes.js',
       'State.js',
-      // Custom Components
+    );
+
+    $custom_components = array(
       'FileUploadField.ui.js',
       'FileUploadField.js',
-      // Windows
-      'AddFileWindow.ui.js',
-      'AddFileWindow.js',
-      //'ReplaceFileWindow.ui.js',
-      //'ReplaceFileWindow.js',
-      'EditObjectWindow.ui.js',
-      'EditObjectWindow.js',
-      // Main Viewer
+    );
+
+    $main_viewer = array(
       'ADRBasicViewer.ui.js',
       'ADRBasicViewer.js',
       'OverviewPanel.ui.js',
       'OverviewPanel.js',
+      'DescriptionPanel.ui.js',
+      'DescriptionPanel.js',
+      'FilesPanel.ui.js',
+      'FilesPanel.js',
       'ViewerPanel.ui.js',
       'ViewerPanel.js',
+    );
+
+    $manage_panel = array(
       'ManagePanel.ui.js',
       'ManagePanel.js',
       'EditObjectPanel.ui.js',
       'EditObjectPanel.js',
       'EditFilesPanel.ui.js',
       'EditFilesPanel.js',
-      'DescriptionPanel.ui.js',
-      'DescriptionPanel.js',
-      'FilesPanel.ui.js',
-      'FilesPanel.js',
-      // Create the Viewer
-      'ADRBasic.js'
     );
-    foreach ($include_files as $file) {
+
+    $manage_windows = array(
+      'AddFileWindow.ui.js',
+      'AddFileWindow.js',
+      //'ReplaceFileWindow.ui.js',
+      //'ReplaceFileWindow.js',
+      'EditObjectWindow.ui.js',
+      'EditObjectWindow.js',
+    );
+
+    drupal_add_js("$path/js/IncludeFirst.js");
+    $this->includeScripts($data_stores, $path);
+    $this->includeScripts($custom_components, $path);
+    $this->includeScripts($main_viewer, $path);
+    if(user_access('purge objects and datastreams') && user_access('add fedora datastreams') && user_access('edit fedora meta data')) {
+      $this->includeScripts($manage_panel, $path);
+      $this->includeScripts($manage_windows, $path);
+    }
+    drupal_add_js("$path/js/ADRBasic.js");
+  }
+
+  private function includeScripts($scripts, $path) {
+    foreach ($scripts as $file) {
       drupal_add_js("$path/js/$file");
     }
   }

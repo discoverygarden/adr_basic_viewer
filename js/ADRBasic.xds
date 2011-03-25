@@ -21,7 +21,7 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 2,
+                "activeTab": 0,
                 "width": 960,
                 "height": "-ext-undefined-",
                 "activeItem": "-ext-undefined-",
@@ -58,18 +58,6 @@
                         "userXType": "viewerpanel"
                     },
                     "userComponent": "MyPanel4"
-                },
-                {
-                    "id": "MyUserComponent7",
-                    "cid": "usercomponent",
-                    "jsClass": "ManagePanel",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "jsClass": "ManagePanel",
-                        "userXType": "managepanel",
-                        "layout": "-ext-undefined-"
-                    },
-                    "userComponent": "MyPanel5"
                 }
             ]
         },
