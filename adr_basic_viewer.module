@@ -21,6 +21,12 @@ function adr_basic_viewer_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
+  $items['adrbasic/ajax/deleteObject'] = array(
+    'page callback' => 'adr_basic_viewer_delete_object',
+    'access arguments' => array('edit fedora meta data'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
   $items['adrbasic/ajax/getDatastreams'] = array(
     'page callback' => 'adr_basic_viewer_get_datastreams',
     'access arguments' => array('view detailed list of content'),
@@ -139,6 +145,13 @@ function adr_basic_viewer_remove_datastream() {
   }
 }
 
+/**
+ * Ajax request to get the allowed mime types for datastreams as defined by this fedora object's content model.
+ *
+ * Responds with a JSON object describing success or failure, and the allowed MIME Types for datastreams.
+ *
+ * Example: { success: true, msg: 'message', data: '{ { mime: 'image/jpg'}, ... }' }
+ */
 function adr_basic_viewer_get_allowed_mime_types() {
   $pid = $_REQUEST['pid'];
   if (isset($pid)) {
@@ -149,6 +162,14 @@ function adr_basic_viewer_get_allowed_mime_types() {
   }
 }
 
+/**
+ * Ajax request to get the properties of an fedora object.
+ *
+ * Responds with a JSON object describing success or failure, and the objects
+ * properties.
+ *
+ * Example: { success: true, msg: 'message', data: '{ { label: ''}, ... }' }
+ */
 function adr_basic_viewer_get_object_properties() {
   $pid = $_REQUEST['pid'];
   if (isset($pid)) {
@@ -159,12 +180,37 @@ function adr_basic_viewer_get_object_properties() {
   }
 }
 
+/**
+ * Ajax request to set the properties of an fedora object.
+ *
+ * Responds with a JSON object describing success or failure, and the objects
+ * properties.
+ *
+ * Example: { success: true, msg: 'message', data: '{ { label: ''}, ... }' }
+ */
 function adr_basic_viewer_set_object_properties() {
   $pid = $_REQUEST['pid'];
   if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
     $response = $handler->setObjectProperties($_POST);
+    echo json_encode($response);
+  }
+}
+
+/**
+ * Ajax request to delete a fedora object.
+ *
+ * Responds with a JSON object describing success or failure.
+ *
+ * Example: { success: true, msg: 'message' }
+ */
+function adr_basic_viewer_delete_object() {
+  $pid = $_REQUEST['pid'];
+  if (isset($pid)) {
+    module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
+    $handler = new AjaxHandler($pid);
+    $response = $handler->deleteObject();
     echo json_encode($response);
   }
 }

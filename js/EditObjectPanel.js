@@ -24,6 +24,36 @@ EditObjectPanel = Ext.extend(EditObjectPanelUi, {
         permissions.addListener('click', function(button, event) {
             Ext.Msg.alert('Failure', 'This will redirect to the XCAML form, once its available.');
         });
+        remove.addListener('click', function(button, event) {
+            Ext.Msg.confirm('Delete', 'Are you sure you want to delete this Object?', function(btn, text){
+                if (btn == 'yes') {
+                    var pid = window.location.pathname.split('/')[3];
+                    Ext.Ajax.request({
+                        url: '/adrbasic/ajax/deleteObject',
+                        success: function(response, opts) {
+                            var obj = Ext.decode(response.responseText);
+                            if(obj.success) {
+                                // Redirect to top collection for now.
+                                var location = window.location;
+                                var page = location.protocol + '//' + location.host + '/fedora/repository/';
+                                window.location = page;
+                            }
+                            else {
+                                Ext.Msg.alert('Failure', obj.msg);
+                            }
+                            
+                        },
+                        failure: function(response, opts) {
+                            Ext.Msg.alert('Failure', 'Failed to Delete Object.');
+                        },
+                        params: {
+                            pid: pid
+                        }
+                    });
+
+                }
+            });
+        });
     }
 });
 Ext.reg('editobjectpanel', EditObjectPanel);

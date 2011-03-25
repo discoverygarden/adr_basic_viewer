@@ -5,32 +5,54 @@
 /**
  * @file
  *
- * Handles Ajax Requests.
+ * Defines a class that handles Ajax Requests.
+ */
+
+/**
+ * Handles Ajax requests.
  */
 class AjaxHandler {
 
   /**
-   * Object PID.
+   * Fedora Object PID.
    * 
    * @var string
    */
   protected $pid;
   /**
-   * 
+   * Fedora Object
+   *
    * @var Fedora_Item
    */
   protected $item;
   /**
-   * Access through functions not directly as it may not exist.
+   * FOXML repersention of the Fedora Object identified by $pid.
+   *
+   * Access through the function AjaxHandler::getFoxmlDocument().
+   * Do not access directly as it may not exist.
    * 
-   * @var string
+   * @var DOMDocument
    */
   protected $foxml;
+  /**
+   * XPath for the FOXML document identified by $foxml.
+   *
+   * Access through the function AjaxHandler::getFoxmlXPath().
+   * Do not directly as it may not exist.
+   *
+   * @var DOMDocument
+   */
   protected $xpath;
 
   /**
+   * Create a Ajax request handler.
+   *
+   * This class provides methods for accesing/modifiying infomation about the
+   * fedora objected identified by $pid. These methods are general accessed by
+   * Ajax requests, from the ADR Basic Viewer.
    *
    * @param string $pid
+   *   Fedora Object PID.
    */
   public function __construct($pid) {
     module_load_include('inc', 'fedora_repository', 'api/fedora_item');
@@ -39,8 +61,9 @@ class AjaxHandler {
   }
 
   /**
+   * Gets the fedora object's properties.
    *
-   * @return string
+   * @return array
    */
   public function getObjectProperties() {
     $object_properties = array(
@@ -53,6 +76,16 @@ class AjaxHandler {
     return array($object_properties);
   }
 
+  /**
+   * Sets the fedora object's properties.
+   *
+   * Input is expected to be from the form defined on the manage tab,
+   * of the ADR Basic viewer.
+   *
+   * @return array
+   *   Indicates the success of this function as well as the fedora
+   *   objects current settings.
+   */
   public function setObjectProperties($values) {
     $states = array(
       'Active' => 'A',
@@ -72,20 +105,55 @@ class AjaxHandler {
     }
   }
 
+  /**
+   * Deletes the fedora object in question.
+   *
+   * @return array
+   */
+  public function deleteObject() {
+    if ($this->item->purge()) {
+      drupal_set_message("Successfuly Deleted Object: {$this->pid}");
+      return array('success' => true, 'msg' => 'Successfuly Deleted Object');
+    }
+    else {
+      return array('success' => false, 'msg' => 'Failed to Delete Object');
+    }
+  }
+
+  /**
+   * Gets the fedora object's label.
+   *
+   * @return string
+   */
   private function getObjectLabel() {
     return $this->item->objectProfile->objLabel;
   }
 
+  /**
+   * Gets the fedora object's creation date in the format "Month Day, Year".
+   *
+   * @return string
+   */
   private function getObjectCreationDate() {
     $date_created = new DateTime($this->item->objectProfile->objCreateDate);
     return $date_created->format('F j, Y');
   }
 
+  /**
+   * Gets the fedora object's last modified date in the format "Month Day, Year".
+   *
+   * @return string
+   */
   private function getObjectLastModifiedDate() {
     $date_modified = new DateTime($this->item->objectProfile->objLastModDate);
     return $date_modified->format('F j, Y');
   }
 
+  /**
+   * Gets the fedora object's owner id.
+   *
+   * @return string
+   */
   private function getObjectOwner() {
     $xpath = $this->getFoxmlXPath();
     $result = $xpath->query("/foxml:digitalObject/foxml:objectProperties/foxml:property[@NAME='info:fedora/fedora-system:def/model#ownerId']/@VALUE");
@@ -95,6 +163,11 @@ class AjaxHandler {
     return '';
   }
 
+  /**
+   * Gets the fedora object's current state.
+   *
+   * @return string
+   */
   private function getObjectState() {
     $xpath = $this->getFoxmlXPath();
     $result = $xpath->query("/foxml:digitalObject/foxml:objectProperties/foxml:property[@NAME='info:fedora/fedora-system:def/model#state']/@VALUE");
