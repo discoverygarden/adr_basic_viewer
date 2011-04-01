@@ -379,7 +379,7 @@
                 "padding": "-ext-undefined-",
                 "border": false,
                 "hideBorders": "-ext-undefined-",
-                "autoLoad": "{\nurl: '/adrbasic/ajax/getDescription',\nparams: { pid: (window.location.pathname.split( '/' )[3])} \n}"
+                "autoLoad": "{\nurl: '/adrbasic/ajax/getDescription',\nparams: {\npid: (window.location.pathname.split('/')[3])\n}\n}"
             },
             "userXType": "descriptionpanel"
         },
@@ -721,76 +721,6 @@
     ],
     "stores": [
         {
-            "id": "MyStore",
-            "cid": "jsonstore",
-            "jsClass": "Description",
-            "snapToGrid": 10,
-            "userConfig": {
-                "storeId": "Description",
-                "url": "/adrbasic/ajax/getDescription",
-                "autoLoad": true,
-                "autoSave": false,
-                "root": "-ext-undefined-",
-                "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}"
-            },
-            "cn": [
-                {
-                    "id": "MyField",
-                    "cid": "datafield",
-                    "jsClass": "MyField",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "name": "title"
-                    }
-                },
-                {
-                    "id": "MyField1",
-                    "cid": "datafield",
-                    "jsClass": "MyField1",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "name": "author"
-                    }
-                },
-                {
-                    "id": "MyField2",
-                    "cid": "datafield",
-                    "jsClass": "MyField2",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "name": "description"
-                    }
-                },
-                {
-                    "id": "MyField7",
-                    "cid": "datafield",
-                    "jsClass": "MyField7",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "name": "date_modified"
-                    }
-                },
-                {
-                    "id": "MyField8",
-                    "cid": "datafield",
-                    "jsClass": "MyField8",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "name": "date_created"
-                    }
-                },
-                {
-                    "id": "MyField9",
-                    "cid": "datafield",
-                    "jsClass": "MyField9",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "name": "user"
-                    }
-                }
-            ]
-        },
-        {
             "id": "MyStore1",
             "cid": "jsonstore",
             "jsClass": "Datastreams",
@@ -846,16 +776,6 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "name": "download_url"
-                    }
-                },
-                {
-                    "id": "MyField13",
-                    "cid": "datafield",
-                    "jsClass": "MyField13",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "name": "overview",
-                        "type": "boolean"
                     }
                 }
             ]
@@ -973,15 +893,6 @@
                     "userConfig": {
                         "name": "download_url"
                     }
-                },
-                {
-                    "id": "MyField19",
-                    "cid": "datafield",
-                    "jsClass": "MyField19",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "name": "overview"
-                    }
                 }
             ]
         },
@@ -1040,6 +951,15 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "name": "state"
+                    }
+                },
+                {
+                    "id": "MyField2",
+                    "cid": "datafield",
+                    "jsClass": "MyField2",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "user"
                     }
                 }
             ]

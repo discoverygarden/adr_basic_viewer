@@ -43,6 +43,15 @@ class AjaxHandler {
    * @var DOMDocument
    */
   protected $xpath;
+  /**
+   * This fedora objects content model.
+   *
+   * Access through the function AjaxHandler::getContentModel().
+   * Do not directly as it may not exist.
+   *
+   * @var ContentModel
+   */
+  protected $contentModel;
 
   /**
    * Create a Ajax request handler.
@@ -58,6 +67,144 @@ class AjaxHandler {
     module_load_include('inc', 'fedora_repository', 'api/fedora_item');
     $this->pid = $pid;
     $this->item = new Fedora_Item($pid);
+  }
+
+  /**
+   *
+   * @return array
+   */
+  public function getAllowedMIMETypes() {
+    $content_model = &$this->getContentModel();
+    $mime_types = $content_model->getMimetypes();
+    $response = array();
+    foreach ($mime_types as $type) {
+      $response[] = array('mime' => $type);
+    }
+    return $response;
+  }
+
+  /**
+   *
+   * @return array
+   */
+  public function getDescription() {
+    module_load_include('inc', 'adr_basic_viewer', 'ObjectViewDescription');
+    $object_view = new ObjectViewDescription($this->item, $this->getContentModel());
+    $description = $object_view->getDescription();
+    $content = '';
+    foreach ($description as $label => $value) {
+      $content .= '<tr>';
+      $content .= "<td style='padding:5px;font-size:1.5em;'>$label</td>";
+      $content .= "<td style='padding:5px;font-size:1.2em;'>$value</td>";
+      $content .= '</tr>';
+    }
+    $created = $this->getObjectCreationDate();
+    $modified = $this->getObjectLastModifiedDate();
+    $user = $this->getLastUserToModifyObject();
+    // @TODO use classes instead of inlined values.
+    $footer = "<tr><td colspan='2'><br/></td></tr>";
+    $footer .= "<tr><td colspan='2' style='text-align: center;font-size:0.9em;'>";
+    $footer .= "This object was added {$created}. ";
+    $footer .= "This object was last updated {$modified} by {$user}.</td></tr>";
+    return "<table>{$content}{$footer}</table>";
+  }
+
+  /**
+   *
+   * @return array
+   */
+  public function getDatastreams() {
+    $response = array();
+    foreach ($this->item->datastreams as $dsid => $attr) {
+      module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
+      $thumbnail = new Thumbnail($this->item, $dsid);
+      $stream['dsid'] = $dsid;
+      $stream['label'] = $attr['label'];
+      $stream['img_url'] = $thumbnail->getUrl();
+      $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
+      $stream['mime'] = $attr['MIMEType'];
+      $response[] = $stream;
+    }
+    return $response;
+  }
+
+  /**
+   *
+   * @return array
+   */
+  public function getOverviewDatastreams() {
+    $response = array();
+    module_load_include('inc', 'adr_basic_viewer', 'ObjectViewDescription');
+    $object_view = new ObjectViewDescription($this->item, $this->getContentModel());
+    foreach ($this->item->datastreams as $dsid => $attr) {
+      $should_add = $object_view->canViewDatastream($dsid);
+      if ($should_add) {
+        module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
+        $thumbnail = new Thumbnail($this->item, $dsid);
+        $stream['dsid'] = $dsid;
+        $stream['label'] = $attr['label'];
+        $stream['img_url'] = $thumbnail->getUrl();
+        $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
+        $stream['mime'] = $attr['MIMEType'];
+        $response[] = $stream;
+      }
+    }
+    return $response;
+  }
+
+  /**
+   *
+   * @global string $base_url
+   * @param string $dsid
+   */
+  private function getDatastreamDownloadURL($dsid, $label) {
+    global $base_url;
+    return "$base_url/fedora/repository/object_download/" . drupal_urlencode($this->pid) . '/' . $dsid . '/' . drupal_urlencode(preg_replace('/\//i', '${1}_', $label));
+  }
+
+  /**
+   *
+   * @param <type> $values
+   * @return <type> 
+   */
+  public function addDatastream($values) {
+    $controls = array(
+      'Inline XML (X)' => "X",
+      'Managed Resource (M)' => "M",
+      'Redirect (R)' => "R",
+      'External Reference (E)' => "E",
+    );
+    $dsid = $values['dsid'];
+    $label = $values['label'];
+    $control = $controls[$values['control_group']];
+    $mime = $values['mime_type'];
+    $file = array_shift($_FILES);
+    if ($file['type'] != $mime) {
+      return array('success' => false, 'msg' => 'Mime type of file does not match the mime type specified.');
+    }
+    else {
+      if ($this->item->add_datastream_from_file($file['tmp_name'], $dsid, $label, $mime, $control)) {
+        return array('success' => true, 'msg' => 'Successfully added datastream.');
+      }
+      else {
+        return array('success' => false, 'msg' => 'Failed to add datastream.');
+      }
+    }
+  }
+
+  /**
+   * Deletes datastreams from the object.
+   *
+   * @param string $dsid
+   * @return array
+   */
+  public function deleteDatastream($dsid) {
+    if ($this->item->purge_datastream($dsid)) {
+      return json_encode(array('success' => true, 'msg' => 'Successfully Deleted datastream.'));
+    }
+    else {
+      return json_encode(array('success' => false, 'msg' => 'Failed to deleted file.'));
+    }
   }
 
   /**
@@ -175,6 +322,29 @@ class AjaxHandler {
       return $result->item(0)->value;
     }
     return '';
+  }
+
+  /**
+   * 
+   */
+  private function getLastUserToModifyObject() {
+    $xpath = $this->getFoxmlXPath();
+    $result = $xpath->query("(//*[local-name()='responsibility'])[last()]");
+    $audit = $result->item(0)->nodeValue;
+    return sprintf("%s", $audit);
+  }
+
+  /**
+   * 
+   *
+   * @return ContentModel
+   */
+  private function &getContentModel() {
+    if (empty($this->contentModel)) {
+      module_load_include('inc', 'fedora_repository', 'ContentModel');
+      $this->contentModel = ContentModel::loadFromObject($this->pid);
+    }
+    return $this->contentModel;
   }
 
   /**
