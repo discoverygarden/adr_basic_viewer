@@ -32,12 +32,6 @@ class ADRBasicViewer {
     function loadFlowPlayer(dsid) {
       flowplayer("playerFlow", "$full_path/flowplayer/flowplayer-3.2.7.swf", {
         plugins: {
-          pseudo: {
-              url: 'flowplayer.pseudostreaming-3.2.7.swf'
-          },
-          /*lighttpd: {
-            url: 'flowplayer.pseudostreaming-3.2.7.swf'
-          },*/
           controls: {
             fullscreen: false,
             height: 30,
@@ -46,8 +40,6 @@ class ADRBasicViewer {
         },
         clip: {
           // it's possible to stream audio by using the RTMP plugin
-          //provider: 'lighttpd',
-          provider: 'pseudo',
           autoPlay: false,
         }
       });
