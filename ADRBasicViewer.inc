@@ -238,6 +238,7 @@ EOT;
       case 'audio/mpeg':
       case 'audio/x-mpeg':
       case 'video/mpeg':
+      case 'video/mp4':
         return $this->getVideoViewer();
       case 'application/pdf':
         return '<div id="playerFlexPaper"></div>';
