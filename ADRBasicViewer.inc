@@ -184,7 +184,7 @@ EOT;
    */
   private function getVideoViewer() {
     $file_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . "/{$this->dsid}";
-    return "<a href='$file_url?start=45.5' style='display:block;width:520px;height:330px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
+    return "<a href='$file_url' style='display:block;width:520px;height:330px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
   }
 
   private function getFlashImageViewer($imageList=null) {
