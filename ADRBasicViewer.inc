@@ -26,8 +26,31 @@ class ADRBasicViewer {
     $full_path = $base_path . $path;
     drupal_add_js("$path/flowplayer/flowplayer-3.2.6.min.js");
     $js = <<<EOT
-    function loadFlowPlayer(dsid) {
+    function loadFlowPlayerAduio(dsid) {
       flowplayer("playerFlow", "$full_path/flowplayer/flowplayer-3.2.7.swf");
+    }
+    function loadFlowPlayer(dsid) {
+      flowplayer("playerFlow", "$full_path/flowplayer/flowplayer-3.2.7.swf", {
+        plugins: {
+          pseudo: {
+              url: 'flowplayer.pseudostreaming-3.2.7.swf'
+          },
+          /*lighttpd: {
+            url: 'flowplayer.pseudostreaming-3.2.7.swf'
+          },*/
+          controls: {
+            fullscreen: false,
+            height: 30,
+            autoHide: false
+          }
+        },
+        clip: {
+          // it's possible to stream audio by using the RTMP plugin
+          //provider: 'lighttpd',
+          provider: 'pseudo',
+          autoPlay: false,
+        }
+      });
     }
 EOT;
     drupal_add_js($js, 'inline');
@@ -161,7 +184,7 @@ EOT;
    */
   private function getVideoViewer() {
     $file_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . "/{$this->dsid}";
-    return "<a href='$file_url' style='display:block;width:520px;height:330px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
+    return "<a href='$file_url?start=45.5' style='display:block;width:520px;height:330px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
   }
 
   private function getFlashImageViewer($imageList=null) {
@@ -214,7 +237,7 @@ EOT;
         return "<div id='playerFLV' style='margin-left:auto; margin-right: auto;'></div>";
       case 'audio/mpeg':
       case 'audio/x-mpeg':
-      case 'video/mp4':
+      case 'video/mpeg':
         return $this->getVideoViewer();
       case 'application/pdf':
         return '<div id="playerFlexPaper"></div>';
