@@ -113,19 +113,24 @@ class AjaxHandler {
    *
    * @return array
    */
-  public function getDatastreams() {
-    $response = array();
+  public function getDatastreams($start, $limit) {
+    $data = array();
+    $count = 0;
+    $end = $start + $limit;
     foreach ($this->item->datastreams as $dsid => $attr) {
-      module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
-      $thumbnail = new Thumbnail($this->item, $dsid);
-      $stream['dsid'] = $dsid;
-      $stream['label'] = $attr['label'];
-      $stream['img_url'] = $thumbnail->getUrl();
-      $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
-      $stream['mime'] = $attr['MIMEType'];
-      $response[] = $stream;
+      if ($count >= $start && $count < $end) {
+        module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
+        $thumbnail = new Thumbnail($this->item, $dsid);
+        $stream['dsid'] = $dsid;
+        $stream['label'] = $attr['label'];
+        $stream['img_url'] = $thumbnail->getUrl();
+        $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
+        $stream['mime'] = $attr['MIMEType'];
+        $data[] = $stream;
+      }
+      $count++;
     }
-    return $response;
+    return array("success" => TRUE, "data" => $data, "total" => $count);
   }
 
   /**

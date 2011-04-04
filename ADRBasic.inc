@@ -62,8 +62,8 @@ class ADRBasic {
       'OverviewPanel.js',
       'DescriptionPanel.ui.js',
       'DescriptionPanel.js',
-      'FilesPanel.ui.js',
-      'FilesPanel.js',
+      'Files.ui.js',
+      'Files.js',
       'ViewerPanel.ui.js',
       'ViewerPanel.js',
     );

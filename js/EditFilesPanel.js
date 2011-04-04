@@ -21,6 +21,9 @@ function gotoEditModsPage() {
 EditFilesPanel = Ext.extend(EditFilesPanelUi, {
     initComponent: function() {
         EditFilesPanel.superclass.initComponent.call(this);
+        var store = Ext.StoreMgr.lookup('Datastreams');
+        store.reload(store.lastOptions);
+        /*
         var viewer = this.get('edit-files-panel-data-viewer');
         var add = this.buttons[0];
         var edit = this.buttons[1];
@@ -106,7 +109,7 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
                 remove.disable();
                 view.disable();
             }
-        });
+        });*/
     }
 });
 Ext.reg('editfilespanel', EditFilesPanel);

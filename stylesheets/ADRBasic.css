@@ -87,28 +87,7 @@ table {
     float:left;
 }
 
-.adr-file-img {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
 
-.adr-file-label {
-    text-align: center;
-    font-size: 1.1em;
-}
-
-.adr-file-download-button {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.adr-file-view-button {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
 
 .adr-file-view {
     text-align: left;
@@ -209,4 +188,45 @@ table {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.adr-add-file-icon {
+    background-image:url(../images/icon/icon-add.gif);
+}
+
+.adr-edit-file-icon {
+    background-image:url(../images/icon/icon-edit.gif);
+}
+
+.adr-view-file-icon {
+    background-image:url(../images/icon/icon-view.gif);
+}
+
+.adr-delete-file-icon {
+    background-image:url(../images/icon/icon-delete.gif);
+}
+
+.adr-file {
+
+}
+
+.adr-file-selectable {
+
+}
+
+.adr-file .adr-file-label {
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.adr-file .adr-file-img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 200px;
+    width: 145px;
+}
+
+.adr-file .adr-file-dsid {
+    text-align: center;
 }

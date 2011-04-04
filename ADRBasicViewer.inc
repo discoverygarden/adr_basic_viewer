@@ -134,9 +134,9 @@ EOT;
   private function getDefaultDsid() {
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
     foreach ($this->item->datastreams as $dsid => $attr) {
-      if (ADRBasic::canShowDatastreamInOverview($dsid, $attr)) {
+      //if (ADRBasic::canShowDatastreamInOverview($dsid, $attr)) {
         return $dsid;
-      }
+      //}
     }
   }
 
