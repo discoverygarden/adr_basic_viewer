@@ -45,7 +45,7 @@ function adr_basic_viewer_menu() {
     'access callback' => 'user_access',
     'type' => MENU_NORMAL_ITEM,
   );
-  
+
   $items['adrbasic/ajax/getOverviewDatastreams'] = array(
     'page callback' => 'adr_basic_viewer_get_overview_datastreams',
     'access arguments' => array('view detailed list of content'),
@@ -97,16 +97,17 @@ function adr_basic_viewer_get_datastreams() {
   }
 }
 
-
 /**
  *
  */
 function adr_basic_viewer_get_overview_datastreams() {
   $pid = $_REQUEST['pid'];
-  if (isset($pid)) {
+  $start = $_REQUEST['start'];
+  $limit = $_REQUEST['limit'];
+  if (isset($pid) && isset($start) && isset($limit)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
-    $reponse = $handler->getOverviewDatastreams();
+    $reponse = $handler->getOverviewDatastreams($start, $limit);
     echo json_encode($reponse);
   }
 }
