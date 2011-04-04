@@ -19,7 +19,10 @@ Files = Ext.extend(FilesUi, {
             var record = dataview.getRecord(node);
             var pid = dataview.store.baseParams.pid;
             var dsid = dataview.store.getAt(index).get('dsid');
+            var label = dataview.store.getAt(index).get('label');
             var viewerTab = Ext.getCmp('adr-viewer-tab');
+            var viewerPanel = Ext.getCmp('adr-viewer-panel');
+            viewerPanel.setTitle(label + " (" + dsid + ")");
             var viewer = Ext.getCmp('adr-viewer');
             if(viewer.rendered) {
                 var loadOptions = viewer.autoLoad;

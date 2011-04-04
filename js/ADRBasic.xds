@@ -96,7 +96,8 @@
                             "snapToGrid": 10,
                             "userConfig": {
                                 "title": "Viewer",
-                                "region": "center"
+                                "region": "center",
+                                "id": "adr-viewer-panel"
                             },
                             "cn": [
                                 {
