@@ -98,10 +98,16 @@ table {
     font-size: 1.1em;
 }
 
-.adr-file-download input {
+.adr-file-download-button {
+    display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.adr-file-view-button {
     display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .adr-file-view {
@@ -181,7 +187,7 @@ table {
 #adr-overview-tab .x-panel-mc
 {
     padding:0px;
-    
+
 }
 
 #adr-overview-tab .x-panel-ml

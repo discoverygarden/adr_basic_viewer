@@ -21,7 +21,7 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 0,
+                "activeTab": 1,
                 "width": 960,
                 "height": "-ext-undefined-",
                 "activeItem": "-ext-undefined-",
@@ -49,7 +49,7 @@
                     "userComponent": "MyPanel3"
                 },
                 {
-                    "id": "MyUserComponent6",
+                    "id": "MyUserComponent4",
                     "cid": "usercomponent",
                     "jsClass": "ViewerPanel",
                     "snapToGrid": 10,
@@ -57,7 +57,7 @@
                         "jsClass": "ViewerPanel",
                         "userXType": "viewerpanel"
                     },
-                    "userComponent": "MyPanel4"
+                    "userComponent": "MyPanel1"
                 }
             ]
         },
@@ -124,7 +124,7 @@
             ]
         },
         {
-            "id": "MyPanel4",
+            "id": "MyPanel1",
             "cid": "panel",
             "jsClass": "ViewerPanel",
             "snapToGrid": 10,
@@ -132,7 +132,7 @@
                 "title": "Viewer",
                 "width": "-ext-undefined-",
                 "height": 250,
-                "autoLoad": "{ \n  url: \"/adrbasic/ajax/getViewer\",\n  params: { pid: (window.location.pathname.split( '/' )[3])} \n}",
+                "autoLoad": "{\"url\":\"/adrbasic/ajax/getViewer\",\"params\":{}}",
                 "bodyCssClass": "-ext-undefined-",
                 "cls": "-ext-undefined-",
                 "id": "adr-viewer",
@@ -142,7 +142,34 @@
                 "html": "<br/>",
                 "autoDestroy": "-ext-undefined-"
             },
-            "userXType": "viewerpanel"
+            "userXType": "viewerpanel",
+            "cn": [
+                {
+                    "id": "MyToolbar1",
+                    "cid": "toolbar",
+                    "jsClass": "MyToolbar1",
+                    "dock": "tbar",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "height": 107
+                    },
+                    "cn": [
+                        {
+                            "id": "MyDataView3",
+                            "cid": "dataview",
+                            "jsClass": "MyDataView3",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "itemSelector": "div",
+                                "store": "OverviewDatastreams",
+                                "tpl": "<tpl for=\".\"><img src=\"{img_url}\">{label}</img></tpl>",
+                                "width": 1154,
+                                "height": 105
+                            }
+                        }
+                    ]
+                }
+            ]
         },
         {
             "id": "MyPanel5",
@@ -407,15 +434,16 @@
                     "jsClass": "MyDataView2",
                     "snapToGrid": 10,
                     "userConfig": {
-                        "itemSelector": "td .adr-overview-img",
+                        "itemSelector": ".adr-files-show-viewer",
                         "store": "OverviewDatastreams",
-                        "tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"0\" class=\"adr-file-img-block\">\n  <tr>\n    <td style=\"vertical-align: middle;\" class=\"adr-overview-img\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   </tr>\n    <td>\n       <div class=\"adr-file-label\">{dsid}</div>\n       <div class=\"adr-file-download\">\n          <form method=\"GET\" action=\"{download_url}\">\n             <input type=\"submit\" value=\"Download\" style=\"display:block;\"></input>\n          </form>\n       </div>\n    </td>\n  </tr>\n</tpl>",
+                        "tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"0\" class=\"adr-file-img-block\">\n  <tr>\n    <td style=\"vertical-align: middle;\" class=\"adr-overview-img adr-files-show-viewer\" colspan=\"2\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   </tr>\n     <td colspan=\"2\">\n       <div class=\"adr-file-label\">{dsid}</div>\n     </td>\n    <tr>\n       <td colspan=\"1\"><input type=\"submit\" value=\"View\" class=\"adr-file-view-button adr-files-show-viewer\" style=\"display:block;\"></input></td>\n       <td colspan=\"1\">\n           <form method=\"GET\" action=\"{download_url}\">\n                <input type=\"submit\" value=\"Download\" class=\"adr-file-download-button\" style=\"display:block;\"></input>\n           </form>\n       </td>\n     </tr>\n </table>\n</tpl>",
                         "singleSelect": true,
                         "simpleSelect": "-ext-undefined-",
-                        "trackOver": true,
-                        "overClass": "x-view-over",
+                        "trackOver": "-ext-undefined-",
+                        "overClass": "-ext-undefined-",
                         "id": "adr-files",
-                        "autoShow": true
+                        "autoShow": true,
+                        "selectedClass": ""
                     }
                 }
             ]
