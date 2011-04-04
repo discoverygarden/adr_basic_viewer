@@ -21,32 +21,82 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 1,
+                "activeTab": 2,
                 "width": 960,
-                "height": "-ext-undefined-",
+                "height": 900,
                 "activeItem": "-ext-undefined-",
                 "plain": "-ext-undefined-",
                 "tabMargin": "-ext-undefined-",
                 "tabPosition": "-ext-undefined-",
-                "tabWidth": 130,
-                "layoutOnTabChange": true,
+                "tabWidth": "-ext-undefined-",
+                "layoutOnTabChange": "-ext-undefined-",
                 "border": false,
                 "minTabWidth": "-ext-undefined-",
-                "tabCls": "adr-remove-margin"
+                "tabCls": "-ext-undefined-"
             },
             "cn": [
                 {
-                    "id": "MyUserComponent5",
-                    "cid": "usercomponent",
-                    "jsClass": "OverviewPanel",
+                    "id": "MyPanel4",
+                    "cid": "panel",
+                    "jsClass": "MyPanel4",
                     "snapToGrid": 10,
                     "userConfig": {
-                        "jsClass": "OverviewPanel",
-                        "userXType": "overviewpanel",
-                        "layout": "-ext-undefined-",
-                        "id": "adr-overview-tab"
+                        "title": "Overview",
+                        "width": 400,
+                        "height": "-ext-undefined-",
+                        "layout": "border",
+                        "collapsible": "-ext-undefined-",
+                        "defaults": "{\nsplit: true,\nbodyStyle: 'padding:15px'\n}"
                     },
-                    "userComponent": "MyPanel3"
+                    "cn": [
+                        {
+                            "id": "MyPanel6",
+                            "cid": "panel",
+                            "jsClass": "MyPanel6",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "title": "Description",
+                                "region": "center",
+                                "autoLoad": "{\nurl: '/adrbasic/ajax/getDescription',\nparams: {\npid: (window.location.pathname.split('/')[3])\n}\n}"
+                            }
+                        },
+                        {
+                            "id": "MyPanel7",
+                            "cid": "panel",
+                            "jsClass": "MyPanel7",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "title": "Files",
+                                "region": "east",
+                                "width": 270,
+                                "collapsible": true
+                            },
+                            "cn": [
+                                {
+                                    "id": "MyDataView4",
+                                    "cid": "dataview",
+                                    "jsClass": "MyDataView4",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "itemSelector": "div",
+                                        "store": "OverviewDatastreams",
+                                        "tpl": "<tpl for=\".\">\n<table width=\"100%\" border=\"0\" class=\"adr-file-img-block\">\n   <tr>\n    <td style=\"vertical-align: middle;\" class=\"adr-overview-img adr-files-show-viewer\" colspan=\"2\"><img src='{img_url}' title=\"{label}\" class=\"adr-file-img\"/></td>\n   </tr>\n   <tr>\n     <td colspan=\"2\">\n       <div class=\"adr-file-label\">{label}</div>\n     </td>\n   </tr>\n   <tr>\n     <td colspan=\"2\">\n       <div class=\"adr-file-label\">{dsid}</div>\n     </td>\n   </tr>\n    <tr>\n       <td colspan=\"1\"><input type=\"submit\" value=\"View\" class=\"adr-file-view-button adr-files-show-viewer\" style=\"display:block;\"></input></td>\n       <td colspan=\"1\">\n           <form method=\"GET\" action=\"{download_url}\">\n                <input type=\"submit\" value=\"Download\" class=\"adr-file-download-button\" style=\"display:block;\"></input>\n           </form>\n       </td>\n     </tr>\n </table>\n</tpl>"
+                                    }
+                                },
+                                {
+                                    "id": "MyPagingToolbar2",
+                                    "cid": "pagingtoolbar",
+                                    "jsClass": "MyPagingToolbar2",
+                                    "dock": "fbar",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "store": "OverviewDatastreams",
+                                        "pageSize": 3
+                                    }
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     "id": "MyUserComponent4",
@@ -66,14 +116,11 @@
             "cid": "panel",
             "jsClass": "OverviewPanel",
             "snapToGrid": 10,
-            "layoutConfig": {
-                "columns": 2
-            },
             "userConfig": {
                 "title": "Overview",
                 "width": "-ext-undefined-",
                 "height": "-ext-undefined-",
-                "layout": "table",
+                "layout": "border",
                 "border": false,
                 "hideBorders": "-ext-undefined-",
                 "frame": "-ext-undefined-",
@@ -93,20 +140,18 @@
                     "cid": "usercomponent",
                     "jsClass": "DescriptionPanel",
                     "snapToGrid": 10,
-                    "layoutConfig": {
-                        "columns": 2
-                    },
                     "userConfig": {
                         "jsClass": "DescriptionPanel",
                         "userXType": "descriptionpanel",
                         "flex": 1,
                         "width": "-ext-undefined-",
-                        "layout": "table",
+                        "layout": "-ext-undefined-",
                         "columnWidth": 0.6,
                         "height": "-ext-undefined-",
                         "cellId": "adr-overview-description-cell",
                         "colspan": 1,
-                        "rowspan": 1
+                        "rowspan": 1,
+                        "region": "center"
                     },
                     "userComponent": "MyPanel9"
                 },
@@ -117,7 +162,10 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "jsClass": "FilesPanel",
-                        "userXType": "filespanel"
+                        "userXType": "filespanel",
+                        "region": "east",
+                        "width": 100,
+                        "height": 200
                     },
                     "userComponent": "MyPanel"
                 }
@@ -407,10 +455,10 @@
                 "width": "-ext-undefined-",
                 "height": "-ext-undefined-",
                 "data": "-ext-undefined-",
-                "layout": "table",
+                "layout": "-ext-undefined-",
                 "frame": true,
-                "autoHeight": true,
-                "forceLayout": true,
+                "autoHeight": "-ext-undefined-",
+                "forceLayout": "-ext-undefined-",
                 "padding": "-ext-undefined-",
                 "border": "-ext-undefined-",
                 "hideBorders": "-ext-undefined-",
@@ -427,7 +475,7 @@
                 "title": "Files",
                 "width": "-ext-undefined-",
                 "height": "-ext-undefined-",
-                "autoScroll": true,
+                "autoScroll": "-ext-undefined-",
                 "frame": true,
                 "border": "-ext-undefined-",
                 "hideBorders": "-ext-undefined-",
@@ -462,7 +510,7 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "store": "OverviewDatastreams",
-                        "pageSize": 5
+                        "pageSize": 3
                     }
                 }
             ]
@@ -764,6 +812,46 @@
                     ]
                 }
             ]
+        },
+        {
+            "id": "MyTabPanel1",
+            "cid": "tabpanel",
+            "jsClass": "MyTabPanel1",
+            "snapToGrid": 10,
+            "userConfig": {
+                "activeTab": 0,
+                "width": 400,
+                "height": 250
+            },
+            "cn": [
+                {
+                    "id": "MyPanel8",
+                    "cid": "panel",
+                    "jsClass": "MyPanel8",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "title": "Tab 1"
+                    }
+                },
+                {
+                    "id": "MyPanel10",
+                    "cid": "panel",
+                    "jsClass": "MyPanel10",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "title": "Tab 2"
+                    }
+                },
+                {
+                    "id": "MyPanel11",
+                    "cid": "panel",
+                    "jsClass": "MyPanel11",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "title": "Tab 3"
+                    }
+                }
+            ]
         }
     ],
     "stores": [
@@ -895,7 +983,7 @@
                 "url": "/adrbasic/ajax/getOverviewDatastreams",
                 "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}",
                 "autoLoad": true,
-                "paramNames": "{params:{start: 0, limit: 5}}",
+                "paramNames": "-ext-undefined-",
                 "root": "data"
             },
             "cn": [

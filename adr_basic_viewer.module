@@ -102,9 +102,9 @@ function adr_basic_viewer_get_datastreams() {
  */
 function adr_basic_viewer_get_overview_datastreams() {
   $pid = $_REQUEST['pid'];
-  $start = $_REQUEST['start'];
-  $limit = $_REQUEST['limit'];
-  if (isset($pid) && isset($start) && isset($limit)) {
+  $start = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
+  $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 3;
+  if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
     $reponse = $handler->getOverviewDatastreams($start, $limit);
