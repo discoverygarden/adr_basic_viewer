@@ -14,7 +14,7 @@
 function gotoEditModsPage() {
     var pid = window.location.pathname.split('/')[3];
     var location = window.location;
-    var page = location.protocol + '//' + location.host + '/formbuilder/edit/' + pid + '/MODS/colorado';
+    var page = location.protocol + '//' + location.host + '/formbuilder/edit/' + pid + '/colorado';
     window.location = page;
 }
 
