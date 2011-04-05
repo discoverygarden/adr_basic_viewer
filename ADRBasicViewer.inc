@@ -132,11 +132,14 @@ EOT;
    * @return string
    */
   private function getDefaultDsid() {
-    module_load_include('inc', 'adr_basic_viewer', 'ADRBasic');
+    module_load_include('inc', 'adr_basic_viewer', 'ObjectViewDescription');
+    module_load_include('inc', 'fedora_repository', 'ContentModel');
+    $content_model = ContentModel::loadFromObject($this->pid);
+    $obj_view = new ObjectViewDescription($this->item, $content_model);
     foreach ($this->item->datastreams as $dsid => $attr) {
-      //if (ADRBasic::canShowDatastreamInOverview($dsid, $attr)) {
+      if ($obj_view->canViewDatastream($dsid)) {
         return $dsid;
-      //}
+      }
     }
   }
 
@@ -240,7 +243,7 @@ EOT;
       case 'image/png':
         return $this->getDjatokaViewer();
       default:
-        return '<div>There is no viewer for the selected file type.</div>';
+        return '<div>There is no viewer for the selected file type, or not file is selected.</div>';
     }
   }
 
