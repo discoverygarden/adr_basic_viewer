@@ -23,12 +23,12 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
         EditFilesPanel.superclass.initComponent.call(this);
         var store = Ext.StoreMgr.lookup('Datastreams');
         store.reload(store.lastOptions);
-        /*
-        var viewer = this.get('edit-files-panel-data-viewer');
-        var add = this.buttons[0];
-        var edit = this.buttons[1];
-        var view = this.buttons[2];
-        var remove = this.buttons[3];
+        var viewer = this.get('adr-manage-files-data-viewer');
+        var toolbar = this.getTopToolbar();
+        var add = toolbar.get(0);
+        var edit = toolbar.get(1);
+        var view = toolbar.get(2);
+        var remove = toolbar.get(3);
 
         add.addListener('click', function(button, event) {
             var window = new AddFileWindow();
@@ -46,9 +46,7 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
                         Ext.Ajax.request({
                             url: '/adrbasic/ajax/removeDatastream',
                             success: function() {
-                                var store = Ext.StoreMgr.lookup('Description');
-                                store.reload(store.lastOptions);
-                                store = Ext.StoreMgr.lookup('Datastreams');
+                                var store = Ext.StoreMgr.lookup('Datastreams');
                                 store.reload(store.lastOptions);
                                 store = Ext.StoreMgr.lookup('OverviewDatastreams');
                                 store.reload(store.lastOptions);
@@ -74,18 +72,19 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
                 var store = viewer.getStore();
                 var pid = store.baseParams.pid;
                 var dsid = record.get('dsid');
+                var viewerTab = Ext.getCmp('adr-viewer-tab');
                 var viewerPanel = Ext.getCmp('adr-viewer');
                 if(viewerPanel.rendered) {
                     var loadOptions = viewerPanel.autoLoad;
                     loadOptions.params.dsid = dsid;
                     viewerPanel.load(loadOptions);
                     ADRBasic.viewerDSID = dsid;
-                    viewerPanel.show();
+                    viewerTab.show();
                 }
                 else {
                     ADRBasic.viewerDSID = dsid;
                     viewerPanel.autoLoad.params.dsid = dsid;
-                    viewerPanel.show();
+                    viewerTab.show();
                 }
             }
         });
@@ -109,7 +108,7 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
                 remove.disable();
                 view.disable();
             }
-        });*/
+        });
     }
 });
 Ext.reg('editfilespanel', EditFilesPanel);

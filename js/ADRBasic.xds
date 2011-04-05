@@ -21,7 +21,7 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 0,
+                "activeTab": 1,
                 "width": 960,
                 "height": 900,
                 "activeItem": "-ext-undefined-",
@@ -64,7 +64,7 @@
                         {
                             "id": "MyUserComponent2",
                             "cid": "usercomponent",
-                            "jsClass": "FilePanel",
+                            "jsClass": "Files",
                             "snapToGrid": 10,
                             "userConfig": {
                                 "jsClass": "Files",
@@ -100,13 +100,6 @@
                                 "id": "adr-viewer-panel"
                             },
                             "cn": [
-                                {
-                                    "id": "MyToolbar1",
-                                    "cid": "toolbar",
-                                    "jsClass": "MyToolbar1",
-                                    "dock": "tbar",
-                                    "snapToGrid": 10
-                                },
                                 {
                                     "id": "MyPanel6",
                                     "cid": "panel",
@@ -239,7 +232,7 @@
                                 "text": "Edit",
                                 "disabled": true,
                                 "formBind": "-ext-undefined-",
-                                "icon": "../images/icon/icon-edit.gif",
+                                "icon": "-ext-undefined-",
                                 "cls": "x-btn-text-icon"
                             }
                         },
@@ -252,7 +245,7 @@
                                 "text": "View",
                                 "disabled": true,
                                 "formBind": "-ext-undefined-",
-                                "icon": "../images/icon/icon-view.gif"
+                                "icon": "-ext-undefined-"
                             }
                         },
                         {
@@ -266,7 +259,7 @@
                                 "scale": "-ext-undefined-",
                                 "disabled": true,
                                 "formBind": "-ext-undefined-",
-                                "icon": "../images/icon/icon-delete.gif"
+                                "icon": "-ext-undefined-"
                             }
                         }
                     ]
@@ -283,7 +276,7 @@
                         "overClass": "x-view-over",
                         "singleSelect": true,
                         "trackOver": true,
-                        "id": "edit-files-panel-data-viewer"
+                        "id": "adr-manage-files-data-viewer"
                     }
                 },
                 {
@@ -678,7 +671,7 @@
             "snapToGrid": 10,
             "userConfig": {
                 "title": "Files",
-                "width": 230,
+                "width": 270,
                 "collapsible": "-ext-undefined-",
                 "collapseFirst": "-ext-undefined-",
                 "collapsed": "-ext-undefined-",
