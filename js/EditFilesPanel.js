@@ -18,6 +18,24 @@ function gotoEditModsPage() {
     window.location = page;
 }
 
+ADRBasic.showFile = function(dsid) {
+    var pid = ADRBasic.pid;
+    var viewerTab = Ext.getCmp('adr-viewer-tab');
+    var viewerPanel = Ext.getCmp('adr-viewer');
+    if(viewerPanel.rendered) {
+        var loadOptions = viewerPanel.autoLoad;
+        loadOptions.params.dsid = dsid;
+        viewerPanel.load(loadOptions);
+        ADRBasic.viewerDSID = dsid;
+        viewerTab.show();
+    }
+    else {
+        ADRBasic.viewerDSID = dsid;
+        viewerPanel.autoLoad.params.dsid = dsid;
+        viewerTab.show();
+    }
+}
+
 EditFilesPanel = Ext.extend(EditFilesPanelUi, {
     initComponent: function() {
         EditFilesPanel.superclass.initComponent.call(this);

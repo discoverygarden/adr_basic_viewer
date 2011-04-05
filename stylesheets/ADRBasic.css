@@ -230,3 +230,8 @@ table {
 .adr-file .adr-file-dsid {
     text-align: center;
 }
+
+.adr-file .adr-file-controls {
+    vertical-align: middle;
+    text-align: center;
+}

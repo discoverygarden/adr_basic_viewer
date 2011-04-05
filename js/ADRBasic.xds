@@ -686,9 +686,9 @@
                     "jsClass": "MyDataView4",
                     "snapToGrid": 10,
                     "userConfig": {
-                        "itemSelector": "img.adr-file-img",
+                        "itemSelector": ".adr-file-show-view",
                         "store": "OverviewDatastreams",
-                        "tpl": "<tpl for=\".\">\n<div class=\"adr-file\">\n<div class=\"adr-file-label\">{[fm.ellipsis(values.label, 30, true)]}</div>\n<img class=\"adr-file-img\" src=\"{img_url}\"></img>\n<div class=\"adr-file-dsid\">{[fm.ellipsis(values.dsid, 30, true)]}</div>\n<div class=\"adr-file-controls\">\n</div>\n</div>\n</tpl>",
+                        "tpl": "<tpl for=\".\">\n  <div class=\"adr-file\">\n    <div class=\"adr-file-label\">{[fm.ellipsis(values.label, 30, true)]}</div>\n    <img class=\"adr-file-img adr-file-show-view\" src=\"{img_url}\"></img>\n    <div class=\"adr-file-dsid\">{[fm.ellipsis(values.dsid, 30, true)]}</div>\n    <div class=\"adr-file-controls\">\n      <span class=\"adr-file-view\">\n\t       <button type=\"button\" onClick=\"ADRBasic.showFile('{dsid}');\">View</button>\n      </span>\n      <span class=\"adr-file-download\">\n\t       <form method=\"GET\" action=\"{download_url}\" style=\"display:inline;\">\n\t         <input type=\"submit\" value=\"Download\"></input>\n\t       </form>\n      </span>\n    </div>\n  </div>\n</tpl>",
                         "emptyText": "Not Specified...",
                         "loadingText": "loading...",
                         "singleSelect": true,
