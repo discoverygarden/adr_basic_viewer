@@ -52,7 +52,7 @@ class ObjectViewDescription {
       $this->objectViewDescription = new SimpleXMLElement($obj_viewer);
     }
     else {
-      throw new Exception('OBJ_VIEWER datastream not found in the content model.');
+      throw new Exception("OBJ_VIEWER datastream not found in the content model {$pid} of {$this->item->pid}.");
     }
   }
 

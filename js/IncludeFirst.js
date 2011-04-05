@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 Ext.ns("ADRBasic");
-ADRBasic.pid = window.location.pathname.split('/')[3];
+ADRBasic.pid = decodeURIComponent(window.location.pathname.split('/')[3]);
 ADRBasic.viewer = {
     pid: ADRBasic.pid,
     label: '',
@@ -15,6 +15,9 @@ ADRBasic.viewer = {
         if(dsid != null) {
             this.dsid = dsid;
         }
+    },
+    isSet: function() {
+        return this.dsid != null;
     },
     setTitle: function() {
         Ext.getCmp('adr-viewer-panel').setTitle(this.label + " (" + this.dsid + ")");
@@ -58,5 +61,59 @@ ADRBasic.viewer = {
             ADRBasic.viewer.setDatastream(label, dsid);
             ADRBasic.viewer.setTitle();
         }
+        this.autoAttachFlash();
+    },
+    shouldLoadFlexPaper: function() {
+        var flexPaper = Ext.get('playerFlexPaper');
+        if(flexPaper && !flexPaper.hasClass('loaded-flex-player')) {
+            return true;
+        }
+        return false;
+    },
+    loadFlexPaper: function(dsid) {
+        var flexPaper = Ext.get('playerFlexPaper');
+        flexPaper.addClass('loaded-flex-player');
+        loadFlexPlayer(dsid);
+    },
+    shouldLoadFlowPlayer: function() {
+        var flowPlayer = Ext.get('playerFlow');
+        if(flowPlayer && !flowPlayer.hasClass('loaded-flow-player')) {
+            return true;
+        }
+        return false;
+    },
+    loadFlowPlayer: function(dsid) {
+        var flowPlayer = Ext.get('playerFlow');
+        flowPlayer.addClass('loaded-flow-player');
+        loadFlowPlayer(dsid);
+    },
+    shouldLoadPrettyPrinter: function() {
+        var el = $('.prettyprint');
+        if(el && !el.hasClass('.loaded-pretty-print')) {
+            return true;
+        }
+        return false;
+    },
+    loadPrettyPrinter: function() {
+        var el = $('.prettyprint');
+        el.addClass('.loaded-pretty-print');
+        prettyPrint();
+    },
+    autoAttachFlash: function() {
+        $('body').ajaxComplete(function(event, request, settings) {
+            var viewer = ADRBasic.viewer;
+            var dsid = viewer.dsid;
+            if(dsid != null) {
+                if(viewer.shouldLoadFlexPaper()) {
+                    viewer.loadFlexPaper(dsid);
+                }
+                else if(viewer.shouldLoadFlowPlayer()) {
+                    viewer.loadFlowPlayer(dsid);
+                }
+                else if(viewer.shouldLoadPrettyPrinter()) {
+                    viewer.loadPrettyPrinter();
+                }
+            }
+        });
     }
 };

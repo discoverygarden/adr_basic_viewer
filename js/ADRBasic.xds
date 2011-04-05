@@ -58,7 +58,7 @@
                             "userConfig": {
                                 "title": "Description",
                                 "region": "center",
-                                "autoLoad": "{\nurl: '/adrbasic/ajax/getDescription',\nparams: {\npid: (window.location.pathname.split('/')[3])\n}\n}",
+                                "autoLoad": "{\nurl: '/adrbasic/ajax/getDescription',\nparams: {\npid: decodeURIComponent(window.location.pathname.split('/')[3])\n}\n}",
                                 "bodyStyle": "{\npadding: 15px\n}"
                             }
                         },
@@ -713,7 +713,7 @@
     ],
     "stores": [
         {
-            "id": "MyStore1",
+            "id": "MyStore",
             "cid": "jsonstore",
             "jsClass": "Datastreams",
             "snapToGrid": 10,
@@ -722,12 +722,12 @@
                 "autoLoad": "-ext-undefined-",
                 "url": "/adrbasic/ajax/getDatastreams",
                 "root": "data",
-                "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}",
+                "baseParams": "{ pid: decodeURIComponent(window.location.pathname.split( '/' )[3])}",
                 "paramNames": "-ext-undefined-"
             },
             "cn": [
                 {
-                    "id": "MyField3",
+                    "id": "MyField",
                     "cid": "datafield",
                     "jsClass": "MyField3",
                     "snapToGrid": 10,
@@ -736,7 +736,7 @@
                     }
                 },
                 {
-                    "id": "MyField4",
+                    "id": "MyField1",
                     "cid": "datafield",
                     "jsClass": "MyField4",
                     "snapToGrid": 10,
@@ -745,7 +745,7 @@
                     }
                 },
                 {
-                    "id": "MyField5",
+                    "id": "MyField3",
                     "cid": "datafield",
                     "jsClass": "MyField5",
                     "snapToGrid": 10,
@@ -754,7 +754,7 @@
                     }
                 },
                 {
-                    "id": "MyField6",
+                    "id": "MyField4",
                     "cid": "datafield",
                     "jsClass": "MyField6",
                     "snapToGrid": 10,
@@ -763,7 +763,7 @@
                     }
                 },
                 {
-                    "id": "MyField10",
+                    "id": "MyField5",
                     "cid": "datafield",
                     "jsClass": "MyField10",
                     "snapToGrid": 10,
@@ -815,7 +815,7 @@
             "userConfig": {
                 "storeId": "MIMETypes",
                 "url": "/adrbasic/ajax/getAllowedMIMETypes",
-                "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}",
+                "baseParams": "{ pid: decodeURIComponent(window.location.pathname.split( '/' )[3])}",
                 "autoLoad": true
             },
             "cn": [
@@ -838,7 +838,7 @@
             "userConfig": {
                 "storeId": "OverviewDatastreams",
                 "url": "/adrbasic/ajax/getOverviewDatastreams",
-                "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}",
+                "baseParams": "{ pid: decodeURIComponent(window.location.pathname.split( '/' )[3])}",
                 "autoLoad": true,
                 "paramNames": "-ext-undefined-",
                 "root": "data"
@@ -899,7 +899,7 @@
             "userConfig": {
                 "storeId": "ObjectProperties",
                 "url": "/adrbasic/ajax/getObjectProperties",
-                "baseParams": "{ pid: (window.location.pathname.split( '/' )[3])}",
+                "baseParams": "{ pid: decodeURIComponent(window.location.pathname.split( '/' )[3])}",
                 "autoLoad": true
             },
             "cn": [
