@@ -235,7 +235,6 @@ EOT;
       case 'application/pdf':
         return '<div id="playerFlexPaper"></div>';
       case 'image/jpeg':
-        return $this->getFlashImageViewer(array($this->dsid));
       case 'image/jp2':
       case 'image/tiff':
       case 'image/png':
