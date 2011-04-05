@@ -110,10 +110,6 @@ table {
     display: block;
 }
 
-.adr-edit-file-label {
-    text-align: center;
-}
-
 .adr-viewer {
     vertical-align: middle;
 }
@@ -191,23 +187,24 @@ table {
 }
 
 .adr-add-file-icon {
-/*    background-image:url(../images/icon/icon-add.gif);*/
+    /*    background-image:url(../images/icon/icon-add.gif);*/
 }
 
 .adr-edit-file-icon {
-/*    background-image:url(../images/icon/icon-edit.gif);*/
+    /*    background-image:url(../images/icon/icon-edit.gif);*/
 }
 
 .adr-view-file-icon {
-/*    background-image:url(../images/icon/icon-view.gif);*/
+    /*    background-image:url(../images/icon/icon-view.gif);*/
 }
 
 .adr-delete-file-icon {
-/*    background-image:url(../images/icon/icon-delete.gif);*/
+    /*    background-image:url(../images/icon/icon-delete.gif);*/
 }
 
 .adr-file {
-
+    padding-top: 5px;
+    padding-bottom: 10px;
 }
 
 .adr-file-selectable {
@@ -216,7 +213,7 @@ table {
 
 .adr-file .adr-file-label {
     text-align: center;
-    font-size: 1.1em;
+    font-size: 1.3em;
 }
 
 .adr-file .adr-file-img {
@@ -233,5 +230,31 @@ table {
 
 .adr-file .adr-file-controls {
     vertical-align: middle;
+    text-align: center;
+}
+
+.adr-edit-file {
+    float: left;
+    width: 200px;
+    height: 180px;
+    padding: 10px;
+}
+
+.adr-edit-file .adr-edit-file-label {
+    text-align: center;
+    font-size: 1.3em;
+}
+
+.adr-edit-file .adr-edit-file-img {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    width: 128px;
+    height: 128px;
+    clip: rect(0px 128px 128px 0px);
+    display: block;
+}
+
+.adr-edit-file .adr-edit-file-dsid {
     text-align: center;
 }

@@ -21,7 +21,7 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 1,
+                "activeTab": 0,
                 "width": 960,
                 "height": 900,
                 "activeItem": "-ext-undefined-",
@@ -29,10 +29,11 @@
                 "tabMargin": "-ext-undefined-",
                 "tabPosition": "-ext-undefined-",
                 "tabWidth": "-ext-undefined-",
-                "layoutOnTabChange": "-ext-undefined-",
+                "layoutOnTabChange": true,
                 "border": false,
                 "minTabWidth": "-ext-undefined-",
-                "tabCls": "-ext-undefined-"
+                "tabCls": "-ext-undefined-",
+                "deferredRender": "-ext-undefined-"
             },
             "cn": [
                 {
@@ -194,7 +195,7 @@
             "userXType": "editfilespanel",
             "cn": [
                 {
-                    "id": "MyToolbar2",
+                    "id": "MyToolbar1",
                     "cid": "toolbar",
                     "jsClass": "MyToolbar2",
                     "dock": "tbar",
@@ -265,14 +266,14 @@
                     ]
                 },
                 {
-                    "id": "MyDataView",
+                    "id": "MyDataView3",
                     "cid": "dataview",
-                    "jsClass": "MyDataView",
+                    "jsClass": "MyDataView3",
                     "snapToGrid": 10,
                     "userConfig": {
-                        "itemSelector": "div .adr-edit-file-img-block",
+                        "itemSelector": "div .adr-edit-file",
                         "store": "Datastreams",
-                        "tpl": "<tpl for=\".\">\n<div class=\"adr-edit-file-img-block\">\n<img src='{img_url}' title='label' class=\"adr-edit-file-img\">\n<div class=\"adr-edit-file-label\">{dsid}</div></div>\n</tpl>",
+                        "tpl": "<tpl for=\".\">\n<div class=\"adr-edit-file\">\n<div class=\"adr-edit-file-label\">{[fm.ellipsis(values.label, 20, true)]}</div>\n<img src='{img_url}' title='{label} ({dsid})' class=\"adr-edit-file-img\">\n<div class=\"adr-edit-file-label\">{[fm.ellipsis(values.dsid, 20, true)]}</div>\n</div>\n</tpl>",
                         "overClass": "x-view-over",
                         "singleSelect": true,
                         "trackOver": true,
@@ -280,14 +281,14 @@
                     }
                 },
                 {
-                    "id": "MyPagingToolbar2",
+                    "id": "MyPagingToolbar1",
                     "cid": "pagingtoolbar",
                     "jsClass": "MyPagingToolbar2",
                     "dock": "fbar",
                     "snapToGrid": 10,
                     "userConfig": {
                         "store": "Datastreams",
-                        "pageSize": 15
+                        "pageSize": 12
                     }
                 }
             ]

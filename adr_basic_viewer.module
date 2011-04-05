@@ -90,7 +90,7 @@ function adr_basic_viewer_get_description() {
 function adr_basic_viewer_get_datastreams() {
   $pid = $_REQUEST['pid'];
   $start = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
-  $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 15;
+  $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 12;
   if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
