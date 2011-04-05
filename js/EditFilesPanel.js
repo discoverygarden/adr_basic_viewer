@@ -18,24 +18,6 @@ function gotoEditModsPage() {
     window.location = page;
 }
 
-ADRBasic.showFile = function(dsid) {
-    var pid = ADRBasic.pid;
-    var viewerTab = Ext.getCmp('adr-viewer-tab');
-    var viewerPanel = Ext.getCmp('adr-viewer');
-    if(viewerPanel.rendered) {
-        var loadOptions = viewerPanel.autoLoad;
-        loadOptions.params.dsid = dsid;
-        viewerPanel.load(loadOptions);
-        ADRBasic.viewerDSID = dsid;
-        viewerTab.show();
-    }
-    else {
-        ADRBasic.viewerDSID = dsid;
-        viewerPanel.autoLoad.params.dsid = dsid;
-        viewerTab.show();
-    }
-}
-
 EditFilesPanel = Ext.extend(EditFilesPanelUi, {
     initComponent: function() {
         EditFilesPanel.superclass.initComponent.call(this);
@@ -88,22 +70,9 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
             var record = records[0];
             if(record) {
                 var store = viewer.getStore();
-                var pid = store.baseParams.pid;
+                var label = record.get('label');
                 var dsid = record.get('dsid');
-                var viewerTab = Ext.getCmp('adr-viewer-tab');
-                var viewerPanel = Ext.getCmp('adr-viewer');
-                if(viewerPanel.rendered) {
-                    var loadOptions = viewerPanel.autoLoad;
-                    loadOptions.params.dsid = dsid;
-                    viewerPanel.load(loadOptions);
-                    ADRBasic.viewerDSID = dsid;
-                    viewerTab.show();
-                }
-                else {
-                    ADRBasic.viewerDSID = dsid;
-                    viewerPanel.autoLoad.params.dsid = dsid;
-                    viewerTab.show();
-                }
+                ADRBasic.viewer.show(label, dsid);
             }
         });
         viewer.addListener('click', function(dataviewer, index, node, event) {

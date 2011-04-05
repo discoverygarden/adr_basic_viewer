@@ -20,22 +20,7 @@ Files = Ext.extend(FilesUi, {
             var pid = dataview.store.baseParams.pid;
             var dsid = dataview.store.getAt(index).get('dsid');
             var label = dataview.store.getAt(index).get('label');
-            var viewerTab = Ext.getCmp('adr-viewer-tab');
-            var viewerPanel = Ext.getCmp('adr-viewer-panel');
-            viewerPanel.setTitle(label + " (" + dsid + ")");
-            var viewer = Ext.getCmp('adr-viewer');
-            if(viewer.rendered) {
-                var loadOptions = viewer.autoLoad;
-                loadOptions.params.dsid = dsid;
-                viewer.load(loadOptions);
-                ADRBasic.viewerDSID = dsid;
-                viewerTab.show();
-            }
-            else {
-                ADRBasic.viewerDSID = dsid;
-                viewer.autoLoad.params.dsid = dsid;
-                viewerTab.show();
-            }
+            ADRBasic.viewer.show(label, dsid);
         });
     }
 });
