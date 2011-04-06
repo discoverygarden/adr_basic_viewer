@@ -21,7 +21,7 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 0,
+                "activeTab": 2,
                 "width": 960,
                 "height": 900,
                 "activeItem": "-ext-undefined-",
@@ -34,7 +34,8 @@
                 "minTabWidth": "-ext-undefined-",
                 "tabCls": "-ext-undefined-",
                 "deferredRender": "-ext-undefined-",
-                "id": "adr-tabpanel"
+                "id": "adr-tabpanel",
+                "forceLayout": true
             },
             "cn": [
                 {
@@ -44,13 +45,14 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "title": "Overview",
-                        "width": 400,
+                        "width": "-ext-undefined-",
                         "height": "-ext-undefined-",
                         "layout": "border",
                         "collapsible": "-ext-undefined-",
                         "defaults": "{\nsplit: true,\n}",
                         "autoHeight": "-ext-undefined-",
-                        "id": "adr-overview-tab"
+                        "id": "adr-overview-tab",
+                        "autoWidth": "-ext-undefined-"
                     },
                     "cn": [
                         {
@@ -63,8 +65,12 @@
                                 "region": "center",
                                 "autoLoad": "{\nurl: '/adrbasic/ajax/getDescription',\n}",
                                 "bodyStyle": "{\npadding: 15px\n}",
-                                "autoHeight": true,
-                                "id": "adr-overview-description"
+                                "autoHeight": "-ext-undefined-",
+                                "id": "adr-overview-description",
+                                "minHeight": "-ext-undefined-",
+                                "boxMinHeight": "-ext-undefined-",
+                                "height": "-ext-undefined-",
+                                "autoScroll": true
                             }
                         },
                         {
@@ -115,7 +121,7 @@
                                         "title": "-ext-undefined-",
                                         "autoLoad": "{\nurl: \"/adrbasic/ajax/getViewer\",\nparams: {  pid: window.location.pathname.split('/')[3] }\n}",
                                         "id": "adr-viewer",
-                                        "autoScroll": "-ext-undefined-"
+                                        "autoScroll": true
                                     }
                                 }
                             ]
@@ -196,106 +202,140 @@
                 "hideBorders": "-ext-undefined-",
                 "hideParent": "-ext-undefined-",
                 "bodyStyle": "-ext-undefined-",
-                "preventBodyReset": "-ext-undefined-"
+                "preventBodyReset": "-ext-undefined-",
+                "autoHeight": true
             },
             "userXType": "editfilespanel",
             "cn": [
                 {
-                    "id": "MyToolbar1",
-                    "cid": "toolbar",
-                    "jsClass": "MyToolbar2",
-                    "dock": "tbar",
+                    "id": "MyTabPanel1",
+                    "cid": "tabpanel",
+                    "jsClass": "MyTabPanel1",
                     "snapToGrid": 10,
                     "userConfig": {
-                        "hideBorders": "-ext-undefined-",
-                        "labelSeparator": "-ext-undefined-",
-                        "enableOverflow": "-ext-undefined-",
-                        "id": "edit-files-panel-toolbar"
+                        "activeTab": 0,
+                        "id": "adr-edit-files-tabpanel",
+                        "autoHeight": true
                     },
                     "cn": [
                         {
-                            "id": "MyButton2",
-                            "cid": "button",
-                            "jsClass": "MyButton7",
+                            "id": "MyPanel7",
+                            "cid": "panel",
+                            "jsClass": "MyPanel7",
                             "snapToGrid": 10,
                             "userConfig": {
-                                "text": "Add",
-                                "scale": "-ext-undefined-",
-                                "width": "-ext-undefined-",
-                                "formBind": "-ext-undefined-",
-                                "autoShow": "-ext-undefined-",
-                                "icon": "-ext-undefined-",
-                                "cls": "x-btn-text-icon",
-                                "iconCls": "adr-add-file-icon",
-                                "autoWidth": true
-                            }
+                                "title": "Icons",
+                                "autoHeight": true
+                            },
+                            "cn": [
+                                {
+                                    "id": "MyToolbar1",
+                                    "cid": "toolbar",
+                                    "jsClass": "MyToolbar2",
+                                    "dock": "tbar",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "hideBorders": "-ext-undefined-",
+                                        "enableOverflow": "-ext-undefined-",
+                                        "id": "edit-files-panel-toolbar"
+                                    },
+                                    "cn": [
+                                        {
+                                            "id": "MyButton2",
+                                            "cid": "button",
+                                            "jsClass": "MyButton7",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "text": "Add",
+                                                "scale": "-ext-undefined-",
+                                                "width": "-ext-undefined-",
+                                                "formBind": "-ext-undefined-",
+                                                "autoShow": "-ext-undefined-",
+                                                "icon": "-ext-undefined-",
+                                                "cls": "x-btn-text-icon",
+                                                "iconCls": "adr-add-file-icon",
+                                                "autoWidth": true
+                                            }
+                                        },
+                                        {
+                                            "id": "MyButton3",
+                                            "cid": "button",
+                                            "jsClass": "MyButton8",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "text": "Edit",
+                                                "disabled": true,
+                                                "formBind": "-ext-undefined-",
+                                                "icon": "-ext-undefined-",
+                                                "cls": "x-btn-text-icon"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyButton5",
+                                            "cid": "button",
+                                            "jsClass": "MyButton9",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "text": "View",
+                                                "disabled": true,
+                                                "formBind": "-ext-undefined-",
+                                                "icon": "-ext-undefined-"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyButton7",
+                                            "cid": "button",
+                                            "jsClass": "MyButton5",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "text": "Delete",
+                                                "width": "-ext-undefined-",
+                                                "scale": "-ext-undefined-",
+                                                "disabled": true,
+                                                "formBind": "-ext-undefined-",
+                                                "icon": "-ext-undefined-"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "MyDataView3",
+                                    "cid": "dataview",
+                                    "jsClass": "MyDataView3",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "itemSelector": "div .adr-edit-file",
+                                        "store": "Datastreams",
+                                        "tpl": "<tpl for=\".\">\n<div class=\"adr-edit-file\">\n<div class=\"adr-edit-file-label\">{[fm.ellipsis(values.label, 20, true)]}</div>\n<img src='{img_url}' title='{label} ({dsid})' class=\"adr-edit-file-img\">\n<div class=\"adr-edit-file-label\">{[fm.ellipsis(values.dsid, 20, true)]}</div>\n</div>\n</tpl>",
+                                        "overClass": "x-view-over",
+                                        "singleSelect": true,
+                                        "trackOver": true,
+                                        "id": "adr-manage-files-data-viewer"
+                                    }
+                                },
+                                {
+                                    "id": "MyPagingToolbar1",
+                                    "cid": "pagingtoolbar",
+                                    "jsClass": "MyPagingToolbar2",
+                                    "dock": "fbar",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "store": "Datastreams",
+                                        "pageSize": 12
+                                    }
+                                }
+                            ]
                         },
                         {
-                            "id": "MyButton3",
-                            "cid": "button",
-                            "jsClass": "MyButton8",
+                            "id": "MyPanel8",
+                            "cid": "panel",
+                            "jsClass": "MyPanel8",
                             "snapToGrid": 10,
                             "userConfig": {
-                                "text": "Edit",
-                                "disabled": true,
-                                "formBind": "-ext-undefined-",
-                                "icon": "-ext-undefined-",
-                                "cls": "x-btn-text-icon"
-                            }
-                        },
-                        {
-                            "id": "MyButton5",
-                            "cid": "button",
-                            "jsClass": "MyButton9",
-                            "snapToGrid": 10,
-                            "userConfig": {
-                                "text": "View",
-                                "disabled": true,
-                                "formBind": "-ext-undefined-",
-                                "icon": "-ext-undefined-"
-                            }
-                        },
-                        {
-                            "id": "MyButton7",
-                            "cid": "button",
-                            "jsClass": "MyButton5",
-                            "snapToGrid": 10,
-                            "userConfig": {
-                                "text": "Delete",
-                                "width": "-ext-undefined-",
-                                "scale": "-ext-undefined-",
-                                "disabled": true,
-                                "formBind": "-ext-undefined-",
-                                "icon": "-ext-undefined-"
+                                "title": "Grid"
                             }
                         }
                     ]
-                },
-                {
-                    "id": "MyDataView3",
-                    "cid": "dataview",
-                    "jsClass": "MyDataView3",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "itemSelector": "div .adr-edit-file",
-                        "store": "Datastreams",
-                        "tpl": "<tpl for=\".\">\n<div class=\"adr-edit-file\">\n<div class=\"adr-edit-file-label\">{[fm.ellipsis(values.label, 20, true)]}</div>\n<img src='{img_url}' title='{label} ({dsid})' class=\"adr-edit-file-img\">\n<div class=\"adr-edit-file-label\">{[fm.ellipsis(values.dsid, 20, true)]}</div>\n</div>\n</tpl>",
-                        "overClass": "x-view-over",
-                        "singleSelect": true,
-                        "trackOver": true,
-                        "id": "adr-manage-files-data-viewer"
-                    }
-                },
-                {
-                    "id": "MyPagingToolbar1",
-                    "cid": "pagingtoolbar",
-                    "jsClass": "MyPagingToolbar2",
-                    "dock": "fbar",
-                    "snapToGrid": 10,
-                    "userConfig": {
-                        "store": "Datastreams",
-                        "pageSize": 12
-                    }
                 }
             ]
         },

@@ -127,7 +127,7 @@ class ObjectViewDescription {
       foreach ($items as $item) {
         list($label, $path) = $item;
         $results = $datastream->xpath($path);
-        $value = trim($this->implodeSimpleXMLElementArray($glue, $results));
+        $value = trim($this->implodeSimpleXMLElementArray('<br/>', $results));
         if ($value != '') {
           $output[$label] = $value;
         }

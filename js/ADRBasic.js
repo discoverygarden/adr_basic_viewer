@@ -4,10 +4,11 @@
  */
 
 Ext.onReady(function(){
-    $('#content-fedora').empty();
+    Ext.get('content-fedora').update('');
+    Ext.get('content-fedora').dom.id = "adr-basic-viewer";
     Ext.QuickTips.init();
     var adrbasic = new ADRBasicViewer({
-        renderTo: 'content-fedora',
+        renderTo: 'adr-basic-viewer',
         listeners: {
             afterrender: function() {
                 $('#center form').css('margin-bottom', 0);

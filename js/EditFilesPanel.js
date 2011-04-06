@@ -23,8 +23,10 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
         EditFilesPanel.superclass.initComponent.call(this);
         var store = Ext.StoreMgr.lookup('Datastreams');
         store.reload(store.lastOptions);
-        var viewer = this.get('adr-manage-files-data-viewer');
-        var toolbar = this.getTopToolbar();
+        var tabpanel = this.get('adr-edit-files-tabpanel');
+        var iconPanel = tabpanel.get(0);
+        var viewer = iconPanel.get('adr-manage-files-data-viewer');
+        var toolbar = iconPanel.getTopToolbar();
         var add = toolbar.get(0);
         var edit = toolbar.get(1);
         var view = toolbar.get(2);
