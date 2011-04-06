@@ -159,7 +159,7 @@ EOT;
     foreach (preg_split("/(\r?\n)/", $content) as $line) {
       $output .= $line . '<br/>';
     }
-    return "<code class='prettyprint xml'>$output</code>";
+    return "<code class='prettyprint xml' style='overflow: scroll; position: relative;'>$output</code>";
   }
 
   /**
