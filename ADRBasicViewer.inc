@@ -106,7 +106,7 @@ EOT;
       attributes.name = "FlexPaperViewer";
       swfobject.embedSWF(
         "$base_url/sites/all/libraries/flexpaper/FlexPaperViewer.swf", "playerFlexPaper",
-        "960", "800", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
+        "924", "845", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
       swfobject.createCSS("#playerFlexPaper", "display:block;text-align:left;");
    }
 EOT;

@@ -114,7 +114,8 @@
                                     "userConfig": {
                                         "title": "-ext-undefined-",
                                         "autoLoad": "{\nurl: \"/adrbasic/ajax/getViewer\",\nparams: {  pid: window.location.pathname.split('/')[3] }\n}",
-                                        "id": "adr-viewer"
+                                        "id": "adr-viewer",
+                                        "autoScroll": true
                                     }
                                 }
                             ]
