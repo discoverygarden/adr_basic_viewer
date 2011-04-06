@@ -34,12 +34,10 @@ class ADRBasicViewer {
         plugins: {
           controls: {
             fullscreen: false,
-            height: 30,
             autoHide: false
           }
         },
         clip: {
-          // it's possible to stream audio by using the RTMP plugin
           autoPlay: false,
         }
       });
@@ -170,7 +168,7 @@ EOT;
    */
   private function getDjatokaViewer() {
     $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
-    return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 400px;">Errors: unable to load viewer</iframe>';
+    return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 924px; height: 845px;">Errors: unable to load viewer</iframe>';
   }
 
   /**
@@ -179,7 +177,7 @@ EOT;
    */
   private function getVideoViewer() {
     $file_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . "/{$this->dsid}";
-    return "<a href='$file_url' style='display:block;width:520px;height:330px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
+    return "<a href='$file_url' style='display:block;width:640px;height:480px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
   }
 
   private function getFlashImageViewer($imageList=null) {
