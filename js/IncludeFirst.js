@@ -4,6 +4,20 @@
  */
 Ext.ns("ADRBasic");
 ADRBasic.pid = decodeURIComponent(window.location.pathname.split('/')[3]);
+
+ADRBasic.overview = {
+    resize: function() {
+        var tabPanel = Ext.getCmp('adr-tabpanel');
+        var description = Ext.getCmp('adr-overview-description');
+        if(description.getHeight() > tabPanel.getHeight()) {
+            tabPanel.setHeight(description.getHeight());
+        }
+        else {
+            description.setHeight(tabPanel.getHeight());
+        }
+    }
+};
+
 ADRBasic.viewer = {
     pid: ADRBasic.pid,
     label: '',

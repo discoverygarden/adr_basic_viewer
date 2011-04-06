@@ -21,7 +21,7 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 1,
+                "activeTab": 0,
                 "width": 960,
                 "height": 900,
                 "activeItem": "-ext-undefined-",
@@ -33,7 +33,8 @@
                 "border": false,
                 "minTabWidth": "-ext-undefined-",
                 "tabCls": "-ext-undefined-",
-                "deferredRender": "-ext-undefined-"
+                "deferredRender": "-ext-undefined-",
+                "id": "adr-tabpanel"
             },
             "cn": [
                 {
@@ -47,7 +48,9 @@
                         "height": "-ext-undefined-",
                         "layout": "border",
                         "collapsible": "-ext-undefined-",
-                        "defaults": "{\nsplit: true,\n}"
+                        "defaults": "{\nsplit: true,\n}",
+                        "autoHeight": "-ext-undefined-",
+                        "id": "adr-overview-tab"
                     },
                     "cn": [
                         {
@@ -58,8 +61,10 @@
                             "userConfig": {
                                 "title": "Description",
                                 "region": "center",
-                                "autoLoad": "{\nurl: '/adrbasic/ajax/getDescription',\nparams: {\npid: decodeURIComponent(window.location.pathname.split('/')[3])\n}\n}",
-                                "bodyStyle": "{\npadding: 15px\n}"
+                                "autoLoad": "{\nurl: '/adrbasic/ajax/getDescription',\n}",
+                                "bodyStyle": "{\npadding: 15px\n}",
+                                "autoHeight": true,
+                                "id": "adr-overview-description"
                             }
                         },
                         {
@@ -677,7 +682,8 @@
                 "collapseFirst": "-ext-undefined-",
                 "collapsed": "-ext-undefined-",
                 "hideCollapseTool": "-ext-undefined-",
-                "animCollapse": "-ext-undefined-"
+                "animCollapse": "-ext-undefined-",
+                "autoHeight": true
             },
             "userXType": "filePanel",
             "cn": [

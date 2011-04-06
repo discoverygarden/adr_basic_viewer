@@ -14,6 +14,12 @@
 ADRBasicViewer = Ext.extend(ADRBasicViewerUi, {
     initComponent: function() {
         ADRBasicViewer.superclass.initComponent.call(this);
+        
+        var overviewTab = this.get('adr-overview-tab');
+        var description = overviewTab.get('adr-overview-description');
+        description.autoLoad.params = { pid: ADRBasic.pid };
+        description.autoLoad.callback = ADRBasic.overview.resize;
+
         ADRBasic.viewer.init();
         if(typeof(ManagePanel) == "function" && typeof(ManagePanel.prototype) == "object") {
             this.add(new ManagePanel());
