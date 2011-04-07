@@ -177,7 +177,7 @@ EOT;
    */
   private function getVideoViewer() {
     global $base_url;
-    $file_url = $base_url . '/get/' . $this->pid . "/{$this->dsid}";
+    $file_url = $base_url . '/fedora/repository/' . $this->pid . "/{$this->dsid}";
     return "<a href='$file_url' style='display:block;width:640px;height:480px;margin-left:auto;margin-right:auto;' id='playerFlow'/>";
   }
 
