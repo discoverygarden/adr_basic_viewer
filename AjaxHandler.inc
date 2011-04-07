@@ -116,9 +116,9 @@ class AjaxHandler {
   public function getDatastreams($start, $limit) {
     $data = array();
     $count = 0;
-    $end = $start + $limit;
+    $end = (isset($limit)) ? $start + $limit : NULL;
     foreach ($this->item->datastreams as $dsid => $attr) {
-      if ($count >= $start && $count < $end) {
+      if ($count >= $start && (empty($end) || $count < $end)) {
         module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
         $thumbnail = new Thumbnail($this->item, $dsid);
         $stream['dsid'] = $dsid;
