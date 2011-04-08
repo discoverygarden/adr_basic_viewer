@@ -15,8 +15,7 @@ AddFileWindow = Ext.extend(AddFileWindowUi, {
     initComponent: function() {
         AddFileWindow.superclass.initComponent.call(this);
         var addWindow = this;
-        var pid = window.location.pathname.split('/');
-        pid = pid[3];
+        var pid = decodeURIComponent(window.location.pathname.split('/')[3]);
         var formPanel = this.get(0);
         var form = formPanel.getForm();
         var store = Ext.StoreMgr.lookup('Datastreams');
