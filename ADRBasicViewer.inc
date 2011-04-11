@@ -104,7 +104,7 @@ EOT;
       attributes.name = "FlexPaperViewer";
       swfobject.embedSWF(
         "$base_url/sites/all/libraries/flexpaper/FlexPaperViewer.swf", "playerFlexPaper",
-        "924", "845", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
+        "915", "835", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
       swfobject.createCSS("#playerFlexPaper", "display:block;text-align:left;");
    }
 EOT;
@@ -168,7 +168,7 @@ EOT;
    */
   private function getDjatokaViewer() {
     $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
-    return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 924px; height: 845px;">Errors: unable to load viewer</iframe>';
+    return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 915px; height: 835px;">Errors: unable to load viewer</iframe>';
   }
 
   /**

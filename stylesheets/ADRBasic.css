@@ -95,8 +95,8 @@
     text-align: center;
 }
 
-.adr-manage-object-properties th {
-    padding: 10px;
+#adr-manage-object-properties th {
+    padding-right: 10px;
 }
 
 .x-list-selected {

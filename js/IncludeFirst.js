@@ -26,7 +26,7 @@ ADRBasic.viewer = {
         return this.dsid != null;
     },
     setTitle: function() {
-        Ext.getCmp('adr-viewer-panel').setTitle(this.label + " (" + this.dsid + ")");
+        Ext.getCmp('adr-viewer').setTitle(this.label + " (" + this.dsid + ")");
     },
     loadViewer: function() {
         var viewer = Ext.getCmp('adr-viewer');

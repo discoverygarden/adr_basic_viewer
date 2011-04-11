@@ -21,7 +21,7 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 2,
+                "activeTab": 1,
                 "width": 960,
                 "height": 920,
                 "activeItem": "-ext-undefined-",
@@ -70,7 +70,8 @@
                                 "minHeight": "-ext-undefined-",
                                 "boxMinHeight": "-ext-undefined-",
                                 "height": "-ext-undefined-",
-                                "autoScroll": true
+                                "autoScroll": true,
+                                "frame": true
                             }
                         },
                         {
@@ -109,24 +110,12 @@
                             "userConfig": {
                                 "title": "Viewer",
                                 "region": "center",
-                                "id": "adr-viewer-panel"
-                            },
-                            "cn": [
-                                {
-                                    "id": "MyPanel6",
-                                    "cid": "panel",
-                                    "jsClass": "MyPanel3",
-                                    "snapToGrid": 10,
-                                    "userConfig": {
-                                        "title": "-ext-undefined-",
-                                        "autoLoad": "{\nurl: \"/adrbasic/ajax/getViewer\",\nparams: {  pid: window.location.pathname.split('/')[3] }\n}",
-                                        "id": "adr-viewer",
-                                        "autoScroll": true,
-                                        "boxMaxHeight": 885,
-                                        "bodyStyle": "max-height: 885px;"
-                                    }
-                                }
-                            ]
+                                "id": "adr-viewer",
+                                "layout": "-ext-undefined-",
+                                "autoLoad": "{\nurl: \"/adrbasic/ajax/getViewer\",\nparams: {  pid: decodeURIComponent(window.location.pathname.split('/')[3]) }\n}",
+                                "frame": true,
+                                "autoScroll": true
+                            }
                         },
                         {
                             "id": "MyUserComponent3",
@@ -403,7 +392,7 @@
                     "userConfig": {
                         "title": "Object Properties",
                         "width": 100,
-                        "height": "-ext-undefined-",
+                        "height": 140,
                         "layout": "-ext-undefined-",
                         "defaultType": "-ext-undefined-",
                         "padding": "-ext-undefined-",
@@ -414,7 +403,7 @@
                         "style": "-ext-undefined-",
                         "region": "north",
                         "id": "adr-manage-object-properties",
-                        "autoHeight": true
+                        "autoHeight": "-ext-undefined-"
                     },
                     "userXType": "editobjectpanel",
                     "cn": [
@@ -782,13 +771,14 @@
             "snapToGrid": 10,
             "userConfig": {
                 "title": "Files",
-                "width": 270,
+                "width": 290,
                 "collapsible": "-ext-undefined-",
                 "collapseFirst": "-ext-undefined-",
                 "collapsed": "-ext-undefined-",
                 "hideCollapseTool": "-ext-undefined-",
                 "animCollapse": "-ext-undefined-",
-                "autoHeight": true
+                "autoHeight": true,
+                "frame": true
             },
             "userXType": "filePanel",
             "cn": [
