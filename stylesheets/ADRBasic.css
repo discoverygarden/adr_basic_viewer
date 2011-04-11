@@ -94,3 +94,11 @@
 .adr-edit-file .adr-edit-file-dsid {
     text-align: center;
 }
+
+.x-list-selected {
+    background-color: #ffff00;
+}
+
+.x-list-over {
+    background-color: #eeeebb;
+}

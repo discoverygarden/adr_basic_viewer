@@ -72,10 +72,6 @@ class ADRBasic {
     $manage_panel = array(
       'ManagePanel.ui.js',
       'ManagePanel.js',
-      'EditObjectPanel.ui.js',
-      'EditObjectPanel.js',
-      'EditFilesPanel.ui.js',
-      'EditFilesPanel.js',
     );
 
     $manage_windows = array(

@@ -30,7 +30,7 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
         var download = toolbar.get('adr-edit-file-download');
         var remove = toolbar.get('adr-edit-file-delete');
         var viewer = this.get('adr-edit-file-list');
-        var details = this.get('adr-edit-file-details');
+        var details = Ext.getCmp('adr-edit-file-details');
 
         // Add hidden download form.
         Ext.DomHelper.append('adr-basic-viewer', {
