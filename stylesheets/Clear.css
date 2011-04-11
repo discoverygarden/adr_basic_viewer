@@ -53,6 +53,6 @@ q:before, q:after {
     border-collapse: collapse;
     border-spacing: 0;
 }
-#adr-basic-viewer form tbody {
+#adr-basic-viewer form tbody, #adr-basic-viewer form tbody th {
     border: 0;
 }

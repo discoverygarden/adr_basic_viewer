@@ -470,7 +470,7 @@
                             "userConfig": {
                                 "itemSelector": "div",
                                 "store": "ObjectProperties",
-                                "tpl": "<tpl for=\".\">\n <table>\n  <tr><td>Label: </td><td>{label}</td></tr>\n  <tr><td>Created: </td><td>{created}</td></tr>\n  <tr><td>Modified: </td><td>{modified}</td></tr>\n  <tr><td>Owner: </td><td>{owner}</td></tr>\n  <tr><td>State: </td><td>{state}</td></tr>\n </table>\n</tpl>"
+                                "tpl": "<tpl for=\".\">\n <table>\n  <tr><th>Label:</th><td>{label}</td></tr>\n  <tr><th>Created: </th><td>{created}</td></tr>\n  <tr><th>Modified: </th><td>{modified}</td></tr>\n  <tr><th>Owner: </th><td>{owner}</td></tr>\n  <tr><th>State: </th><td>{state}</td></tr>\n </table>\n</tpl>"
                             }
                         }
                     ]
