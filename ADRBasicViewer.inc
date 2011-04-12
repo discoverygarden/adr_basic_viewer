@@ -99,7 +99,7 @@ EOT;
       params.bgcolor = "#ffffff";
       params.allowscriptaccess = "sameDomain";
       params.allowfullscreen = "true";
-      var attributes = {};
+      var attributes = { wmode: "transparent" };
       attributes.id = "FlexPaperViewer";
       attributes.name = "FlexPaperViewer";
       swfobject.embedSWF(
