@@ -21,7 +21,7 @@
             "jsClass": "ADRBasicViewer",
             "snapToGrid": 10,
             "userConfig": {
-                "activeTab": 1,
+                "activeTab": 0,
                 "width": 960,
                 "height": 920,
                 "activeItem": "-ext-undefined-",
@@ -392,7 +392,7 @@
                     "userConfig": {
                         "title": "Object Properties",
                         "width": 100,
-                        "height": 140,
+                        "height": 150,
                         "layout": "-ext-undefined-",
                         "defaultType": "-ext-undefined-",
                         "padding": "-ext-undefined-",
