@@ -7,7 +7,10 @@
  *
  */
 class ObjectViewDescription {
-
+  const mods = 'http://www.loc.gov/standards/mods/v3';
+  const xlink = 'http://www.w3.org/1999/xlink';
+  const xsi = 'http://www.w3.org/2001/XMLSchema-instance';
+  const xmlns = 'http://www.w3.org/2000/xmlns/';
   /**
    *
    * @var <type>
@@ -123,13 +126,37 @@ class ObjectViewDescription {
     $dsid = $result[0]['dsid'];
     $datastream = $this->item->get_datastream_dissemination($dsid);
     if (trim($datastream) != '') {
-      $datastream = new SimpleXMLElement($datastream);
+      $doc = new DOMDocument();
+      $doc->loadXML($datastream);
+      $root = &$doc->documentElement;
+      $root->setAttributeNS(self::xmlns, 'xmlns', self::mods);
+      $root->setAttributeNS(self::xmlns, 'xmlns:mods', self::mods);
+      $root->setAttributeNS(self::xmlns, 'xmlns:xlink', self::xlink);
+      $root->setAttributeNS(self::xmlns, 'xmlns:xsi', self::xsi);
+      $xml = $doc->saveXML();
+      $doc->loadXML($xml); // Sucha a terrible api...
+      $xpath = new DOMXPath($doc);
+      $xpath->registerNamespace('mods', 'http://www.loc.gov/standards/mods/v3');
       foreach ($items as $item) {
         list($label, $path) = $item;
-        $results = $datastream->xpath($path);
-        $value = trim($this->implodeSimpleXMLElementArray('<br/>', $results));
-        if ($value != '') {
-          $output[$label] = $value;
+        $results = $xpath->query($path);
+        $count = $results->length;
+        for ($i = 0; $i < $count; $i++) {
+          $item = $results->item($i);
+          switch (get_class($item)) {
+            case 'DOMAttr':
+              $value = $item->value;
+              if ($value != '') {
+                $output[$label] = $value . '<br/>';
+              }
+              break;
+            case 'DOMElement':
+              $value = $item->textContent;
+              if ($value != '') {
+                $output[$label] = $value . '<br/>';
+              }
+              break;
+          }
         }
       }
     }
