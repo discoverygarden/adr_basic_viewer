@@ -80,8 +80,8 @@ EOT;
         ZoomTransition : "easeOut",
 				ZoomTime : 0.5,
         ZoomInterval : 0.1,
-  			FitPageOnLoad : false,
-        FitWidthOnLoad : true,
+  			FitPageOnLoad : true,
+        FitWidthOnLoad : false,
   			PrintEnabled : true,
     		FullScreenAsMaxWindow : false,
   			ProgressiveLoading : true,
@@ -92,7 +92,8 @@ EOT;
   			NavToolsVisible : true,
   			CursorToolsVisible : true,
   			SearchToolsVisible : true,
-  			localeChain: "en_US"
+  			localeChain: "en_US",
+        scaleMode: "exactFit"
       };
       var params = {}
       params.quality = "high";
@@ -104,11 +105,11 @@ EOT;
       attributes.name = "FlexPaperViewer";
       swfobject.embedSWF(
         "$base_url/sites/all/libraries/flexpaper/FlexPaperViewer.swf", "playerFlexPaper",
-        "915", "835", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
+        "100%", "857", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
       swfobject.createCSS("#playerFlexPaper", "display:block;text-align:left;");
    }
 EOT;
-    drupal_add_js($js, 'inline');
+    drupal_add_js($js, 'inline'); //"915", "835"
   }
 
   private static function includeJSForPrettyPrint() {

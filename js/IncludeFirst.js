@@ -73,6 +73,15 @@ ADRBasic.viewer = {
             ADRBasic.viewer.setTitle();
         }
         this.autoAttachFlash();
+        var viewer = Ext.getCmp('adr-viewer');
+        viewer.addListener('resize', this.resize);
+    },
+    resize: function(panel, adjWidth, adjHeight, rawWidth, rawHeight) {
+        var flexPaper = Ext.get('FlexPaperViewer');
+        if(flexPaper) {
+            flexPaper.width = rawWidth;
+            flexPaper.height = rawHeight;
+        }
     },
     shouldLoadFlexPaper: function() {
         var flexPaper = Ext.get('playerFlexPaper');
