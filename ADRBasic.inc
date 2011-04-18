@@ -52,6 +52,7 @@ class ADRBasic {
     );
 
     $custom_components = array(
+      'FilesXTemplate.js',
       'FileUploadField.ui.js',
       'FileUploadField.js',
     );

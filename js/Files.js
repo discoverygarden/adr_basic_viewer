@@ -15,6 +15,7 @@ Files = Ext.extend(FilesUi, {
     initComponent: function() {
         Files.superclass.initComponent.call(this);
         var dataview = this.get(0);
+        dataview.tpl = filesXTemplate;
         dataview.addListener('click', function(dataview, index, node, event) {
             var record = dataview.getRecord(node);
             var pid = dataview.store.baseParams.pid;
