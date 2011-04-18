@@ -65,6 +65,7 @@ class ObjectViewDescription {
    * @return array
    */
   public function canViewDatastream($dsid) {
+
     $restricted_datastreams = $this->getRestrictedDatastreams();
     if (isset($restricted_datastreams[$dsid])) {
       return FALSE;
@@ -77,12 +78,50 @@ class ObjectViewDescription {
       else {
         $mime_type = $this->item->datastreams[$dsid]['MIMEType'];
         $allowed_mime_types = $this->getAllowedMimeTypes();
-        if (isset($allowed_mime_types[$mime_type])) {
+        if (isset($allowed_mime_types[$mime_type]) && !$this->isIcon($dsid)) {
           return TRUE;
         }
       }
     }
     return FALSE;
+  }
+
+  /**
+   *
+   * @return <type> 
+   */
+  private function isIcon($dsid) {
+    return ($dsid == 'TN') || (preg_match('/-tn\.([^\/]*)$/i', $dsid) > 0) || $this->checkRelsIntForThumbnailExists($dsid);
+  }
+
+  /**
+   *
+   * @param <type> $dsid
+   * @return boolean 
+   */
+  private function checkRelsIntForThumbnailExists($dsid) {
+    $rels_int = $this->getRelsInt();
+    if (isset($rels_int)) {
+      $path = "//coal:hasThumbnail[@rdf:resource='info:fedora/{$this->item->pid}/{$dsid}']"; // coal Namespace is worry some.
+      $results = $rels_int->xpath($path);
+      if (is_array($results) && count($results) > 0) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * Gets the RELS-INT datastream as a SimpleXMLElement.
+   *
+   * @return SimpleXMLElement
+   */
+  private function getRelsInt() {
+    $rels_int = $this->item->get_datastream_dissemination("RELS-INT");
+    if (trim($rels_int) != '') {
+      return new SimpleXMLElement($rels_int);
+    }
+    return NULL;
   }
 
   /**
