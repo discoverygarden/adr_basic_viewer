@@ -84,7 +84,8 @@
                                 "userXType": "filePanel",
                                 "region": "east",
                                 "collapseMode": "standard",
-                                "collapsible": true
+                                "collapsible": true,
+                                "id": "adr-overview-files"
                             },
                             "userComponent": "MyPanel2"
                         }
@@ -127,7 +128,8 @@
                                 "userXType": "filePanel",
                                 "region": "east",
                                 "collapsible": true,
-                                "collapseMode": "standard"
+                                "collapseMode": "standard",
+                                "id": "adr-viewer-files"
                             },
                             "userComponent": "MyPanel2"
                         }
@@ -778,7 +780,8 @@
                 "hideCollapseTool": "-ext-undefined-",
                 "animCollapse": "-ext-undefined-",
                 "autoHeight": true,
-                "frame": true
+                "frame": true,
+                "id": "-ext-undefined-"
             },
             "userXType": "filePanel",
             "cn": [

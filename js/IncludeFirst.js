@@ -26,6 +26,11 @@ ADRBasic.viewer = {
         return this.dsid != null;
     },
     setTitle: function() {
+        var store = Ext.StoreMgr.lookup('OverviewDatastreams');
+        var total = store.getTotalCount();
+        var title = 'Files (Total: ' + total + ')';
+        Ext.getCmp('adr-overview-files').setTitle(title);
+        Ext.getCmp('adr-viewer-files').setTitle(title);
         Ext.getCmp('adr-viewer').setTitle(this.dsid + " (" + this.label + ")");
     },
     loadViewer: function() {
