@@ -7,9 +7,11 @@
 var filesXTemplate = new Ext.XTemplate(
     '<tpl for=".">',
     '<div class="adr-file">',
-    '<div class="adr-file-label">{[fm.ellipsis(values.label, 30, true)]}</div>',
-    '<img class="adr-file-img adr-file-show-view" src="{img_url}"></img>',
     '<div class="adr-file-dsid">{[fm.ellipsis(values.dsid, 30, true)]}</div>',
+    '<tpl if="this.showLabel(label)">',
+    '<div class="adr-file-label">{[fm.ellipsis(values.label, 30, true)]}</div>',
+    '</tpl>',
+    '<img class="adr-file-img adr-file-show-view" src="{img_url}"></img>',
     '<div class="adr-file-controls">',
     '<span class="adr-file-view">',
     '<tpl if="this.showView(mime)">',
@@ -32,6 +34,9 @@ var filesXTemplate = new Ext.XTemplate(
         compiled: true,
         disableFormats: true,
         // member functions:
+        showLabel: function(label) {
+            return jQuery.trim(label) != '';
+        },
         showView: function(mime){
             return mime.indexOf("audio") == -1 && mime.indexOf("video") == -1;
         },
