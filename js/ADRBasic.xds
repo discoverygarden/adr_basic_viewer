@@ -773,7 +773,7 @@
             "snapToGrid": 10,
             "userConfig": {
                 "title": "Files",
-                "width": 290,
+                "width": 277,
                 "collapsible": "-ext-undefined-",
                 "collapseFirst": "-ext-undefined-",
                 "collapsed": "-ext-undefined-",
@@ -810,7 +810,7 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "store": "OverviewDatastreams",
-                        "pageSize": 3
+                        "pageSize": 5
                     }
                 }
             ]
