@@ -11,19 +11,19 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
-#adr-basic-viewer html, #adr-basic-viewer body, #adr-basic-viewer div, #adr-basic-viewer span, #adr-basic-viewer applet, #adr-basic-viewer object, #adr-basic-viewer iframe,
-#adr-basic-viewer h1, #adr-basic-viewer h2, #adr-basic-viewer h3, #adr-basic-viewer h4, #adr-basic-viewer h5, #adr-basic-viewer h6, #adr-basic-viewer p, #adr-basic-viewer blockquote, #adr-basic-viewer pre,
-#adr-basic-viewer a, #adr-basic-viewer abbr, #adr-basic-viewer acronym, #adr-basic-viewer address, #adr-basic-viewer big, #adr-basic-viewer cite, #adr-basic-viewer code,
-#adr-basic-viewer del, #adr-basic-viewer dfn, #adr-basic-viewer em, #adr-basic-viewer img, #adr-basic-viewer ins, #adr-basic-viewer kbd, #adr-basic-viewer q, #adr-basic-viewer s, #adr-basic-viewer samp,
-#adr-basic-viewer small, #adr-basic-viewer strike, #adr-basic-viewer strong, #adr-basic-viewer sub, #adr-basic-viewer sup, #adr-basic-viewer tt, #adr-basic-viewer var,
-#adr-basic-viewer b, #adr-basic-viewer u, #adr-basic-viewer i, #adr-basic-viewer center,
-#adr-basic-viewer dl, #adr-basic-viewer dt, #adr-basic-viewer dd, #adr-basic-viewer #adr-basic-viewer ol, #adr-basic-viewer ul, #adr-basic-viewer li,
-#adr-basic-viewer fieldset, #adr-basic-viewer form, #adr-basic-viewer label, #adr-basic-viewer legend,
-#adr-basic-viewer table, #adr-basic-viewer caption, #adr-basic-viewer tbody, #adr-basic-viewer tfoot, #adr-basic-viewer thead, #adr-basic-viewer tr, #adr-basic-viewer th, #adr-basic-viewer td,
-#adr-basic-viewer article, #adr-basic-viewer aside, #adr-basic-viewer canvas, #adr-basic-viewer details, #adr-basic-viewer embed,
-#adr-basic-viewer figure, #adr-basic-viewer figcaption, #adr-basic-viewer footer, #adr-basic-viewer header, #adr-basic-viewer hgroup,
-#adr-basic-viewer menu, #adr-basic-viewer nav, #adr-basic-viewer output, #adr-basic-viewer ruby, #adr-basic-viewer section, #adr-basic-viewer summary,
-#adr-basic-viewer time, #adr-basic-viewer mark, #adr-basic-viewer audio, #adr-basic-viewer video, #adr-basic-viewer a:link {
+#adr-basic-viewer html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, a:link {
     margin: 0;
     padding: 0;
     border: 0;
@@ -31,21 +31,21 @@
     font: inherit;
     /*vertical-align: baseline;*/
 }
-#adr-basic-viewer article, #adr-basic-viewer aside, #adr-basic-viewer details, #adr-basic-viewer figcaption, #adr-basic-viewer figure,
-#adr-basic-viewer footer, #adr-basic-viewer header, #adr-basic-viewer hgroup, #adr-basic-viewer menu, #adr-basic-viewer nav, #adr-basic-viewer section {
+#adr-basic-viewer article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
     display: block;
 }
 #adr-basic-viewer body {
     line-height: 1;
 }
-#adr-basic-viewer ol, #adr-basic-viewer ul {
+#adr-basic-viewer ol, ul {
     list-style: none;
 }
-#adr-basic-viewer blockquote, #adr-basic-viewer q {
+#adr-basic-viewer blockquote, q {
     quotes: none;
 }
-#adr-basic-viewer blockquote:before, #adr-basic-viewer blockquote:after,
-#adr-basic-viewer q:before, #adr-basic-viewer q:after {
+#adr-basic-viewer blockquote:before, blockquote:after,
+q:before, q:after {
     content: '';
     content: none;
 }
