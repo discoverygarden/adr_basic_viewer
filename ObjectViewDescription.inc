@@ -184,15 +184,15 @@ class ObjectViewDescription {
           $item = $results->item($i);
           switch (get_class($item)) {
             case 'DOMAttr':
-              $value = $item->value;
+              $value = trim($item->value);
               if ($value != '') {
-                $output[$label] = $value . '<br/>';
+                $output[$label] .= $value . '<br/>';
               }
               break;
             case 'DOMElement':
-              $value = $item->textContent;
+              $value = trim($item->textContent);
               if ($value != '') {
-                $output[$label] = $value . '<br/>';
+                $output[$label] .= $value . '<br/>';
               }
               break;
           }
