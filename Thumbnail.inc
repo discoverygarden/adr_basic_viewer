@@ -97,7 +97,7 @@ class Thumbnail {
    * @return boolean
    */
   private function isIcon() {
-    return ($dsid == 'TN') || (preg_match('/-tn\.([^\/]*)$/i', $dsid) > 0);
+    return ($this->dsid == 'TN') || (preg_match('/-tn\.([^\/]*)$/i', $this->dsid) > 0);
   }
 
   /**
