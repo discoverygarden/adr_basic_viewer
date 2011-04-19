@@ -69,6 +69,14 @@
     text-align: center;
 }
 
+.adr-file-controls .adr-file-view{
+    padding: 3px;
+}
+
+.adr-file-controls .adr-file-download {
+    padding: 3px;
+}
+
 .adr-edit-file {
     float: left;
     width: 200px;
