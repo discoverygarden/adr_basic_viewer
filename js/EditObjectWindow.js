@@ -15,7 +15,7 @@ EditObjectWindow = Ext.extend(EditObjectWindowUi, {
     initComponent: function() {
         EditObjectWindow.superclass.initComponent.call(this);
         var editObjectWindow = this;
-        var pid = window.location.pathname.split('/')[3];
+        var pid = ADRBasic.pid;
         var formPanel = this.get(0);
         var form = formPanel.getForm();
         var store = Ext.StoreMgr.lookup('ObjectProperties');

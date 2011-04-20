@@ -793,7 +793,7 @@
                     "userConfig": {
                         "itemSelector": ".adr-file-show-view",
                         "store": "OverviewDatastreams",
-                        "tpl": "-ext-undefined-",
+                        "tpl": "",
                         "emptyText": "Not Specified...",
                         "loadingText": "loading...",
                         "singleSelect": true,
