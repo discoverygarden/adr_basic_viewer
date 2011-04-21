@@ -11,7 +11,7 @@
 #adr-basic-viewer a:link {
     padding-bottom: 0px;
 }
-#adr-basic-viewer table {
+#adr-basic-viewer table, .adr-clear table, .x-window table{
     border-collapse: collapse;
     border-spacing: 0;
     margin: 0;
@@ -20,6 +20,6 @@
     font-size: 100%;
     font: inherit;
 }
-#adr-basic-viewer form tbody, #adr-basic-viewer form tbody th {
+#adr-basic-viewer form tbody, #adr-basic-viewer form tbody th, .x-window th, .x-window td {
     border: 0;
 }
