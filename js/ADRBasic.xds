@@ -475,41 +475,30 @@
             "snapToGrid": 10,
             "userConfig": {
                 "title": "Add File",
-                "width": 637,
-                "height": 259,
-                "layout": "anchor",
+                "width": 600,
+                "height": 98,
+                "layout": "-ext-undefined-",
                 "defaultType": "form",
                 "header": true,
                 "headerAsText": "-ext-undefined-",
-                "constrainHeader": "-ext-undefined-"
+                "constrainHeader": "-ext-undefined-",
+                "padding": "10px",
+                "autoHeight": true,
+                "autoWidth": "-ext-undefined-"
             },
             "cn": [
                 {
-                    "id": "MyForm3",
+                    "id": "MyForm5",
                     "cid": "form",
-                    "jsClass": "AddFileForm",
+                    "jsClass": "MyForm5",
                     "snapToGrid": 10,
                     "userConfig": {
-                        "title": "Add File",
+                        "title": "-ext-undefined-",
                         "frame": true,
                         "headerAsText": false,
-                        "header": "-ext-undefined-",
-                        "border": "-ext-undefined-",
-                        "hideBorders": "-ext-undefined-",
-                        "autoScroll": "-ext-undefined-",
-                        "layout": "-ext-undefined-",
-                        "animCollapse": false,
-                        "height": "-ext-undefined-",
-                        "method": "POST",
-                        "anchor": "100% 100%",
-                        "autoHeight": "-ext-undefined-",
-                        "standardSubmit": "-ext-undefined-",
                         "fileUpload": true,
-                        "forceLayout": "-ext-undefined-",
-                        "collapseFirst": "-ext-undefined-",
-                        "shim": "-ext-undefined-"
+                        "unstyled": true
                     },
-                    "userXType": "addfileform",
                     "cn": [
                         {
                             "id": "MyTextField2",
@@ -517,7 +506,7 @@
                             "jsClass": "MyTextField2",
                             "snapToGrid": 10,
                             "userConfig": {
-                                "fieldLabel": "DSID",
+                                "fieldLabel": "Datastream ID",
                                 "anchor": "100%",
                                 "name": "dsid",
                                 "allowBlank": false
@@ -679,32 +668,29 @@
             "snapToGrid": 10,
             "userConfig": {
                 "title": "Edit Object",
-                "width": 453,
-                "height": 181,
-                "layout": "anchor",
-                "titleCollapse": "-ext-undefined-"
+                "width": 542,
+                "height": 164,
+                "layout": "fit",
+                "titleCollapse": "-ext-undefined-",
+                "cls": "adr-clear",
+                "id": "adr-edit-obj-window"
             },
             "cn": [
                 {
-                    "id": "MyForm5",
+                    "id": "MyForm2",
                     "cid": "form",
-                    "jsClass": "MyForm5",
+                    "jsClass": "MyForm2",
                     "snapToGrid": 10,
                     "userConfig": {
-                        "title": "Edit Object",
-                        "unstyled": "-ext-undefined-",
+                        "title": "-ext-undefined-",
                         "headerAsText": false,
-                        "anchor": "100% 100%",
-                        "header": true,
-                        "layout": "-ext-undefined-",
-                        "autoLoad": "-ext-undefined-",
                         "frame": true
                     },
                     "cn": [
                         {
-                            "id": "MyTextField6",
+                            "id": "MyTextField",
                             "cid": "textfield",
-                            "jsClass": "MyTextField6",
+                            "jsClass": "MyTextField",
                             "snapToGrid": 10,
                             "userConfig": {
                                 "fieldLabel": "Label",
@@ -713,9 +699,9 @@
                             }
                         },
                         {
-                            "id": "MyTextField5",
+                            "id": "MyTextField1",
                             "cid": "textfield",
-                            "jsClass": "MyTextField5",
+                            "jsClass": "MyTextField1",
                             "snapToGrid": 10,
                             "userConfig": {
                                 "fieldLabel": "Owner",
@@ -730,31 +716,30 @@
                             "snapToGrid": 10,
                             "userConfig": {
                                 "fieldLabel": "State",
-                                "anchor": "-ext-undefined-",
+                                "anchor": "100%",
                                 "name": "state",
+                                "mode": "local",
                                 "store": "State",
+                                "allowBlank": false,
                                 "displayField": "type",
                                 "valueField": "value",
-                                "value": "Please Select...",
                                 "submitValue": true,
-                                "mode": "local",
-                                "allowBlank": false,
                                 "editable": false,
                                 "triggerAction": "all",
                                 "forceSelection": true
                             }
                         },
                         {
-                            "id": "MyToolbar4",
+                            "id": "MyToolbar2",
                             "cid": "toolbar",
-                            "jsClass": "MyToolbar4",
+                            "jsClass": "MyToolbar2",
                             "dock": "fbar",
                             "snapToGrid": 10,
                             "cn": [
                                 {
-                                    "id": "MyButton10",
+                                    "id": "MyButton9",
                                     "cid": "button",
-                                    "jsClass": "MyButton10",
+                                    "jsClass": "MyButton9",
                                     "snapToGrid": 10,
                                     "userConfig": {
                                         "text": "Save"
