@@ -41,9 +41,21 @@ class Thumbnail {
   protected $defaultMimeIcons = array(
     'application/pdf' => 'application-pdf.png',
     'application/rdf+xml' => 'text-txt.png',
+    'application/xml' => 'text-txt.png',
     'text/xml' => 'text-txt.png',
-    'image/jpeg' => 'image-default.png',
-    'video/x-flv' => 'video-x-generic-mplayer.png'
+    'audio/midi' => 'audio.png',
+    'audio/x-aiff' => 'audio.png',
+    'audio/x-mpeg' => 'audio.png',
+    'audio/x-wav' => 'audio.png',
+    'audio/x-pn-realaudio' => 'audio.png',
+    'audio/mpeg' => 'audio.png',
+    'audio/mp3' => 'audio.png',
+    'audio/wav' => 'audio.png',
+    'video/x-msvideo' => 'video.png',
+    'video/x-flv' => 'video.png',
+    'video/mpeg' => 'video.png',
+    'video/mp4' => 'video.png',
+    'video/quicktime' => 'video.png',
   );
   /**
    * The default icon for a datastream. This is used when there is no thumbnail associated with the datastream,
