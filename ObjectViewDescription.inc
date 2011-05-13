@@ -89,7 +89,7 @@ class ObjectViewDescription {
   private function isDatastreamIDRestricted($dsid) {
     $restricted_datastreams = $this->getRestrictedDatastreams();
     foreach ($restricted_datastreams as $pattern) {
-      if ($pattern == $dsid || preg_match($pattern, $dsid) === 1) {
+      if ($pattern == $dsid || @preg_match($pattern, $dsid) === 1) {
         return TRUE;
       }
     }
@@ -102,7 +102,7 @@ class ObjectViewDescription {
   private function isDatastreamIDPermitted($dsid) {
     $allowed_datastreams = $this->getAllowedDatastreams();
     foreach ($allowed_datastreams as $pattern) {
-      if (preg_match($pattern, $dsid) === 1) {
+      if ($pattern == $dsid || @preg_match($pattern, $dsid) === 1) {
         return TRUE;
       }
     }
