@@ -12,6 +12,45 @@ class ADRBasicViewer {
   protected $dsid;
   protected $item;
   protected $mimeType;
+  static protected $allowedMimeTypes = array(
+    'application/rdf+xml',
+    'text/xml',
+    'video/x-flv',
+    'audio/mpeg',
+    'audio/x-mpeg',
+    'video/mpeg',
+    'video/mp4',
+    'application/pdf',
+    'image/jpeg',
+    'image/jp2',
+    'image/tiff',
+    'image/png',
+  );
+
+  public static function hasViewer($pid, $dsid) {
+    module_load_include('inc', 'fedora_repository', 'api/fedora_item');
+    $matches = array();
+    $dsid_without_extension = preg_replace('/\.[^.]+$/', '', $dsid);
+    $find_similar_dsids = function($dsid) use ($dsid_without_extension, &$matches) {
+          $local_dsid_without_extension = preg_replace('/\.[^.]+$/', '', $dsid);
+          if ($local_dsid_without_extension == $dsid_without_extension) {
+            $matches[] = $subject;
+          }
+        };
+    $item = new Fedora_Item($pid);
+    array_walk($item->datastreams, $find_similar_dsids);
+    foreach ($matches as $match) {
+      $mime_type = $item->datastreams[$match]['MIMEType'];
+      if (self::allowedMimeType($mime_type)) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  public static function allowedMimeType($mime_type) {
+    return array_search($mime_type, self::$allowedMimeTypes) !== FALSE;
+  }
 
   public static function includeRequiredJSForViewers($pid) {
     self::includeJSForFlash($pid);

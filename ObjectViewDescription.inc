@@ -65,14 +65,11 @@ class ObjectViewDescription {
    * @return array
    */
   public function canViewDatastream($dsid) {
-
-    $restricted_datastreams = $this->getRestrictedDatastreams();
-    if (isset($restricted_datastreams[$dsid])) {
+    if ($this->isDatastreamIDRestricted($dsid)) {
       return FALSE;
     }
     else {
-      $allowed_datastreams = $this->getAllowedDatastreams();
-      if (isset($allowed_datastreams[$dsid])) {
+      if ($this->isDatastreamIDPermitted($dsid)) {
         return TRUE;
       }
       else {
@@ -81,6 +78,32 @@ class ObjectViewDescription {
         if (isset($allowed_mime_types[$mime_type]) && !$this->isIcon($dsid)) {
           return TRUE;
         }
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * 
+   */
+  private function isDatastreamIDRestricted($dsid) {
+    $restricted_datastreams = $this->getRestrictedDatastreams();
+    foreach ($restricted_datastreams as $pattern) {
+      if ($pattern == $dsid || preg_match($pattern, $dsid) === 1) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * 
+   */
+  private function isDatastreamIDPermitted($dsid) {
+    $allowed_datastreams = $this->getAllowedDatastreams();
+    foreach ($allowed_datastreams as $pattern) {
+      if (preg_match($pattern, $dsid) === 1) {
+        return TRUE;
       }
     }
     return FALSE;
@@ -258,7 +281,7 @@ class ObjectViewDescription {
   private function getAllowedDatastreams() {
     if (empty($this->allowedDatastreams)) {
       $result = $this->objectViewDescription->xpath('/object_viewer/allowed_datastreams/datastream_ids/dsid');
-      $this->allowedDatastreams = $this->getSimpleXMLArrayAsKeyedArrayWithTrueValues($result);
+      $this->allowedDatastreams = $this->getSimpleXMLArray($result);
     }
     return $this->allowedDatastreams;
   }
@@ -270,9 +293,24 @@ class ObjectViewDescription {
   private function getRestrictedDatastreams() {
     if (empty($this->restrictedDatastreams)) {
       $result = $this->objectViewDescription->xpath('/object_viewer/restricted_datastreams/datastream_ids/dsid');
-      $this->restrictedDatastreams = $this->getSimpleXMLArrayAsKeyedArrayWithTrueValues($result);
+      $this->restrictedDatastreams = $this->getSimpleXMLArray($result);
     }
     return $this->restrictedDatastreams;
+  }
+
+  /**
+   *
+   * @param array $values
+   * @return array
+   */
+  private function getSimpleXMLArray($values) {
+    $output = array();
+    if (isset($values) && $values !== FALSE) {
+      while (($value = array_shift($values)) != NULL) {
+        $output[] = (string) $value;
+      }
+    }
+    return $output;
   }
 
 }
