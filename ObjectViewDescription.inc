@@ -209,13 +209,13 @@ class ObjectViewDescription {
             case 'DOMAttr':
               $value = trim($item->value);
               if ($value != '') {
-                $output[$label] .= $value . '<br/>';
+                $output[$label] .= $this->makeLinks($value) . '<br/>';
               }
               break;
             case 'DOMElement':
               $value = trim($item->textContent);
               if ($value != '') {
-                $output[$label] .= $value . '<br/>';
+                $output[$label] .= $this->makeLinks($value) . '<br/>';
               }
               break;
           }
@@ -223,6 +223,33 @@ class ObjectViewDescription {
       }
     }
     return $output;
+  }
+
+  /**
+   * This code snippit comes from the Remark Markup Library, Authored by Alan Tick. GNU GPL v3.
+   * 
+   * https://launchpad.net/remark
+   * 
+   * @param type $text
+   * @return type 
+   */
+  private function makeLinks($text) {
+    $SCHEMES = array('http', 'https', 'ftp', 'mailto', 'news',
+      'gopher', 'nntp', 'telnet', 'wais', 'prospero', 'aim', 'webcal');
+    // Note: fragment id is uchar | reserved, see rfc 1738 page 19
+    // %% for % because of string formating
+    // puncuation = ? , ; . : !
+    // if punctuation is at the end, then don't include it
+    $URL_FORMAT = '~(?<!\w)((?:' . implode('|', $SCHEMES) . '):' # protocol + :
+        . '/*(?!/)(?:' # get any starting /'s
+        . '[\w$\+\*@&=\-/]' # reserved | unreserved
+        . '|%%[a-fA-F0-9]{2}' # escape
+        . '|[\?\.:\(\),;!\'](?!(?:\s|$))' # punctuation
+        . '|(?:(?<=[^/:]{2})#)' # fragment id
+        . '){2,}' # at least two characters in the main url part
+        . ')~';
+    
+    return preg_replace($URL_FORMAT, '<a href="\1">\1</a>', $text);
   }
 
   /**
