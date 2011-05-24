@@ -7,10 +7,6 @@
  *
  */
 class ObjectViewDescription {
-  const mods = 'http://www.loc.gov/standards/mods/v3';
-  const xlink = 'http://www.w3.org/1999/xlink';
-  const xsi = 'http://www.w3.org/2001/XMLSchema-instance';
-  const xmlns = 'http://www.w3.org/2000/xmlns/';
   /**
    *
    * @var Fedora_Item
