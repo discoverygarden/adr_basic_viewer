@@ -147,15 +147,16 @@ class AjaxHandler {
     $count = 0;
     $end = $start + $limit;
     foreach ($this->item->datastreams as $dsid => $attr) {
-      $should_add = $object_view->isDatastreamViewable($dsid);
-      if ($should_add) {
-        if ($count >= $start && $count < $end) {
+      list($viewable, $downloadable) = $object_view->isViewableAndDownloadable($dsid);
+      if ($viewable) {
+        $within_range = $count >= $start && $count < $end;
+        if ($within_range) {
           module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
           $thumbnail = new Thumbnail($this->item, $dsid);
           $stream['dsid'] = $dsid;
           $stream['label'] = $attr['label'];
           $stream['img_url'] = $thumbnail->getUrl();
-          $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
+          $stream['download_url'] = ($downloadable) ? $this->getDatastreamDownloadURL($dsid, $attr['label']) : NULL;
           $stream['mime'] = $attr['MIMEType'];
           $data[] = $stream;
         }

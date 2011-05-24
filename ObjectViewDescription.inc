@@ -335,6 +335,15 @@ class ObjectViewDescription {
   }
 
   /**
+   * 
+   * @param string $dsid 
+   * @return array
+   */
+  public function isViewableAndDownloadable($dsid) {
+    return array($this->isDatastreamViewable($dsid), $this->isDatastreamDownloadable($dsid));
+  }
+
+  /**
    *
    * @return array
    */
@@ -352,15 +361,15 @@ class ObjectViewDescription {
    */
   private function getDescriptionItems() {
     $description_items = array();
-    /*$foo = $this;
-    $result = $this->objectViewDescription->xpath('/object_viewer/description/item');
-    if (isset($result) && $result !== FALSE) {
+    /* $foo = $this;
+      $result = $this->objectViewDescription->xpath('/object_viewer/description/item');
+      if (isset($result) && $result !== FALSE) {
       while (($item = array_shift($result)) != NULL) {
-        $label = trim(sprintf("%s", $item->label));
-        $path = trim(sprintf("%s", $item->path));
-        $description_items[] = array($label, $path);
+      $label = trim(sprintf("%s", $item->label));
+      $path = trim(sprintf("%s", $item->path));
+      $description_items[] = array($label, $path);
       }
-    }*/
+      } */
     return $description_items;
   }
 
@@ -372,10 +381,10 @@ class ObjectViewDescription {
   private function &queryDescriptionItemPaths(&$items) {
     $output = array();
     /*
-    $result = $this->objectViewDescription->xpath('/object_viewer/description');
-    $dsid = $result[0]['dsid'];
-    $datastream = $this->item->get_datastream_dissemination($dsid);
-    if (trim($datastream) != '') {
+      $result = $this->objectViewDescription->xpath('/object_viewer/description');
+      $dsid = $result[0]['dsid'];
+      $datastream = $this->item->get_datastream_dissemination($dsid);
+      if (trim($datastream) != '') {
       $doc = new DOMDocument();
       $doc->loadXML($datastream);
       $root = &$doc->documentElement;
@@ -388,28 +397,28 @@ class ObjectViewDescription {
       $xpath = new DOMXPath($doc);
       $xpath->registerNamespace('mods', 'http://www.loc.gov/standards/mods/v3');
       foreach ($items as $item) {
-        list($label, $path) = $item;
-        $results = $xpath->query($path);
-        $count = $results->length;
-        for ($i = 0; $i < $count; $i++) {
-          $item = $results->item($i);
-          switch (get_class($item)) {
-            case 'DOMAttr':
-              $value = trim($item->value);
-              if ($value != '') {
-                $output[$label] .= $this->makeLinks($value) . '<br/>';
-              }
-              break;
-            case 'DOMElement':
-              $value = trim($item->textContent);
-              if ($value != '') {
-                $output[$label] .= $this->makeLinks($value) . '<br/>';
-              }
-              break;
-          }
-        }
+      list($label, $path) = $item;
+      $results = $xpath->query($path);
+      $count = $results->length;
+      for ($i = 0; $i < $count; $i++) {
+      $item = $results->item($i);
+      switch (get_class($item)) {
+      case 'DOMAttr':
+      $value = trim($item->value);
+      if ($value != '') {
+      $output[$label] .= $this->makeLinks($value) . '<br/>';
       }
-    }*/
+      break;
+      case 'DOMElement':
+      $value = trim($item->textContent);
+      if ($value != '') {
+      $output[$label] .= $this->makeLinks($value) . '<br/>';
+      }
+      break;
+      }
+      }
+      }
+      } */
     return $output;
   }
 

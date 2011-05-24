@@ -18,7 +18,7 @@
             <mime_type view="true" download="true">application/msexcel</mime_type>
             <mime_type view="true" download="true">application/mspowerpoint</mime_type>
             <mime_type view="true" download="true">application/msword</mime_type>
-            <mime_type view="true" download="true">application/pdf</mime_type>
+            <mime_type view="true" download="false">application/pdf</mime_type>
             <mime_type view="true" download="true">application/rtf</mime_type>
             <mime_type view="true" download="true">application/vnd.ms-excel</mime_type>
             <mime_type view="true" download="true">application/vnd.ms-excel.sheet.macroEnabled.12</mime_type>
