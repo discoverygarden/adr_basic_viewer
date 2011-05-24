@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object_viewer>
+    <files hide_derived="true" hide_thumbnails="true">
+        <mime_types>
+            <!-- If a mime type is not specified its assumed to be non-viewable/downloadable -->
+            <mime_type view="true" download="true">application/octet-stream</mime_type>
+            <mime_type view="true" download="true">application/zip</mime_type>
+            <mime_type view="true" download="true">application/x-zip</mime_type>
+            <mime_type view="true" download="true">application/x-shockwave-flash</mime_type>
+            <mime_type view="true" download="false">image/tiff</mime_type>
+            <mime_type view="true" download="true">image/jpeg</mime_type>
+            <mime_type view="true" download="true">image/gif</mime_type>
+            <mime_type view="true" download="true">image/png</mime_type>
+            <mime_type view="true" download="true">image/jp2</mime_type>
+            <mime_type view="true" download="true">image/raw</mime_type>
+            <mime_type view="true" download="true">image/x-raw</mime_type>
+            <mime_type view="true" download="true">application/msaccess</mime_type>
+            <mime_type view="true" download="true">application/msexcel</mime_type>
+            <mime_type view="true" download="true">application/mspowerpoint</mime_type>
+            <mime_type view="true" download="true">application/msword</mime_type>
+            <mime_type view="true" download="true">application/pdf</mime_type>
+            <mime_type view="true" download="true">application/rtf</mime_type>
+            <mime_type view="true" download="true">application/vnd.ms-excel</mime_type>
+            <mime_type view="true" download="true">application/vnd.ms-excel.sheet.macroEnabled.12</mime_type>
+            <mime_type view="true" download="true">application/vnd.ms-powerpoint</mime_type>
+            <mime_type view="true" download="true">application/vnd.ms-powerpoint.presentation.macroEnabled.12</mime_type>
+            <mime_type view="true" download="true">application/vnd.ms-powerpoint.slideshow.macroEnabled.12</mime_type>
+            <mime_type view="true" download="true">application/vnd.ms-project</mime_type>
+            <mime_type view="true" download="true">application/vnd.ms-word.document.macroEnabled.12</mime_type>
+            <mime_type view="true" download="true">application/xml</mime_type>
+            <mime_type view="true" download="true">text/html</mime_type>
+            <mime_type view="true" download="true">text/plain</mime_type>
+            <mime_type view="true" download="true">text/rtf</mime_type>
+            <mime_type view="true" download="true">text/xml</mime_type>
+            <mime_type view="true" download="true">audio/midi</mime_type>
+            <mime_type view="true" download="true">audio/x-aiff</mime_type>
+            <mime_type view="true" download="true">audio/x-mpeg</mime_type>
+            <mime_type view="true" download="true">audio/x-wav</mime_type>
+            <mime_type view="true" download="true">audio/x-pn-realaudio</mime_type>
+            <mime_type view="true" download="true">audio/mpeg</mime_type>
+            <mime_type view="true" download="true">audio/wav</mime_type>
+            <mime_type view="true" download="true">video/x-msvideo</mime_type>
+            <mime_type view="true" download="true">video/mpeg</mime_type>
+            <mime_type view="true" download="true">video/quicktime</mime_type>
+            <mime_type view="true" download="true">video/mp4</mime_type>
+        </mime_types>
+        <datastream_ids>
+            <dsid view="false" download="false">TN</dsid>
+            <dsid view="false" download="false">MODS</dsid>
+            <dsid view="false" download="false">DC</dsid>
+            <dsid view="false" download="false">METS</dsid>
+            <dsid view="false" download="false">RELS-INT</dsid>
+            <dsid view="false" download="false">RELS-EXT</dsid>
+            <dsid view="false" download="false">FezACML</dsid>
+            <dsid view="false" download="false">/^presmd_.*/</dsid>
+            <dsid view="false" download="false">/^FezACML_.*/</dsid>
+            <dsid view="false" download="false">PremisEvent</dsid>
+            <dsid view="false" download="false">FezMD</dsid>
+        </datastream_ids>
+    </files>
+    <description dsid="MODS">
+        <item>
+            <label>Title</label>
+            <path>/mods:mods/mods:titleInfo[not(@type)]/mods:title</path>
+        </item>
+        <item>
+            <label>Alternative Title</label>
+            <path>/mods:mods/mods:titleInfo[@type=&quot;alternative&quot;]/mods:title</path>
+        </item>
+        <item>
+            <label>Creator</label>
+            <path>(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)/mods:namePart[not(@type)]</path>
+        </item>
+        <item>
+            <label>Contributor</label>
+            <path>(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)/mods:namePart[not(@type)]</path>
+        </item>
+        <item>
+            <label>Corporate Creator</label>
+            <path>(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)/mods:namePart[not(@type)]</path>
+        </item>
+        <item>
+            <label>Corporate Contributor</label>
+            <path>(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)/mods:namePart[not(@type)]</path>
+        </item>
+        <item>
+            <label>Type of Resource</label>
+            <path>/mods:mods/mods:typeOfResource</path>
+        </item>
+        <item>
+            <label>Date Created</label>
+            <path>/mods:mods/mods:originInfo/mods:dateCreated</path>
+        </item>
+        <item>
+            <label>Date Issued</label>
+            <path>/mods:mods/mods:originInfo/mods:dateIssued</path>
+        </item>
+        <item>
+            <label>Copyright Date</label>
+            <path>/mods:mods/mods:originInfo/mods:copyrightDate</path>
+        </item>
+        <item>
+            <label>Other Date</label>
+            <path>/mods:mods/mods:originInfo/mods:dateOther</path>
+        </item>
+        <item>
+            <label>Digitial Origin</label>
+            <path>/mods:mods/mods:physicalDescription/mods:digitalOrigin</path>
+        </item>
+        <item>
+            <label>Description</label>
+            <path>/mods:mods/mods:abstract</path>
+        </item>
+        <item>
+            <label>Physical Location</label>
+            <path>/mods:mods/mods:location/mods:physicalLocation</path>
+        </item>
+        <item>
+            <label>Topics</label>
+            <path>/mods:mods/mods:subject/mods:topic</path>
+        </item>
+        <item>
+            <label>Places</label>
+            <path>/mods:mods/mods:subject/mods:geographic</path>
+        </item>
+        <item>
+            <label>Dates</label>
+            <path>/mods:mods/mods:subject/mods:temporal</path>
+        </item>
+        <item>
+            <label>People</label>
+            <path>/mods:mods/mods:subject/mods:name[@type=&quot;personal&quot;]</path>
+        </item>
+        <item>
+            <label>Organizations</label>
+            <path>/mods:mods/mods:subject/mods:name[@type=&quot;corporate&quot;]</path>
+        </item>
+        <item>
+            <label>Subject Genre</label>
+            <path>/mods:mods/mods:subject/mods:genre</path>
+        </item>
+        <item>
+            <label>Scale</label>
+            <path>/mods:mods/mods:subject/mods:cartographics/mods:scale</path>
+        </item>
+        <item>
+            <label>Handle</label>
+            <path>/mods:mods/mods:location/mods:url[@usage=&quot;primary display&quot;]</path>
+        </item>
+        <item>
+            <label>Rights Statement</label>
+            <path>/mods:mods/mods:accessCondition[@type=&quot;useAndReproduction&quot;]</path>
+        </item>
+        <item>
+            <label>Genre</label>
+            <path>/mods:mods/mods:genre</path>
+        </item>
+        <item>
+            <label>Place of Publication</label>
+            <path>/mods:mods/mods:originInfo/mods:place/mods:placeTerm</path>
+        </item>
+        <item>
+            <label>Publisher</label>
+            <path>/mods:mods/mods:originInfo/mods:publisher</path>
+        </item>
+        <item>
+            <label>Language</label>
+            <path>/mods:mods/mods:language</path>
+        </item>
+        <item>
+            <label>Extent</label>
+            <path>/mods:mods/mods:physicalDescription/mods:extent</path>
+        </item>
+        <item>
+            <label>Form</label>
+            <path>/mods:mods/mods:physicalDescription/mods:form</path>
+        </item>
+        <item>
+            <label>Physical Note</label>
+            <path>/mods:mods/mods:physicalDescription/mods:note</path>
+        </item>
+        <item>
+            <label>Target Audience</label>
+            <path>/mods:mods/mods:targetAudience</path>
+        </item>
+        <item>
+            <label>Notes</label>
+            <path>/mods:mods/mods:note[not(@type)]</path>
+        </item>
+        <item>
+            <label>Administrative Notes</label>
+            <path>/mods:mods/mods:note[@type=&quot;admin&quot;]</path>
+        </item>
+        <item>
+            <label>Funding Notes</label>
+            <path>/mods:mods/mods:note[@type=&quot;funding&quot;]</path>
+        </item>
+        <item>
+            <label>Host Title</label>
+            <path>/mods:mods/mods:relatedItem[@type=&quot;host&quot;]/mods:titleInfo/mods:title</path>
+        </item>
+        <item>
+            <label>Constituent Title</label>
+            <path>/mods:mods/mods:relatedItem[@type=&quot;constituent&quot;]/mods:titleInfo/mods:title</path>
+        </item>
+        <item>
+            <label>Series Title</label>
+            <path>/mods:mods/mods:relatedItem[@type=&quot;series&quot;]/mods:titleInfo/mods:title</path>
+        </item>
+        <item>
+            <label>Identifier</label>
+            <path>/mods:mods/mods:identifier[not(@type)]</path>
+        </item>
+        <item>
+            <label>Local Identifier</label>
+            <path>/mods:mods/mods:identifier[@type=&quot;local&quot;]</path>
+        </item>
+        <item>
+            <label>ISBN</label>
+            <path>/mods:mods/mods:identifier[@type=&quot;isbn&quot;]</path>
+        </item>
+        <item>
+            <label>ISSN</label>
+            <path>/mods:mods/mods:identifier[@type=&quot;issn&quot;]</path>
+        </item>
+    </description>
+</object_viewer>
