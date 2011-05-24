@@ -7,6 +7,7 @@
  *
  */
 class ObjectViewDescription {
+
   /**
    *
    * @var Fedora_Item
@@ -177,11 +178,13 @@ class ObjectViewDescription {
    */
   private function initializeDescription(SimpleXMLElement $description) {
     $metadata = $this->getDescriptionMetadata($description);
-    $items = $description->xpath('//item');
-    foreach ($items as $item) {
-      list($label, $value) = $this->getItemLabelAndValue($item, $metadata);
-      if (isset($value)) {
-        $this->description[$label] = $value;
+    if (isset($metadata)) {
+      $items = $description->xpath('//item');
+      foreach ($items as $item) {
+        list($label, $value) = $this->getItemLabelAndValue($item, $metadata);
+        if (isset($value)) {
+          $this->description[$label] = $value;
+        }
       }
     }
   }
@@ -193,8 +196,9 @@ class ObjectViewDescription {
    */
   private function getDescriptionMetadata(SimpleXMLElement $description) {
     $metadata_dsid = (string) $description['dsid'];
-    $metadata_xml = $this->item->get_datastream_dissemination($metadata_dsid);
-    return new SimpleXMLElement($metadata_xml);
+    $metadata_xml = trim($this->item->get_datastream_dissemination($metadata_dsid));
+    $metadata_xml = ($metadata_xml != '') ? $metadata_xml : NULL;
+    return isset($metadata_xml) ? new SimpleXMLElement($metadata_xml) : NULL;
   }
 
   /**
@@ -268,23 +272,25 @@ class ObjectViewDescription {
    * @param string $xml 
    */
   private function processRelsInt($xml) {
-    $rels_int = new SimpleXMLElement($xml);
-    // Thumbnails
     $this->thumbnails = array();
-    $results = $rels_int->xpath('//*[local-name()=\'hasThumbnail\']/@rdf:resource');
-    foreach ($results as $result) {
-      $matches = array();
-      if (preg_match('/\/([^\/]*)$/', (string) $result['resource'], $matches) == 1) {
-        $this->thumbnails[] = $matches[1];
-      }
-    }
-    // Derived
     $this->derived = array();
-    $results = $rels_int->xpath('//rdf:Description/*/@rdf:resource');
-    foreach ($results as $result) {
-      $matches = array();
-      if (preg_match('/\/([^\/]*)$/', (string) $result['resource'], $matches) == 1) {
-        $this->derived[] = $matches[1];
+    if ($xml) {
+      $rels_int = new SimpleXMLElement($xml);
+      // Thumbnails
+      $results = $rels_int->xpath('//*[local-name()=\'hasThumbnail\']/@rdf:resource');
+      foreach ($results as $result) {
+        $matches = array();
+        if (preg_match('/\/([^\/]*)$/', (string) $result['resource'], $matches) == 1) {
+          $this->thumbnails[] = $matches[1];
+        }
+      }
+      // Derived
+      $results = $rels_int->xpath('//rdf:Description/*/@rdf:resource');
+      foreach ($results as $result) {
+        $matches = array();
+        if (preg_match('/\/([^\/]*)$/', (string) $result['resource'], $matches) == 1) {
+          $this->derived[] = $matches[1];
+        }
       }
     }
   }
