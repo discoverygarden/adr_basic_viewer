@@ -127,11 +127,6 @@ class ObjectViewDescription {
       throw new Exception("OBJ_VIEWER datastream not found in the content model {$pid} of {$this->item->pid}.");
     }
     return $xml;
-    /*
-      $path = drupal_get_path('module', 'adr_basic_viewer');
-      $obj_viewer = new DOMDocument();
-      $obj_viewer->load("$path/obj_viewer.xml");
-      return $obj_viewer->saveXML(); */
   }
 
   /**
@@ -222,10 +217,12 @@ class ObjectViewDescription {
     if (isset($item->value)) { // Only One Path
       $path = (string) $item->value->path;
       $results = $metadata->xpath($path);
-      foreach ($results as $result) {
-        $result = trim((string) $result);
-        if ($result != '') {
-          $value .= $this->makeLinks($result) . '<br/>';
+      if ($results !== FALSE) {
+        foreach ($results as $result) {
+          $result = trim((string) $result);
+          if ($result != '') {
+            $value .= $this->makeLinks($result) . '<br/>';
+          }
         }
       }
       return ($value != '') ? $value : NULL;
@@ -276,18 +273,22 @@ class ObjectViewDescription {
       $rels_int = new SimpleXMLElement($xml);
       // Thumbnails
       $results = $rels_int->xpath('//*[local-name()=\'hasThumbnail\']/@rdf:resource');
-      foreach ($results as $result) {
-        $matches = array();
-        if (preg_match('/\/([^\/]*)$/', (string) $result['resource'], $matches) == 1) {
-          $this->thumbnails[] = $matches[1];
+      if ($results !== FALSE) {
+        foreach ($results as $result) {
+          $matches = array();
+          if (preg_match('/\/([^\/]*)$/', (string) $result['resource'], $matches) == 1) {
+            $this->thumbnails[] = $matches[1];
+          }
         }
       }
       // Derived
       $results = $rels_int->xpath('//rdf:Description/*/@rdf:resource');
-      foreach ($results as $result) {
-        $matches = array();
-        if (preg_match('/\/([^\/]*)$/', (string) $result['resource'], $matches) == 1) {
-          $this->derived[] = $matches[1];
+      if ($results !== FALSE) {
+        foreach ($results as $result) {
+          $matches = array();
+          if (preg_match('/\/([^\/]*)$/', (string) $result['resource'], $matches) == 1) {
+            $this->derived[] = $matches[1];
+          }
         }
       }
     }
