@@ -13,35 +13,9 @@ class ObjectViewDescription {
   const xmlns = 'http://www.w3.org/2000/xmlns/';
   /**
    *
-   * @var <type>
+   * @var Fedora_Item
    */
   protected $item;
-  /**
-   *
-   * @var <type>
-   */
-  protected $objectViewDescription;
-  /**
-   *
-   * @var <type>
-   */
-  protected $allowedMimeTypes;
-  /**
-   *
-   * @var <type>
-   */
-  protected $allowedDatastreams;
-  /**
-   *
-   * @var <type>
-   */
-  protected $restrictedDatastreams;
-  /**
-   *
-   * @var <type> 
-   */
-  protected $description;
-  ///////////////////////////
   /**
    * If true don't show thumbnail datastreams in the files panel.
    * 
@@ -114,13 +88,22 @@ class ObjectViewDescription {
    * @var array
    */
   protected $nonDownloadableDatastreams;
+  /**
+   * A collection of labels and values for use in the description panel.
+   * 
+   * @var array
+   */
+  protected $description;
 
   /**
-   *
+   * Create the object view description.
+   * 
    * @param Fedora_Item $fedora_item
+   * @param ContentModel $content_model 
    */
-  public function __construct(&$fedora_item, &$content_model) {
+  public function __construct(Fedora_Item &$fedora_item, ContentModel &$content_model) {
     $this->item = &$fedora_item;
+
     $xml = $this->getObjViewerDefinition($content_model->pid);
     $this->processObjViewerDefinition($xml);
     $xml = $this->getRelsInt();
@@ -173,6 +156,7 @@ class ObjectViewDescription {
     $this->nonDownloadableDatastreams = $this->getValuesFromXPath($object_viewer, '//dsid[@download = \'false\']');
     $this->hideDerived = $object_viewer->files['hide_derived'] == 'true' ? TRUE : FALSE;
     $this->hideThumbnails = $object_viewer->files['hide_thumbnails'] == 'true' ? TRUE : FALSE;
+    $this->initializeDescription($object_viewer->description);
   }
 
   /**
@@ -189,6 +173,97 @@ class ObjectViewDescription {
       $output[] = (string) $result;
     }
     return $output;
+  }
+
+  /**
+   *
+   * @param SimpleXMLElement $description 
+   */
+  private function initializeDescription(SimpleXMLElement $description) {
+    $metadata = $this->getDescriptionMetadata($description);
+    $items = $description->xpath('//item');
+    foreach ($items as $item) {
+      list($label, $value) = $this->getItemLabelAndValue($item, $metadata);
+      if (isset($value)) {
+        $this->description[$label] = $value;
+      }
+    }
+  }
+
+  /**
+   *
+   * @param SimpleXMLElement $description
+   * @return SimpleXMLElement 
+   */
+  private function getDescriptionMetadata(SimpleXMLElement $description) {
+    $metadata_dsid = (string) $description['dsid'];
+    $metadata_xml = $this->item->get_datastream_dissemination($metadata_dsid);
+    return new SimpleXMLElement($metadata_xml);
+  }
+
+  /**
+   *
+   * @param SimpleXMLElement $item
+   * @param SimpleXMLElement $metadata
+   * @return type 
+   */
+  private function getItemLabelAndValue(SimpleXMLElement $item, SimpleXMLElement $metadata) {
+    $label = (string) $item->label;
+    $value = $this->getItemValue($item, $metadata);
+    return array($label, $value);
+  }
+
+  /**
+   *
+   * @param SimpleXMLElement $item
+   * @param SimpleXMLElement $metadata
+   * @return type 
+   */
+  private function getItemValue(SimpleXMLElement $item, SimpleXMLElement $metadata) {
+    $value = '';
+    if (isset($item->value)) { // Only One Path
+      $path = $item->value->path;
+      $results = $metadata->xpath($path);
+      foreach ($results as $result) {
+        $result = trim((string) $result);
+        if ($result != '') {
+          $value .= $this->makeLinks($result) . '<br/>';
+        }
+      }
+      return ($value != '') ? $value : NULL;
+    }
+    else if (isset($item->values)) { // Multiple Paths
+      $values = $item->values;
+      // Determine Paths
+      $paths = array();
+      foreach ($values->children() as $path) {
+        $paths[] = (string) $path;
+      }
+      // Determine parent context
+      $values_found = FALSE;
+      $context = $values['context'];
+      $seperator = $values['seperator'];
+      $parents = $metadata->xpath($context);
+      foreach ($parents as $parent) {
+        $line_populated = FALSE;
+        foreach ($paths as $path) {
+          $results = $parent->xpath($path);
+          foreach ($results as $result) {
+            $result = trim((string) $result);
+            if ($result != '') {
+              $value .= $this->makeLinks((!$values_found) ? $result : $seperator . $result);
+              $values_found = TRUE;
+              $line_populated = TRUE;
+            }
+          }
+        }
+        if ($line_populated) {
+          $value .= '<br/>';
+        }
+      }
+      return ($values_found) ? $value : NULL;
+    }
+    return NULL;
   }
 
   /**
@@ -348,78 +423,7 @@ class ObjectViewDescription {
    * @return array
    */
   public function getDescription() {
-    if (empty($this->description)) {
-      $items = $this->getDescriptionItems();
-      $this->description = &$this->queryDescriptionItemPaths($items);
-    }
     return $this->description;
-  }
-
-  /**
-   *
-   * @return array
-   */
-  private function getDescriptionItems() {
-    $description_items = array();
-    /* $foo = $this;
-      $result = $this->objectViewDescription->xpath('/object_viewer/description/item');
-      if (isset($result) && $result !== FALSE) {
-      while (($item = array_shift($result)) != NULL) {
-      $label = trim(sprintf("%s", $item->label));
-      $path = trim(sprintf("%s", $item->path));
-      $description_items[] = array($label, $path);
-      }
-      } */
-    return $description_items;
-  }
-
-  /**
-   *
-   * @param array $items
-   * @return array
-   */
-  private function &queryDescriptionItemPaths(&$items) {
-    $output = array();
-    /*
-      $result = $this->objectViewDescription->xpath('/object_viewer/description');
-      $dsid = $result[0]['dsid'];
-      $datastream = $this->item->get_datastream_dissemination($dsid);
-      if (trim($datastream) != '') {
-      $doc = new DOMDocument();
-      $doc->loadXML($datastream);
-      $root = &$doc->documentElement;
-      $root->setAttributeNS(self::xmlns, 'xmlns', self::mods);
-      $root->setAttributeNS(self::xmlns, 'xmlns:mods', self::mods);
-      $root->setAttributeNS(self::xmlns, 'xmlns:xlink', self::xlink);
-      $root->setAttributeNS(self::xmlns, 'xmlns:xsi', self::xsi);
-      $xml = $doc->saveXML();
-      $doc->loadXML($xml); // Sucha a terrible api...
-      $xpath = new DOMXPath($doc);
-      $xpath->registerNamespace('mods', 'http://www.loc.gov/standards/mods/v3');
-      foreach ($items as $item) {
-      list($label, $path) = $item;
-      $results = $xpath->query($path);
-      $count = $results->length;
-      for ($i = 0; $i < $count; $i++) {
-      $item = $results->item($i);
-      switch (get_class($item)) {
-      case 'DOMAttr':
-      $value = trim($item->value);
-      if ($value != '') {
-      $output[$label] .= $this->makeLinks($value) . '<br/>';
-      }
-      break;
-      case 'DOMElement':
-      $value = trim($item->textContent);
-      if ($value != '') {
-      $output[$label] .= $this->makeLinks($value) . '<br/>';
-      }
-      break;
-      }
-      }
-      }
-      } */
-    return $output;
   }
 
   /**
@@ -447,94 +451,6 @@ class ObjectViewDescription {
         . ')~';
 
     return preg_replace($URL_FORMAT, '<a href="\1">\1</a>', $text);
-  }
-
-  /**
-   *
-   * @param string $glue
-   * @param array $values
-   */
-  private function implodeSimpleXMLElementArray($glue, $values) {
-    $output = '';
-    if (isset($values) && $values !== FALSE) {
-      while (($value = array_shift($values)) != NULL) {
-        $value = sprintf("%s", $value);
-        if (trim($value) != '') {
-          $output .= ( $output != '') ? $glue : '';
-          $output .= $value;
-        }
-      }
-    }
-    return $output;
-  }
-
-  /**
-   *
-   * @param array $values
-   * @return array
-   */
-  private function getSimpleXMLArrayAsKeyedArrayWithTrueValues($values) {
-    $output = array();
-    if (isset($values) && $values !== FALSE) {
-      while (($value = array_shift($values)) != NULL) {
-        $value = trim(sprintf("%s", $value));
-        if ($value != '') {
-          $output[$value] = true;
-        }
-      }
-    }
-    return $output;
-  }
-
-  /**
-   *
-   * @return array
-   */
-  private function getAllowedMimeTypes() {
-    if (empty($this->allowedMimeTypes)) {
-      $result = $this->objectViewDescription->xpath('/object_viewer/allowed_datastreams/mime_types/mime_type');
-      $this->allowedMimeTypes = $this->getSimpleXMLArrayAsKeyedArrayWithTrueValues($result);
-    }
-    return $this->allowedMimeTypes;
-  }
-
-  /**
-   *
-   * @return array
-   */
-  private function getAllowedDatastreams() {
-    if (empty($this->allowedDatastreams)) {
-      $result = $this->objectViewDescription->xpath('/object_viewer/allowed_datastreams/datastream_ids/dsid');
-      $this->allowedDatastreams = $this->getSimpleXMLArray($result);
-    }
-    return $this->allowedDatastreams;
-  }
-
-  /**
-   *
-   * @return array
-   */
-  private function getRestrictedDatastreams() {
-    if (empty($this->restrictedDatastreams)) {
-      $result = $this->objectViewDescription->xpath('/object_viewer/restricted_datastreams/datastream_ids/dsid');
-      $this->restrictedDatastreams = $this->getSimpleXMLArray($result);
-    }
-    return $this->restrictedDatastreams;
-  }
-
-  /**
-   *
-   * @param array $values
-   * @return array
-   */
-  private function getSimpleXMLArray($values) {
-    $output = array();
-    if (isset($values) && $values !== FALSE) {
-      while (($value = array_shift($values)) != NULL) {
-        $output[] = (string) $value;
-      }
-    }
-    return $output;
   }
 
 }

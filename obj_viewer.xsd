@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="object_viewer">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="files">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="mime_types">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element maxOccurs="unbounded" minOccurs="0"
+                                            name="mime_type">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                  <xs:attributeGroup ref="view_download_attributes"
+                                                  />
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="datastream_ids">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element maxOccurs="unbounded" minOccurs="0" name="dsid">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                  <xs:attributeGroup ref="view_download_attributes"
+                                                  />
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="hide_thumbnails" type="xs:boolean" use="required"/>
+                        <xs:attribute name="hide_derived" type="xs:boolean" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="description">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="item">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="label" type="xs:string"/>
+                                        <xs:choice>
+                                            <xs:element name="value">
+                                                <xs:complexType>
+                                                  <xs:sequence>
+                                                  <xs:element name="path" type="xs:string"/>
+                                                  </xs:sequence>
+                                                </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="values">
+                                                <xs:complexType>
+                                                  <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded" name="path"
+                                                  type="xs:string"/>
+                                                  </xs:sequence>
+                                                  <xs:attribute name="seperator" type="xs:string"
+                                                  use="required"/>
+                                                  <xs:attribute name="context" type="xs:string"
+                                                  use="required"/>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:choice>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="dsid" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="view_download_attributes">
+        <xs:attribute name="view" type="xs:boolean" use="required"/>
+        <xs:attribute name="download" type="xs:boolean" use="required"/>
+    </xs:attributeGroup>
+</xs:schema>

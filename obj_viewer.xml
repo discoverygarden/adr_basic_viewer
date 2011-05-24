@@ -11,14 +11,14 @@
             <mime_type view="true" download="true">image/jpeg</mime_type>
             <mime_type view="true" download="true">image/gif</mime_type>
             <mime_type view="true" download="true">image/png</mime_type>
-            <mime_type view="true" download="true">image/jp2</mime_type>
+            <mime_type view="true" download="false">image/jp2</mime_type>
             <mime_type view="true" download="true">image/raw</mime_type>
             <mime_type view="true" download="true">image/x-raw</mime_type>
             <mime_type view="true" download="true">application/msaccess</mime_type>
             <mime_type view="true" download="true">application/msexcel</mime_type>
             <mime_type view="true" download="true">application/mspowerpoint</mime_type>
             <mime_type view="true" download="true">application/msword</mime_type>
-            <mime_type view="true" download="false">application/pdf</mime_type>
+            <mime_type view="true" download="true">application/pdf</mime_type>
             <mime_type view="true" download="true">application/rtf</mime_type>
             <mime_type view="true" download="true">application/vnd.ms-excel</mime_type>
             <mime_type view="true" download="true">application/vnd.ms-excel.sheet.macroEnabled.12</mime_type>
@@ -49,6 +49,7 @@
             <dsid view="false" download="false">MODS</dsid>
             <dsid view="false" download="false">DC</dsid>
             <dsid view="false" download="false">METS</dsid>
+            <dsid view="false" download="false">POLICY</dsid>
             <dsid view="false" download="false">RELS-INT</dsid>
             <dsid view="false" download="false">RELS-EXT</dsid>
             <dsid view="false" download="false">FezACML</dsid>
@@ -61,167 +62,261 @@
     <description dsid="MODS">
         <item>
             <label>Title</label>
-            <path>/mods:mods/mods:titleInfo[not(@type)]/mods:title</path>
+            <value>
+                <path>/mods:mods/mods:titleInfo[not(@type)]/mods:title</path>    
+            </value>
         </item>
         <item>
             <label>Alternative Title</label>
-            <path>/mods:mods/mods:titleInfo[@type=&quot;alternative&quot;]/mods:title</path>
+            <value>
+                <path>/mods:mods/mods:titleInfo[@type=&quot;alternative&quot;]/mods:title</path>    
+            </value>
         </item>
         <item>
             <label>Creator</label>
-            <path>(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)/mods:namePart[not(@type)]</path>
+            <values seperator=" " context="(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)">
+                <path>mods:namePart[not(@type)]</path>
+                <path>mods:namePart[@type='given']</path>
+                <path>mods:namePart[@type='family']</path>
+                <path>mods:namePart[@type='termsOfAddress']</path>
+            </values>
         </item>
         <item>
             <label>Contributor</label>
-            <path>(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)/mods:namePart[not(@type)]</path>
+            <values seperator=" " context="(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)">
+                <path>mods:namePart[not(@type)]</path>
+                <path>mods:namePart[@type='given']</path>
+                <path>mods:namePart[@type='family']</path>
+                <path>mods:namePart[@type='termsOfAddress']</path>
+            </values>
         </item>
         <item>
             <label>Corporate Creator</label>
-            <path>(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)/mods:namePart[not(@type)]</path>
+            <values seperator=" " context="(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)">
+                <path>mods:namePart[not(@type)]</path>
+                <path>mods:namePart[@type='given']</path>
+                <path>mods:namePart[@type='family']</path>
+                <path>mods:namePart[@type='termsOfAddress']</path>
+            </values>
         </item>
         <item>
             <label>Corporate Contributor</label>
-            <path>(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)/mods:namePart[not(@type)]</path>
+            <values seperator=" " context="(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)">
+                <path>mods:namePart[not(@type)]</path>
+                <path>mods:namePart[@type='given']</path>
+                <path>mods:namePart[@type='family']</path>
+                <path>mods:namePart[@type='termsOfAddress']</path>
+            </values>
         </item>
         <item>
             <label>Type of Resource</label>
-            <path>/mods:mods/mods:typeOfResource</path>
+            <value>
+                <path>/mods:mods/mods:typeOfResource</path>    
+            </value>
         </item>
         <item>
             <label>Date Created</label>
-            <path>/mods:mods/mods:originInfo/mods:dateCreated</path>
+            <value>
+                <path>/mods:mods/mods:originInfo/mods:dateCreated</path>    
+            </value>
         </item>
         <item>
             <label>Date Issued</label>
-            <path>/mods:mods/mods:originInfo/mods:dateIssued</path>
+            <value>
+                <path>/mods:mods/mods:originInfo/mods:dateIssued</path>    
+            </value>
         </item>
         <item>
             <label>Copyright Date</label>
-            <path>/mods:mods/mods:originInfo/mods:copyrightDate</path>
+            <value>
+                <path>/mods:mods/mods:originInfo/mods:copyrightDate</path>    
+            </value>
         </item>
         <item>
             <label>Other Date</label>
-            <path>/mods:mods/mods:originInfo/mods:dateOther</path>
+            <value>
+                <path>/mods:mods/mods:originInfo/mods:dateOther</path>    
+            </value>
         </item>
         <item>
             <label>Digitial Origin</label>
-            <path>/mods:mods/mods:physicalDescription/mods:digitalOrigin</path>
+            <value>
+                <path>/mods:mods/mods:physicalDescription/mods:digitalOrigin</path>    
+            </value>
         </item>
         <item>
             <label>Description</label>
-            <path>/mods:mods/mods:abstract</path>
+            <value>
+                <path>/mods:mods/mods:abstract</path>    
+            </value>
         </item>
         <item>
             <label>Physical Location</label>
-            <path>/mods:mods/mods:location/mods:physicalLocation</path>
+            <value>
+                <path>/mods:mods/mods:location/mods:physicalLocation</path>    
+            </value>
         </item>
         <item>
             <label>Topics</label>
-            <path>/mods:mods/mods:subject/mods:topic</path>
+            <value>
+                <path>/mods:mods/mods:subject/mods:topic</path>    
+            </value>
         </item>
         <item>
             <label>Places</label>
-            <path>/mods:mods/mods:subject/mods:geographic</path>
+            <value>
+                <path>/mods:mods/mods:subject/mods:geographic</path>    
+            </value>
         </item>
         <item>
             <label>Dates</label>
-            <path>/mods:mods/mods:subject/mods:temporal</path>
+            <value>
+                <path>/mods:mods/mods:subject/mods:temporal</path>    
+            </value>
         </item>
         <item>
             <label>People</label>
-            <path>/mods:mods/mods:subject/mods:name[@type=&quot;personal&quot;]</path>
+            <value>
+                <path>/mods:mods/mods:subject/mods:name[@type=&quot;personal&quot;]</path>    
+            </value>
         </item>
         <item>
             <label>Organizations</label>
-            <path>/mods:mods/mods:subject/mods:name[@type=&quot;corporate&quot;]</path>
+            <value>
+                <path>/mods:mods/mods:subject/mods:name[@type=&quot;corporate&quot;]</path>    
+            </value>
         </item>
         <item>
             <label>Subject Genre</label>
-            <path>/mods:mods/mods:subject/mods:genre</path>
+            <value>
+                <path>/mods:mods/mods:subject/mods:genre</path>    
+            </value>
         </item>
         <item>
             <label>Scale</label>
-            <path>/mods:mods/mods:subject/mods:cartographics/mods:scale</path>
+            <value>
+                <path>/mods:mods/mods:subject/mods:cartographics/mods:scale</path>    
+            </value>
         </item>
         <item>
             <label>Handle</label>
-            <path>/mods:mods/mods:location/mods:url[@usage=&quot;primary display&quot;]</path>
+            <value>
+                <path>/mods:mods/mods:location/mods:url[@usage=&quot;primary display&quot;]</path>    
+            </value>
         </item>
         <item>
             <label>Rights Statement</label>
-            <path>/mods:mods/mods:accessCondition[@type=&quot;useAndReproduction&quot;]</path>
+            <value>
+                <path>/mods:mods/mods:accessCondition[@type=&quot;useAndReproduction&quot;]</path>    
+            </value>
         </item>
         <item>
             <label>Genre</label>
-            <path>/mods:mods/mods:genre</path>
+            <value>
+                <path>/mods:mods/mods:genre</path>    
+            </value>
         </item>
         <item>
             <label>Place of Publication</label>
-            <path>/mods:mods/mods:originInfo/mods:place/mods:placeTerm</path>
+            <value>
+                <path>/mods:mods/mods:originInfo/mods:place/mods:placeTerm</path>    
+            </value>
         </item>
         <item>
             <label>Publisher</label>
-            <path>/mods:mods/mods:originInfo/mods:publisher</path>
+            <value>
+                <path>/mods:mods/mods:originInfo/mods:publisher</path>
+            </value>
         </item>
         <item>
             <label>Language</label>
-            <path>/mods:mods/mods:language</path>
+            <value>
+                <path>/mods:mods/mods:language</path>    
+            </value>
         </item>
         <item>
             <label>Extent</label>
-            <path>/mods:mods/mods:physicalDescription/mods:extent</path>
+            <value>
+                <path>/mods:mods/mods:physicalDescription/mods:extent</path>    
+            </value>
         </item>
         <item>
             <label>Form</label>
-            <path>/mods:mods/mods:physicalDescription/mods:form</path>
+            <value>
+                <path>/mods:mods/mods:physicalDescription/mods:form</path>               
+            </value>
         </item>
         <item>
             <label>Physical Note</label>
-            <path>/mods:mods/mods:physicalDescription/mods:note</path>
+            <value>
+                <path>/mods:mods/mods:physicalDescription/mods:note</path>    
+            </value>
         </item>
         <item>
             <label>Target Audience</label>
-            <path>/mods:mods/mods:targetAudience</path>
+            <value>
+                <path>/mods:mods/mods:targetAudience</path>    
+            </value>
         </item>
         <item>
             <label>Notes</label>
-            <path>/mods:mods/mods:note[not(@type)]</path>
+            <value>
+                <path>/mods:mods/mods:note[not(@type)]</path>    
+            </value>
         </item>
         <item>
             <label>Administrative Notes</label>
-            <path>/mods:mods/mods:note[@type=&quot;admin&quot;]</path>
+            <value>
+                <path>/mods:mods/mods:note[@type=&quot;admin&quot;]</path>
+            </value>
         </item>
         <item>
             <label>Funding Notes</label>
-            <path>/mods:mods/mods:note[@type=&quot;funding&quot;]</path>
+            <value>
+                <path>/mods:mods/mods:note[@type=&quot;funding&quot;]</path>    
+            </value>
         </item>
         <item>
             <label>Host Title</label>
-            <path>/mods:mods/mods:relatedItem[@type=&quot;host&quot;]/mods:titleInfo/mods:title</path>
+            <value>
+                <path>/mods:mods/mods:relatedItem[@type=&quot;host&quot;]/mods:titleInfo/mods:title</path>    
+            </value>
         </item>
         <item>
             <label>Constituent Title</label>
-            <path>/mods:mods/mods:relatedItem[@type=&quot;constituent&quot;]/mods:titleInfo/mods:title</path>
+            <value>
+                <path>/mods:mods/mods:relatedItem[@type=&quot;constituent&quot;]/mods:titleInfo/mods:title</path>    
+            </value>
         </item>
         <item>
             <label>Series Title</label>
-            <path>/mods:mods/mods:relatedItem[@type=&quot;series&quot;]/mods:titleInfo/mods:title</path>
+            <value>
+                <path>/mods:mods/mods:relatedItem[@type=&quot;series&quot;]/mods:titleInfo/mods:title</path>    
+            </value>
         </item>
         <item>
             <label>Identifier</label>
-            <path>/mods:mods/mods:identifier[not(@type)]</path>
+            <value>
+                <path>/mods:mods/mods:identifier[not(@type)]</path>    
+            </value>
         </item>
         <item>
             <label>Local Identifier</label>
-            <path>/mods:mods/mods:identifier[@type=&quot;local&quot;]</path>
+            <value>
+                <path>/mods:mods/mods:identifier[@type=&quot;local&quot;]</path>    
+            </value>
         </item>
         <item>
             <label>ISBN</label>
-            <path>/mods:mods/mods:identifier[@type=&quot;isbn&quot;]</path>
+            <value>
+                <path>/mods:mods/mods:identifier[@type=&quot;isbn&quot;]</path>    
+            </value>
         </item>
         <item>
             <label>ISSN</label>
-            <path>/mods:mods/mods:identifier[@type=&quot;issn&quot;]</path>
+            <value>
+                <path>/mods:mods/mods:identifier[@type=&quot;issn&quot;]</path>    
+            </value>
         </item>
     </description>
 </object_viewer>
