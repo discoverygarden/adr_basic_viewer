@@ -100,7 +100,6 @@ class ObjectViewDescription {
    */
   public function __construct(Fedora_Item &$fedora_item, ContentModel &$content_model) {
     $this->item = &$fedora_item;
-
     $xml = $this->getObjViewerDefinition($content_model->pid);
     $this->processObjViewerDefinition($xml);
     $xml = $this->getRelsInt();
@@ -123,17 +122,16 @@ class ObjectViewDescription {
    */
   private function getObjViewerDefinition($pid) {
     $content_model = new Fedora_Item($pid);
-    /*
-      $xml = $content_model->get_datastream_dissemination('OBJ_VIEWER');
-      if (trim($xml) == '') {
+    $xml = trim($content_model->get_datastream_dissemination('OBJ_VIEWER'));
+    if ($xml == '') {
       throw new Exception("OBJ_VIEWER datastream not found in the content model {$pid} of {$this->item->pid}.");
-      }
-      return $xml; */
-    // Hacktastic.
-    $path = drupal_get_path('module', 'adr_basic_viewer');
-    $obj_viewer = new DOMDocument();
-    $obj_viewer->load("$path/obj_viewer.xml");
-    return $obj_viewer->saveXML();
+    }
+    return $xml;
+    /*
+      $path = drupal_get_path('module', 'adr_basic_viewer');
+      $obj_viewer = new DOMDocument();
+      $obj_viewer->load("$path/obj_viewer.xml");
+      return $obj_viewer->saveXML(); */
   }
 
   /**
@@ -222,7 +220,7 @@ class ObjectViewDescription {
   private function getItemValue(SimpleXMLElement $item, SimpleXMLElement $metadata) {
     $value = '';
     if (isset($item->value)) { // Only One Path
-      $path = $item->value->path;
+      $path = (string) $item->value->path;
       $results = $metadata->xpath($path);
       foreach ($results as $result) {
         $result = trim((string) $result);
