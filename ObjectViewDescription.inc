@@ -170,6 +170,7 @@ class ObjectViewDescription {
    * @param SimpleXMLElement $description 
    */
   private function initializeDescription(SimpleXMLElement $description) {
+    $this->description = array();
     $metadata = $this->getDescriptionMetadata($description);
     if (isset($metadata)) {
       $items = $description->xpath('//item');
