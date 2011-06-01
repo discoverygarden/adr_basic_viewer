@@ -240,21 +240,23 @@ class ObjectViewDescription {
       $context = $values['context'];
       $seperator = $values['seperator'];
       $parents = $metadata->xpath($context);
-      foreach ($parents as $parent) {
-        $line_populated = FALSE;
-        foreach ($paths as $path) {
-          $results = $parent->xpath($path);
-          foreach ($results as $result) {
-            $result = trim((string) $result);
-            if ($result != '') {
-              $value .= $this->makeLinks((!$values_found) ? $result : $seperator . $result);
-              $values_found = TRUE;
-              $line_populated = TRUE;
+      if (is_array($parents)) {
+        foreach ($parents as $parent) {
+          $line_populated = FALSE;
+          foreach ($paths as $path) {
+            $results = $parent->xpath($path);
+            foreach ($results as $result) {
+              $result = trim((string) $result);
+              if ($result != '') {
+                $value .= $this->makeLinks((!$values_found) ? $result : $seperator . $result);
+                $values_found = TRUE;
+                $line_populated = TRUE;
+              }
             }
           }
-        }
-        if ($line_populated) {
-          $value .= '<br/>';
+          if ($line_populated) {
+            $value .= '<br/>';
+          }
         }
       }
       return ($values_found) ? $value : NULL;
