@@ -63,6 +63,7 @@ ADRBasic.viewer = {
                 var dsid = record.get('dsid');
                 ADRBasic.viewer.setDatastream(label, dsid);
                 ADRBasic.viewer.setTitle();
+                ADRBasic.viewer.loadViewer();
             }
         });
         var record = store.getAt(0);
@@ -71,10 +72,12 @@ ADRBasic.viewer = {
             var dsid = record.get('dsid');
             ADRBasic.viewer.setDatastream(label, dsid);
             ADRBasic.viewer.setTitle();
+            ADRBasic.viewer.loadViewer();
         }
         this.autoAttachFlash();
         var viewer = Ext.getCmp('adr-viewer');
         viewer.addListener('resize', this.resize);
+        
     },
     resize: function(panel, adjWidth, adjHeight, rawWidth, rawHeight) {
         var flexPaper = Ext.get('FlexPaperViewer');
