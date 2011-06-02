@@ -238,7 +238,7 @@ class ObjectViewDescription {
       // Determine parent context
       $values_found = FALSE;
       $context = $values['context'];
-      $seperator = $values['seperator'];
+      $seperator = isset($values['seperator']) ? $values['seperator'] : $values['separator'];
       $parents = $metadata->xpath($context);
       if (is_array($parents)) {
         foreach ($parents as $parent) {

@@ -65,7 +65,7 @@
                                                   <xs:element maxOccurs="unbounded" name="path"
                                                   type="xs:string"/>
                                                   </xs:sequence>
-                                                  <xs:attribute name="seperator" type="xs:string"
+                                                  <xs:attribute name="separator" type="xs:string"
                                                   use="required"/>
                                                   <xs:attribute name="context" type="xs:string"
                                                   use="required"/>

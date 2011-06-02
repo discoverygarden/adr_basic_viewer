@@ -74,7 +74,7 @@
         </item>
         <item>
             <label>Creator</label>
-            <values seperator=" " context="(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)">
+            <values separator=" " context="(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)">
                 <path>mods:namePart[not(@type)]</path>
                 <path>mods:namePart[@type='given']</path>
                 <path>mods:namePart[@type='family']</path>
@@ -83,7 +83,7 @@
         </item>
         <item>
             <label>Contributor</label>
-            <values seperator=" " context="(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)">
+            <values separator=" " context="(/mods:mods/mods:name[@type=&quot;personal&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)">
                 <path>mods:namePart[not(@type)]</path>
                 <path>mods:namePart[@type='given']</path>
                 <path>mods:namePart[@type='family']</path>
@@ -92,7 +92,7 @@
         </item>
         <item>
             <label>Corporate Creator</label>
-            <values seperator=" " context="(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)">
+            <values separator=" " context="(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;creator&quot;]/..)">
                 <path>mods:namePart[not(@type)]</path>
                 <path>mods:namePart[@type='given']</path>
                 <path>mods:namePart[@type='family']</path>
@@ -101,7 +101,7 @@
         </item>
         <item>
             <label>Corporate Contributor</label>
-            <values seperator=" " context="(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)">
+            <values separator=" " context="(/mods:mods/mods:name[@type=&quot;corporate&quot;]/mods:role[mods:roleTerm=&quot;contributor&quot;]/..)">
                 <path>mods:namePart[not(@type)]</path>
                 <path>mods:namePart[@type='given']</path>
                 <path>mods:namePart[@type='family']</path>
