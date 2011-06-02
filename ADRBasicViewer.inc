@@ -284,7 +284,7 @@ EOT;
       case 'image/png':
         return $this->getDjatokaViewer();
       default:
-        return '<div>There is no viewer for the selected file type, or not file is selected.</div>';
+        return '<div>There is no viewer for the selected file type... or no file is selected.</div>';
     }
   }
 
