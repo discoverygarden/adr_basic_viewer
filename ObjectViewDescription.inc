@@ -192,7 +192,12 @@ class ObjectViewDescription {
     $metadata_dsid = (string) $description['dsid'];
     $metadata_xml = trim($this->item->get_datastream_dissemination($metadata_dsid));
     $metadata_xml = ($metadata_xml != '') ? $metadata_xml : NULL;
-    return isset($metadata_xml) ? new SimpleXMLElement($metadata_xml) : NULL;
+    if(isset($metadata_xml)) { 
+      $simple = new SimpleXMLElement($metadata_xml);
+      $simple->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3'); // Hack!!
+      return $simple;
+    }
+    return NULL;
   }
 
   /**
