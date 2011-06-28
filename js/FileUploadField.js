@@ -23,7 +23,7 @@ Ext.ux.form.FileUploadField = Ext.extend(FileUploadFieldUi, {
      * @cfg {Boolean} buttonOnly True to display the file upload field as a button with no visible
      * text field (defaults to false).  If true, all inherited TextField members will still be available.
      */
-    buttonOnly: false,
+    buttonOnly: true,
     /**
      * @cfg {Number} buttonOffset The number of pixels of space reserved between the button and the text field
      * (defaults to 3).  Note that this only applies if {@link #buttonOnly} = false.
@@ -70,8 +70,8 @@ Ext.ux.form.FileUploadField = Ext.extend(FileUploadFieldUi, {
         this.createFileInput();
 
         if(this.buttonOnly){
+            this.el.setVisibilityMode(Ext.Element.DISPLAY);
             this.el.hide();
-            this.wrap.setWidth(this.button.getEl().getWidth());
         }
 
         this.bindListeners();
@@ -119,7 +119,7 @@ Ext.ux.form.FileUploadField = Ext.extend(FileUploadFieldUi, {
         this.wrap.setWidth(w);
 
         if(!this.buttonOnly){
-            var width = this.wrap.getWidth() - this.button.getEl().getWidth() - this.buttonOffset;
+            var width = this.wrap.getWidth() - this.button.getWidth() - this.buttonOffset;
             this.el.setWidth(width);
         }
     },
