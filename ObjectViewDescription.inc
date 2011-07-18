@@ -192,7 +192,7 @@ class ObjectViewDescription {
     $metadata_dsid = (string) $description['dsid'];
     $metadata_xml = trim($this->item->get_datastream_dissemination($metadata_dsid));
     $metadata_xml = ($metadata_xml != '') ? $metadata_xml : NULL;
-    if(isset($metadata_xml)) { 
+    if (isset($metadata_xml)) {
       $simple = new SimpleXMLElement($metadata_xml);
       $simple->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3'); // Hack!!
       return $simple;
@@ -219,15 +219,32 @@ class ObjectViewDescription {
    * @return type 
    */
   private function getItemValue(SimpleXMLElement $item, SimpleXMLElement $metadata) {
+    global $base_url;
+    module_load_include('inc', 'islandora_solr_search', 'IslandoraSolrResults');
+    module_load_include('php', 'islandora_solr_search', 'Solr/Service');
     $value = '';
     if (isset($item->value)) { // Only One Path
       $path = (string) $item->value->path;
+      $field = isset($item->value->path->attributes()->field) ?
+          (string) $item->value->path->attributes()->field :
+          NULL;
       $results = $metadata->xpath($path);
       if ($results !== FALSE) {
         foreach ($results as $result) {
           $result = trim((string) $result);
           if ($result != '') {
-            $value .= $this->makeLinks($result) . '<br/>';
+            if ($this->isLink($result)) {
+              $value .= $this->makeLinks($result) . '<br/>';
+            }
+            else if (isset($field)) {
+              $solr_search = new IslandoraSolrResults();
+              $field_name = drupal_urlencode($solr_search->lesser_escape($field));
+              $field_value = drupal_urlencode(':"' . Apache_Solr_Service::escapePhrase($result) . '"');
+              $value .= "<a href='$base_url/islandora/solr/search/{$field_name}{$field_value}'>$result</a><br/>";
+            }
+            else {
+              $value .= $result . '</br>';
+            }
           }
         }
       }
@@ -236,9 +253,12 @@ class ObjectViewDescription {
     else if (isset($item->values)) { // Multiple Paths
       $values = $item->values;
       // Determine Paths
-      $paths = array();
+      $foo = array();
       foreach ($values->children() as $path) {
-        $paths[] = (string) $path;
+        $field = isset($path->attributes()->field) ?
+            (string) $path->attributes()->field :
+            NULL;
+        $foo[] = array((string) $path, $field);
       }
       // Determine parent context
       $values_found = FALSE;
@@ -248,12 +268,24 @@ class ObjectViewDescription {
       if (is_array($parents)) {
         foreach ($parents as $parent) {
           $line_populated = FALSE;
-          foreach ($paths as $path) {
+          foreach ($foo as $bar) {
+            list($path, $field) = $bar;
             $results = $parent->xpath($path);
             foreach ($results as $result) {
               $result = trim((string) $result);
               if ($result != '') {
-                $value .= $this->makeLinks((!$values_found) ? $result : $seperator . $result);
+                if ($this->isLink($result)) {
+                  $value .= $this->makeLinks((!$values_found) ? $result : $seperator . $result);
+                }
+                else if (isset($field)) {
+                  $solr_search = new IslandoraSolrResults();
+                  $field_name = drupal_urlencode($solr_search->lesser_escape($field));
+                  $field_value = drupal_urlencode(':"' . Apache_Solr_Service::escapePhrase($result) . '"');
+                  $value .= "<a href='$base_url/islandora/solr/search/{$field_name}{$field_value}'>$result</a>";
+                }
+                else {
+                  $value .= $result;
+                }
                 $values_found = TRUE;
                 $line_populated = TRUE;
               }
@@ -443,6 +475,25 @@ class ObjectViewDescription {
    * @param type $text
    * @return type 
    */
+  private function isLink($text) {
+    $SCHEMES = array('http', 'https', 'ftp', 'mailto', 'news',
+      'gopher', 'nntp', 'telnet', 'wais', 'prospero', 'aim', 'webcal');
+    // Note: fragment id is uchar | reserved, see rfc 1738 page 19
+    // %% for % because of string formating
+    // puncuation = ? , ; . : !
+    // if punctuation is at the end, then don't include it
+    $URL_FORMAT = '~(?<!\w)((?:' . implode('|', $SCHEMES) . '):' # protocol + :
+        . '/*(?!/)(?:' # get any starting /'s
+        . '[\w$\+\*@&=\-/]' # reserved | unreserved
+        . '|%%[a-fA-F0-9]{2}' # escape
+        . '|[\?\.:\(\),;!\'](?!(?:\s|$))' # punctuation
+        . '|(?:(?<=[^/:]{2})#)' # fragment id
+        . '){2,}' # at least two characters in the main url part
+        . ')~';
+
+    return preg_match($URL_FORMAT, $text) > 0;
+  }
+
   private function makeLinks($text) {
     $SCHEMES = array('http', 'https', 'ftp', 'mailto', 'news',
       'gopher', 'nntp', 'telnet', 'wais', 'prospero', 'aim', 'webcal');
@@ -463,3 +514,22 @@ class ObjectViewDescription {
   }
 
 }
+
+/**
+ * Code from Paul.
+ * 
+ * if(!empty($value)){
+   if($fieldName == 'Author' || $fieldName == 'Topic' || $fieldName == "Publisher" || $fieldName == "Corporate Name(s)" || $fieldName == "Subject (Personal)" ||
+           $fieldName == "Subject (Time)" || $fieldName == "Geography" || $fieldName == "Form" || $fieldName == "Place Of Publication" ||
+           $fieldName == "Series" || $fieldName == "Language" || $fieldName == "Date Created" ||
+           $fieldName == "Date Digitized") {
+       foreach($value as $va){
+       //$html .= '<a href = "'.$base_url.'/islandora/solr/search/'.$solr_search->escape($fieldName).drupal_urlencode(':"'.$va.'"').'">'.$va .'</a><br />';
+       $html .= '<a href = "'.$base_url.'/islandora/solr/search/'.drupal_urlencode($solr_search->escape($fieldName)).drupal_urlencode(':"'.Apache_Solr_Service::escapePhrase($va).'"').'">'.$va .'</a><br />';
+
+       }
+   }   else {
+   foreach( $value as $va) {
+     $html .= $va .'<br />';
+   }
+ */
