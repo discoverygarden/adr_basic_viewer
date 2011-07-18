@@ -238,9 +238,11 @@ class ObjectViewDescription {
             }
             else if (isset($field)) {
               $solr_search = new IslandoraSolrResults();
-              $field_name = drupal_urlencode($solr_search->lesser_escape($field));
-              $field_value = drupal_urlencode(':"' . Apache_Solr_Service::escapePhrase($result) . '"');
-              $value .= "<a href='$base_url/islandora/solr/search/{$field_name}{$field_value}'>$result</a><br/>";
+              $search = trim($field) . ':(' . IslandoraSolrResults::lesser_escape(trim($result)) . ')';
+              $search = htmlspecialchars(drupal_urlencode($search), ENT_QUOTES, 'utf-8', false);
+              $search = str_replace('/', '~slsh~', $search); //replace the slash so url doesn't break
+              $link = "<a href='$base_url/islandora/solr/search/$search'>$result</a><br/>";
+              $value .= $link;
             }
             else {
               $value .= $result . '</br>';
@@ -281,6 +283,8 @@ class ObjectViewDescription {
                   $solr_search = new IslandoraSolrResults();
                   $field_name = drupal_urlencode($solr_search->lesser_escape($field));
                   $field_value = drupal_urlencode(':"' . Apache_Solr_Service::escapePhrase($result) . '"');
+                  drupal_set_message("Field Name: $field_name");
+                  drupal_set_message("Field Value: $field_value");
                   $value .= "<a href='$base_url/islandora/solr/search/{$field_name}{$field_value}'>$result</a>";
                 }
                 else {
