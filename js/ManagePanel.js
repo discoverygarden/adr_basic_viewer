@@ -1,4 +1,4 @@
-/*
+ /*
  * File: ManagePanel.js
  * Date: Mon Mar 07 2011 02:10:59 GMT-0600 (CST)
  * 
@@ -14,7 +14,7 @@
 function gotoEditModsPage() {
     var pid = window.location.pathname.split('/')[3];
     var location = window.location;
-    var page = location.protocol + '//' + location.host + '/formbuilder/edit/' + pid + '/colorado';
+    var page = location.protocol + '//' + location.host + '/formbuilder/edit/' + pid;
     window.location = page;
 }
 
