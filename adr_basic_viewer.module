@@ -12,61 +12,61 @@ function adr_basic_viewer_menu() {
   $items['adrbasic/ajax/getObjectProperties'] = array(
     'page callback' => 'adr_basic_viewer_get_object_properties',
     'access arguments' => array('view detailed list of content'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
 
   $items['adrbasic/ajax/setObjectProperties'] = array(
     'page callback' => 'adr_basic_viewer_set_object_properties',
     'access arguments' => array('edit fedora meta data'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
 
   $items['adrbasic/ajax/deleteObject'] = array(
     'page callback' => 'adr_basic_viewer_delete_object',
     'access arguments' => array('edit fedora meta data'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
 
   $items['adrbasic/ajax/getDatastreams'] = array(
     'page callback' => 'adr_basic_viewer_get_datastreams',
     'access arguments' => array('view detailed list of content'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
 
   $items['adrbasic/ajax/addDatastream'] = array(
     'page callback' => 'adr_basic_viewer_add_datastream',
     'access arguments' => array('add fedora datastreams'),
     'access callback' => 'user_access',
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
   $items['adrbasic/ajax/removeDatastream'] = array(
     'page callback' => 'adr_basic_viewer_remove_datastream',
     'access arguments' => array('purge objects and datastreams'),
     'access callback' => 'user_access',
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
 
   $items['adrbasic/ajax/getOverviewDatastreams'] = array(
     'page callback' => 'adr_basic_viewer_get_overview_datastreams',
     'access arguments' => array('view detailed list of content'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
 
   $items['adrbasic/ajax/getDescription'] = array(
     'page callback' => 'adr_basic_viewer_get_description',
     'access arguments' => array('view detailed list of content'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
   $items['adrbasic/ajax/getViewer'] = array(
     'page callback' => 'adr_basic_viewer_get_viewer',
     'access arguments' => array('view detailed list of content'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
   $items['adrbasic/ajax/getAllowedMIMETypes'] = array(
     'page callback' => 'adr_basic_viewer_get_allowed_mime_types',
     'access arguments' => array('add fedora datastreams'),
     'access callback' => 'user_access',
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
   return $items;
 }
