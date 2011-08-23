@@ -11,38 +11,36 @@
  */
 
 ObjectProperties = Ext.extend(Ext.data.JsonStore, {
-    constructor: function(cfg) {
-        cfg = cfg || {};
-        ObjectProperties.superclass.constructor.call(this, Ext.apply({
-            storeId: 'ObjectProperties',
-            url: '/adrbasic/ajax/getObjectProperties',
-            autoLoad: true,
-            baseParams: {
-                pid: decodeURIComponent(window.location.pathname.split('/')[
-                    3
-                ])
-            },
-            fields: [
-                {
-                    name: 'label'
-                },
-                {
-                    name: 'created'
-                },
-                {
-                    name: 'modified'
-                },
-                {
-                    name: 'owner'
-                },
-                {
-                    name: 'state'
-                },
-                {
-                    name: 'user'
-                }
-            ]
-        }, cfg));
-    }
+  constructor: function(cfg) {
+    cfg = cfg || {};
+    ObjectProperties.superclass.constructor.call(this, Ext.apply({
+      storeId: 'ObjectProperties',
+      url: '/adrbasic/ajax/getObjectProperties',
+      autoLoad: true,
+      baseParams: {
+        pid: decodeURIComponent(window.location.pathname.split('/')[3])
+      },
+      fields: [{
+        name: 'pid'
+      }, {
+        name: 'label'
+      }, {
+        name: 'created'
+      }, {
+        name: 'modified'
+      }, {
+        name: 'owner'
+      }, {
+        name: 'state'
+      }, {
+        name: 'user'
+      }],
+      listeners: {
+        load: function(store, records, options) {
+          ADRBasic.pid = records[0].get('pid');
+        }
+      }
+    }, cfg));
+  }
 });
 new ObjectProperties();

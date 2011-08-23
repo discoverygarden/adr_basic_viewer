@@ -228,6 +228,7 @@ class AjaxHandler {
    */
   public function getObjectProperties() {
     $object_properties = array(
+      'pid' => $this->pid,
       'label' => $this->getObjectLabel(),
       'created' => $this->getObjectCreationDate(),
       'modified' => $this->getObjectLastModifiedDate(),
