@@ -21,7 +21,7 @@ function gotoEditModsPage() {
 function gotoXACMLPage(pid) {
   pid = (pid) ? pid : window.location.pathname.split('/')[3];
   var location = window.location;
-  var page = location.protocol + '//' + location.host + '/xacml/' + pid + '/policy';
+  var page = location.protocol + '//' + location.host + '/xacml/' + pid + '/POLICY';
   window.location = page;
 }
 
