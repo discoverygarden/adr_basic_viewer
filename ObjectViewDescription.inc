@@ -13,78 +13,91 @@ class ObjectViewDescription {
    * @var Fedora_Item
    */
   protected $item;
+
   /**
    * If true don't show thumbnail datastreams in the files panel.
    * 
    * @var boolean
    */
   protected $hideThumbnails;
+
   /**
    * If true don't show derived datastreams in the files panel.
    * 
    * @var boolean
    */
   protected $hideDerived;
+
   /**
    * A list of datastreams defined as thumbnails in the rels-int.
    * 
    * @var array
    */
   protected $thumbnails;
+
   /**
    * A list of datastreams defined as derived in the rels-int.
    * 
    * @var array
    */
   protected $derived;
+
   /**
    * A list of all viewable MIME types.
    * 
    * @var array
    */
   protected $viewableMimeTypes;
+
   /**
    * A list of all hidden MIME types.
    * 
    * @var array
    */
   protected $hiddenMimeTypes;
+
   /**
    * A list of all downloadable MIME types.
    * 
    * @var array
    */
   protected $downloadableMimeTypes;
+
   /**
    * A list of all downloadable MIME types.
    * 
    * @var array
    */
   protected $nonDownloadableMimeTypes;
+
   /**
    * A list of viewable datastreams.
    *  
    * @var array
    */
   protected $viewableDatastreams;
+
   /**
    * A list of hidden datastreams.
    *  
    * @var array
    */
   protected $hiddenDatastreams;
+
   /**
    * A list of all downloadable datastreams.
    * 
    * @var array
    */
   protected $downloadableDatastreams;
+
   /**
    * A list of all non-downloadable datastreams.
    * 
    * @var array
    */
   protected $nonDownloadableDatastreams;
+
   /**
    * A collection of labels and values for use in the description panel.
    * 
@@ -237,7 +250,7 @@ class ObjectViewDescription {
               $value .= $this->makeLinks($result) . '<br/>';
             }
             else if (isset($field)) {
-              $search = trim($field) . ':(' . IslandoraSolrResults::lesser_escape(trim($result)) . ')';
+              $search = trim($field) . ':(' . $this->lesser_escape(trim($result)) . ')';
               $search = htmlspecialchars(drupal_urlencode($search), ENT_QUOTES, 'utf-8', false);
               $search = str_replace('/', '~slsh~', $search); //replace the slash so url doesn't break
               $link = "<a href='$base_url/islandora/solr/search/$search/-'>$result</a><br/>";
@@ -279,7 +292,7 @@ class ObjectViewDescription {
                   $value .= $this->makeLinks((!$values_found) ? $result : $seperator . $result);
                 }
                 else if (isset($field)) {
-                  $search = trim($field) . ':(' . IslandoraSolrResults::lesser_escape(trim($result)) . ')';
+                  $search = trim($field) . ':(' . $this->lesser_escape(trim($result)) . ')';
                   $search = htmlspecialchars(drupal_urlencode($search), ENT_QUOTES, 'utf-8', false);
                   $search = str_replace('/', '~slsh~', $search); //replace the slash so url doesn't break
                   $link = "<a href='$base_url/islandora/solr/search/$search/-'>$result</a>";
@@ -513,6 +526,15 @@ class ObjectViewDescription {
         . ')~';
 
     return preg_replace($URL_FORMAT, '<a href="\1">\1</a>', $text);
+  }
+
+  public function lesser_escape($value) {
+    //list taken from http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
+    //Zac removed the quotation mark and whitespace from this list.
+    $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|~|\*|\?|:|\\\)/';
+    $replace = '\\\$1';
+
+    return preg_replace($pattern, $replace, $value);
   }
 
 }
