@@ -4,8 +4,8 @@
  */
 
 Ext.onReady(function(){
-    Ext.get('content-fedora').update('');
-    Ext.get('content-fedora').dom.id = "adr-basic-viewer";
+    Ext.get('tabs-tabset').update('');
+    Ext.get('tabs-tabset').dom.id = "adr-basic-viewer";
     Ext.QuickTips.init();
     var adrbasic = new ADRBasicViewer({
         renderTo: 'adr-basic-viewer',
