@@ -259,7 +259,7 @@ class AjaxHandler {
     $state = $values['state'];
     if ($this->item->modify_object($label, $states[$state], $owner)) {
       $object_properties = $this->getObjectProperties();
-      return array('success' => true, 'msg' => 'Successfuly Edited Object', 'data' => $object_properties);
+      return array('success' => true, 'msg' => 'Successfully Edited Object', 'data' => $object_properties);
     }
     else {
       $object_properties = $this->getObjectProperties();
@@ -268,14 +268,19 @@ class AjaxHandler {
   }
 
   /**
-   * Deletes the fedora object in question.
+   * Marks the fedora object in question as being deleted.
    *
    * @return array
    */
   public function deleteObject() {
-    if ($this->item->purge()) {
-      drupal_set_message("Successfuly Deleted Object: {$this->pid}");
-      return array('success' => true, 'msg' => 'Successfuly Deleted Object');
+    // mark the object as deleted in Fedora without purging the object
+    $get_properties = $this->getObjectProperties();
+    $object_properties = $get_properties[0];
+    $object_properties['state'] = "Deleted";
+    $set_properties = $this->setObjectProperties($object_properties);
+    if ($set_properties['success']) {
+      drupal_set_message("Successfully Deleted Object: {$this->pid}");
+      return array('success' => true, 'msg' => 'Successfully Deleted Object');
     }
     else {
       return array('success' => false, 'msg' => 'Failed to Delete Object');
