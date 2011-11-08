@@ -132,7 +132,7 @@ class Thumbnail {
   private function getUrlFromRelsInt() {
     $rels_int = $this->getRelsInt();
     if (isset($rels_int)) {
-      $path = "/rdf:RDF/rdf:Description[@rdf:about='info:fedora/{$this->pid}/{$this->dsid}']/coal:hasThumbnail"; // coal Namespace is worry some.
+      $path = "/rdf:RDF/rdf:Description[@rdf:about='info:fedora/{$this->item->pid}/{$this->dsid}']/coal:hasThumbnail"; // coal Namespace is worry some.
       $results = $rels_int->xpath($path);
       if (is_array($results) && count($results) > 0) {
         $attributes = $results[0]->attributes('rdf', TRUE);
