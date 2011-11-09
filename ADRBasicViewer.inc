@@ -163,24 +163,8 @@ EOT;
     module_load_include('inc', 'fedora_repository', 'api/fedora_item');
     $this->item = new Fedora_Item($pid);
     $this->pid = $pid;
-    $this->dsid = isset($dsid) ? $dsid : $this->getDefaultDsid();
+    $this->dsid = $dsid;
     $this->mimeType = $this->item->datastreams[$this->dsid]['MIMEType'];
-  }
-
-  /**
-   *
-   * @return string
-   */
-  private function getDefaultDsid() {
-    module_load_include('inc', 'adr_basic_viewer', 'ObjectViewDescription');
-    module_load_include('inc', 'fedora_repository', 'ContentModel');
-    $content_model = ContentModel::loadFromObject($this->pid);
-    $obj_view = new ObjectViewDescription($this->item, $content_model);
-    foreach ($this->item->datastreams as $dsid => $attr) {
-      if ($obj_view->canViewDatastream($dsid)) {
-        return $dsid;
-      }
-    }
   }
 
   /**

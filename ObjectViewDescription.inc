@@ -375,15 +375,17 @@ class ObjectViewDescription {
 
     // load xacml stuff
     module_load_include('inc', 'islandora_xacml_editor', 'Xacml');
-
-    // Check XACML
-    $datastreams = $this->item->get_datastreams_list_as_array();
-    if(array_key_exists('POLICY', $datastreams)) {
-      $xacml = new Xacml($this->item->get_datastream_dissemination('POLICY'));
+    module_load_include('inc', 'islandora_xacml_editor', 'XacmlException');
+    try {
+      $xacml = Xacml::constructFromPid($this->item->pid);
       if(!$xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$dsid]['MIMEType'], $dsid)){
         return FALSE;
       }
     }
+    catch (XacmlException $e) {
+      return FALSE;
+    }
+
 
     // Check Derived
     if ($this->hideDerived && $this->isDerived($dsid)) {
