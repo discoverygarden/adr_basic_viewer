@@ -154,7 +154,13 @@ class AjaxHandler {
         if ($within_range) {
           module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
           $thumbnail = new Thumbnail($this->item, $dsid);
-          $stream['dsid'] = $dsid;
+          
+          // it is possible that we can get this far and the datastream MIMEtype is viewable
+          // but there may be no viewer installed for the MIMEtype.  This can happen when
+          // the object has derived datastreams that have viewers even if the main datastream
+          // does not have a viewer.  In this case we must find the DSID of the viewable
+          // datastream to send to the viewer.
+          $stream['dsid'] = $object_view->getViewableDSID($dsid);
           $stream['label'] = $attr['label'];
           $stream['img_url'] = $thumbnail->getUrl();
           $stream['download_url'] = ($downloadable) ? $this->getDatastreamDownloadURL($dsid, $attr['label']) : NULL;
