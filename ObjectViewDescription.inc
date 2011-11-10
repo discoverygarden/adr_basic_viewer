@@ -403,10 +403,49 @@ class ObjectViewDescription {
     else if ($this->searchPatternArray($dsid, $this->hiddenDatastreams)) {
       return FALSE;
     }
-    // Check if MIME type of the given datastream is viewable
+    // Check if MIME type of the given datastream is viewable.  This does NOT
+    // mean that there is a viewer for this MIMEtype, just that we think that
+    // there should be one somewhere because we _support_ this MIMEtype.
     else {
       return $this->isMimeTypeViewable($this->item->datastreams[$dsid]['MIMEType']);
     }
+  }
+  
+  /**
+   *
+   * Returns a viewable DSID based on whether the input DSID has a viewer (in which
+   * case the input DSID is returned) or if the object has derivbed types that are
+   * viewable and have a viewer.
+   *
+   * @param string $dsid
+   * @return string 
+   */
+  public function getViewableDSID($dsid) {
+    module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
+    $viewable_dsid = NULL;
+
+    // if the original DSID is not viewable then ... nobody gets to view it or any of
+    // its derived types.    
+    if ($this->isDatastreamViewable($dsid)) {
+      if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$dsid]['MIMEType'])) {
+        $viewable_dsid = $dsid;
+      }
+      
+      // test the derived types to see if any of them have a viewer.  We do not
+      // test to see if the derived types are viewable because, be definition,
+      // they are not (see isDatastreamViewable).
+      else {
+        foreach ($this->derived as $derived_dsid) {
+          if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$derived_dsid]['MIMEType'])) {
+            // take the first viewable derived type
+            $viewable_dsid = $derived_dsid;
+            break;
+          }
+        }
+      }
+    }
+
+    return $viewable_dsid;
   }
 
   /**
