@@ -120,6 +120,20 @@ class ADRBasic {
       'EditObjectWindow.js',
     );
 
+    $canEditObjects = user_access("Edit Object");
+    $canEditPermissions = user_access("Edit Permissions");
+    $canDeleteObject = user_access("Delete Object");
+    $canEditStream = user_access("Edit DS");
+    $canDeleteStream = user_access("Delete DS");
+    
+    $permissions_block =
+        "UserObjectPermissions.manage_canEditObjects=" . ($canEditObjects ? "true" : "false") . ";" .
+        "UserObjectPermissions.manage_canEditPermissions=" . ($canEditPermissions ? "true" : "false") . ";" .
+        "UserObjectPermissions.manage_canDeleteObject=" . ($canDeleteObject ? "true" : "false") . ";" .
+        "UserObjectPermissions.datastream_canEditStream=" . ($canEditStream ? "true" : "false") . ";" .
+        "UserObjectPermissions.datastream_canDeleteStream=" . ($canDeleteStream ? "true" : "false") . ";";
+    drupal_add_js($permissions_block, 'inline');
+    
     drupal_add_js("$path/js/IncludeFirst.js");
     $this->includeScripts($data_stores, $path);
     $this->includeScripts($custom_components, $path);
@@ -129,6 +143,7 @@ class ADRBasic {
       $this->includeScripts($manage_panel, $path);
       $this->includeScripts($manage_windows, $path);
     }
+        
     drupal_add_js("$path/js/ADRBasic.js");
   }
 

@@ -41,6 +41,9 @@ ManagePanel = Ext.extend(ManagePanelUi, {
       this.getFooterToolbar().doRefresh();
     }); // Load information on view.
         
+    edit.disable();
+    remove.disable();
+    
     // Add hidden download form.
     Ext.DomHelper.append('adr-basic-viewer', {
       tag: 'form',
@@ -77,37 +80,39 @@ ManagePanel = Ext.extend(ManagePanelUi, {
         form.child('input').dom.click();
       }
     });
-    remove.addListener('click', function(button, event) {
-      var records = viewer.getSelectedRecords();
-      var record = records[0];
-      if(record) {
-        var store = viewer.getStore();
-        var pid = store.baseParams.pid;
-        var dsid = record.get('dsid');
-        Ext.Msg.confirm('Delete', 'Are you sure you want to delete this file?', function(btn, text){
-          if (btn == 'yes') {
-            Ext.Ajax.request({
-              url: '/adrbasic/ajax/removeDatastream',
-              success: function() {
-                var store = Ext.StoreMgr.lookup('Datastreams');
-                store.reload(store.lastOptions);
-                store = Ext.StoreMgr.lookup('OverviewDatastreams');
-                store.reload(store.lastOptions);
-              },
-              failure: function() {
-                Ext.Msg.alert('Failure', 'Could not delete file.');
-              },
-              params: {
-                pid: pid,
-                dsid: dsid
-              }
-            });
+    
+    if (UserObjectPermissions.datastream_canDeleteStream) {
+      remove.addListener('click', function(button, event) {
+        var records = viewer.getSelectedRecords();
+        var record = records[0];
+        if(record) {
+          var store = viewer.getStore();
+          var pid = store.baseParams.pid;
+          var dsid = record.get('dsid');
+          Ext.Msg.confirm('Delete', 'Are you sure you want to delete this file?', function(btn, text){
+            if (btn == 'yes') {
+              Ext.Ajax.request({
+                url: '/adrbasic/ajax/removeDatastream',
+                success: function() {
+                  var store = Ext.StoreMgr.lookup('Datastreams');
+                  store.reload(store.lastOptions);
+                  store = Ext.StoreMgr.lookup('OverviewDatastreams');
+                  store.reload(store.lastOptions);
+                },
+                failure: function() {
+                  Ext.Msg.alert('Failure', 'Could not delete file.');
+                },
+                params: {
+                  pid: pid,
+                  dsid: dsid
+                }
+              });
+            }
+          });
+        }
+      });
+    }
 
-          }
-        });
-      }
-
-    });
     view.addListener('click', function(button, event) {
       var records = viewer.getSelectedRecords();
       var record = records[0];
@@ -124,14 +129,18 @@ ManagePanel = Ext.extend(ManagePanelUi, {
         var dsid = record.get('dsid');
         details.updateDetails(record);
         if(dsid == 'MODS') {
-          edit.enable();
-          edit.addListener('click', gotoEditModsPage);
+          if (UserObjectPermissions.datastream_canEditStream) {
+            edit.enable();
+            edit.addListener('click', gotoEditModsPage);
+          }
         }
         else {
           edit.disable();
           edit.removeListener('click', gotoEditModsPage);
         }
-        remove.enable();
+        if (UserObjectPermissions.datastream_canDeleteStream) {
+          remove.enable();
+        }
         view.enable();
         download.enable();
       }
@@ -147,44 +156,65 @@ ManagePanel = Ext.extend(ManagePanelUi, {
     var editObject = editObjectToolbar.get('adr-manage-edit-object');
     var editObjectPermissions = editObjectToolbar.get('adr-manage-edit-object-permissions');
     var deleteObject = editObjectToolbar.get('adr-manage-delete-object');
-    editObject.addListener('click', function(button, event) {
-      var window = new EditObjectWindow();
-      window.show(this);
-    });
-    editObjectPermissions.addListener('click', function(button, event) {
-      gotoXACMLPage(ADRBasic.pid);
-    //Ext.Msg.alert('Failure', 'This will redirect to the XCAML form, once its available.');
-    });
-    deleteObject.addListener('click', function(button, event) {
-      Ext.Msg.confirm('Delete', 'Are you sure you want to delete this Object?', function(btn, text){
-        if (btn == 'yes') {
-          var pid = ADRBasic.pid;
-          Ext.Ajax.request({
-            url: '/adrbasic/ajax/deleteObject',
-            success: function(response, opts) {
-              var obj = Ext.decode(response.responseText);
-              if(obj.success) {
-                // Redirect to top collection for now.
-                var location = window.location;
-                var page = location.protocol + '//' + location.host + '/fedora/repository/';
-                window.location = page;
-              }
-              else {
-                Ext.Msg.alert('Failure', obj.msg);
-              }
-
-            },
-            failure: function(response, opts) {
-              Ext.Msg.alert('Failure', 'Failed to Delete Object.');
-            },
-            params: {
-              pid: pid
-            }
-          });
-
-        }
+    
+    // Permission to edit objects are assumed to be negative unless explicitly true.
+    editObject.disable();
+    if (UserObjectPermissions.manage_canEditObjects) {
+      editObject.enable();
+    
+      editObject.addListener('click', function(button, event) {
+        var window = new EditObjectWindow();
+        window.show(this);
       });
-    });
+    }
+    
+    // Permission to edit permissions are assumed to be negative unless explicitly true.
+    editObjectPermissions.disable();
+    if (UserObjectPermissions.manage_canEditPermissions) {
+      editObjectPermissions.enable();
+    
+      editObjectPermissions.addListener('click', function(button, event) {
+        gotoXACMLPage(ADRBasic.pid);
+        //Ext.Msg.alert('Failure', 'This will redirect to the XCAML form, once its available.');
+      });
+    }
+    
+    // Permission to delete objects are assumed to be negative unless explicitly true.
+    deleteObject.disable();
+    if (UserObjectPermissions.manage_canDeleteObject) {
+      deleteObject.enable();
+      
+      deleteObject.addListener('click', function(button, event) {
+        Ext.Msg.confirm('Delete', 'Are you sure you want to delete this Object?', function(btn, text){
+          if (btn == 'yes') {
+            var pid = ADRBasic.pid;
+            Ext.Ajax.request({
+              url: '/adrbasic/ajax/deleteObject',
+              success: function(response, opts) {
+                var obj = Ext.decode(response.responseText);
+                if(obj.success) {
+                  // Redirect to top collection for now.
+                  var location = window.location;
+                  var page = location.protocol + '//' + location.host + '/fedora/repository/';
+                  window.location = page;
+                }
+                else {
+                  Ext.Msg.alert('Failure', obj.msg);
+                }
+
+              },
+              failure: function(response, opts) {
+                Ext.Msg.alert('Failure', 'Failed to Delete Object.');
+              },
+              params: {
+                pid: pid
+              }
+            });
+
+          }
+        });
+      });
+    }
   }
 });
 Ext.reg('managepanel', ManagePanel);

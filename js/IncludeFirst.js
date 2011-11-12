@@ -2,6 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
+// the user object permissions block
+// values are set in ADRBasic.inc
+UserObjectPermissions = {};
+
+
 Ext.ns("ADRBasic");
 ADRBasic.pid = decodeURIComponent(window.location.pathname.split('/')[3]);
 

@@ -427,7 +427,8 @@
                                     "userConfig": {
                                         "text": "Edit Object",
                                         "formBind": "-ext-undefined-",
-                                        "id": "adr-manage-edit-object"
+                                        "id": "adr-manage-edit-object",
+                                        "disabled": true
                                     }
                                 },
                                 {
