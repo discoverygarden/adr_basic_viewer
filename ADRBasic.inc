@@ -120,11 +120,11 @@ class ADRBasic {
       'EditObjectWindow.js',
     );
 
-    $canEditObjects = user_access("Edit Object");
-    $canEditPermissions = user_access("Edit Permissions");
-    $canDeleteObject = user_access("Delete Object");
-    $canEditStream = user_access("Edit DS");
-    $canDeleteStream = user_access("Delete DS");
+    $canEditObjects = user_access("edit fedora meta data");
+    $canEditPermissions = user_access("Edit XACML Policies");
+    $canDeleteObject = user_access("purge objects and datastreams");
+    $canEditStream = user_access("edit fedora meta data");
+    $canDeleteStream = user_access("purge objects and datastreams");
     
     $permissions_block =
         "UserObjectPermissions.manage_canEditObjects=" . ($canEditObjects ? "true" : "false") . ";" .
