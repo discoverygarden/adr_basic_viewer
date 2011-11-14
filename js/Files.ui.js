@@ -12,7 +12,7 @@
 
 FilesUi = Ext.extend(Ext.Panel, {
     title: 'Files',
-    width: 277,
+    width: 305,
     autoHeight: true,
     frame: true,
     initComponent: function() {
