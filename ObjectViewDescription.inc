@@ -229,6 +229,8 @@ class ObjectViewDescription {
    *
    * @param SimpleXMLElement $item
    * @param SimpleXMLElement $metadata
+   * this is basically the worst code I've read in awhile. I have no idea what foo and bar do.
+   * fixed a big that was returning bad data, but i'm not sure if i fixed the root cause.
    * @return type 
    */
   private function getItemValue(SimpleXMLElement $item, SimpleXMLElement $metadata) {
@@ -285,6 +287,7 @@ class ObjectViewDescription {
           foreach ($foo as $bar) {
             list($path, $field) = $bar;
             $results = $parent->xpath($path);
+            if ($results) {
             foreach ($results as $result) {
               $result = trim((string) $result);
               if ($result != '') {
@@ -304,6 +307,7 @@ class ObjectViewDescription {
                 $values_found = TRUE;
                 $line_populated = TRUE;
               }
+            }
             }
           }
           if ($line_populated) {
