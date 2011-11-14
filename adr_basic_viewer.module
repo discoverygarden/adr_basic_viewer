@@ -71,11 +71,17 @@ function adr_basic_viewer_menu() {
   return $items;
 }
 
+function adr_basic_viewer_get_pid() {
+  $pid = $_REQUEST['pid'];
+  $pid = urldecode($pid);
+  return $pid;
+}
+
 /**
  *
  */
 function adr_basic_viewer_get_description() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
@@ -88,7 +94,7 @@ function adr_basic_viewer_get_description() {
  * 
  */
 function adr_basic_viewer_get_datastreams() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   $start = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
   $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 33;
   if (isset($pid)) {
@@ -103,7 +109,7 @@ function adr_basic_viewer_get_datastreams() {
  *
  */
 function adr_basic_viewer_get_overview_datastreams() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   $start = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
   $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;
   if (isset($pid)) {
@@ -118,7 +124,7 @@ function adr_basic_viewer_get_overview_datastreams() {
  * 
  */
 function adr_basic_viewer_get_viewer() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
     $dsid = isset($_REQUEST['dsid']) ? $_REQUEST['dsid'] : NULL;
@@ -131,7 +137,7 @@ function adr_basic_viewer_get_viewer() {
  * 
  */
 function adr_basic_viewer_add_datastream() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
@@ -144,7 +150,7 @@ function adr_basic_viewer_add_datastream() {
  * 
  */
 function adr_basic_viewer_remove_datastream() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   $dsid = $_REQUEST['dsid'];
   if (isset($pid) && isset($dsid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
@@ -162,7 +168,7 @@ function adr_basic_viewer_remove_datastream() {
  * Example: { success: true, msg: 'message', data: '{ { mime: 'image/jpg'}, ... }' }
  */
 function adr_basic_viewer_get_allowed_mime_types() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
@@ -180,7 +186,7 @@ function adr_basic_viewer_get_allowed_mime_types() {
  * Example: { success: true, msg: 'message', data: '{ { label: ''}, ... }' }
  */
 function adr_basic_viewer_get_object_properties() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
@@ -198,7 +204,7 @@ function adr_basic_viewer_get_object_properties() {
  * Example: { success: true, msg: 'message', data: '{ { label: ''}, ... }' }
  */
 function adr_basic_viewer_set_object_properties() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
@@ -215,7 +221,7 @@ function adr_basic_viewer_set_object_properties() {
  * Example: { success: true, msg: 'message' }
  */
 function adr_basic_viewer_delete_object() {
-  $pid = $_REQUEST['pid'];
+  $pid = adr_basic_viewer_get_pid();
   if (isset($pid)) {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
