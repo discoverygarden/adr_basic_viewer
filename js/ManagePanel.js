@@ -51,6 +51,7 @@ ManagePanel = Ext.extend(ManagePanelUi, {
       this.getFooterToolbar().doRefresh();
     }); // Load information on view.
         
+    add.disable();
     edit.disable();
     remove.disable();
     
@@ -73,9 +74,12 @@ ManagePanel = Ext.extend(ManagePanelUi, {
       this.tpl.overwrite(this.body, record.data);
     }
 
-    add.addListener('click', function(button, event) {
-      gotoFilesIngestPage(ADRBasic.pid);
-    });
+    if (UserObjectPermissions.datastream_canAddStream) {
+      add.enable();
+      add.addListener('click', function(button, event) {
+        gotoFilesIngestPage(ADRBasic.pid);
+      });
+    }
         
     download.addListener('click', function(button, event) {
       var records = viewer.getSelectedRecords();

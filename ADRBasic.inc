@@ -123,6 +123,7 @@ class ADRBasic {
     $canEditObjects = user_access("edit fedora meta data");
     $canEditPermissions = user_access("Edit XACML Policies");
     $canDeleteObject = user_access("purge objects and datastreams");
+    $canAddStream = user_access("add fedora datastreams");
     $canEditStream = user_access("edit fedora meta data");
     $canDeleteStream = user_access("purge objects and datastreams");
     
@@ -130,6 +131,7 @@ class ADRBasic {
         "UserObjectPermissions.manage_canEditObjects=" . ($canEditObjects ? "true" : "false") . ";" .
         "UserObjectPermissions.manage_canEditPermissions=" . ($canEditPermissions ? "true" : "false") . ";" .
         "UserObjectPermissions.manage_canDeleteObject=" . ($canDeleteObject ? "true" : "false") . ";" .
+        "UserObjectPermissions.datastream_canAddStream=" . ($canAddStream ? "true" : "false") . ";" .
         "UserObjectPermissions.datastream_canEditStream=" . ($canEditStream ? "true" : "false") . ";" .
         "UserObjectPermissions.datastream_canDeleteStream=" . ($canDeleteStream ? "true" : "false") . ";";
     drupal_add_js($permissions_block, 'inline');
