@@ -25,6 +25,16 @@ function gotoXACMLPage(pid) {
   window.location = page;
 }
 
+function gotoFilesIngestPage(pid) {
+  // test the pid to see if it is uninitialized or an empty string.  If this the case then
+  // attempt to use the path name in the address bar.
+  pid = (!!pid) ? pid : window.location.pathname.split('/')[3];
+
+  var location = window.location;
+  var page = location.protocol + '//' + location.host + '/islandora_co_manager/ingest_files/' + pid;
+  window.location = page;
+}
+
 ManagePanel = Ext.extend(ManagePanelUi, {
   initComponent: function() {
     ManagePanel.superclass.initComponent.call(this);
@@ -64,8 +74,7 @@ ManagePanel = Ext.extend(ManagePanelUi, {
     }
 
     add.addListener('click', function(button, event) {
-      var window = new AddFileWindow();
-      window.show(this);
+      gotoFilesIngestPage(ADRBasic.pid);
     });
         
     download.addListener('click', function(button, event) {
