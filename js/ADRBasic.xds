@@ -23,7 +23,7 @@
             "userConfig": {
                 "activeTab": 0,
                 "width": 960,
-                "height": 920,
+                "height": 950,
                 "activeItem": "-ext-undefined-",
                 "plain": "-ext-undefined-",
                 "tabMargin": "-ext-undefined-",
@@ -759,7 +759,7 @@
             "snapToGrid": 10,
             "userConfig": {
                 "title": "Files",
-                "width": 277,
+                "width": 305,
                 "collapsible": "-ext-undefined-",
                 "collapseFirst": "-ext-undefined-",
                 "collapsed": "-ext-undefined-",
