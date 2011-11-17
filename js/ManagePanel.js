@@ -133,7 +133,8 @@ ManagePanel = Ext.extend(ManagePanelUi, {
         var store = viewer.getStore();
         var label = record.get('label');
         var dsid = record.get('dsid');
-        ADRBasic.viewer.show(label, dsid);
+        var viewable_dsid = record.get('viewable_dsid');
+        ADRBasic.viewer.show(label, viewable_dsid);
       }
     });
     viewer.addListener('click', function(dataviewer, index, node, event) {

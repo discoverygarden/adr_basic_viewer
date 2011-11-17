@@ -67,7 +67,8 @@ ADRBasic.viewer = {
                 var record = records[0];
                 var label = record.get('label');
                 var dsid = record.get('dsid');
-                ADRBasic.viewer.setDatastream(label, dsid);
+                var viewable_dsid = record.get('viewable_dsid');
+                ADRBasic.viewer.setDatastream(label, viewable_dsid);
                 ADRBasic.viewer.setTitle();
                 ADRBasic.viewer.loadViewer();
             }

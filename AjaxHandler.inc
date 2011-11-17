@@ -119,11 +119,14 @@ class AjaxHandler {
     $data = array();
     $count = 0;
     $end = (isset($limit)) ? $start + $limit : NULL;
+    module_load_include('inc', 'adr_basic_viewer', 'ObjectViewDescription');
+    $object_view = new ObjectViewDescription($this->item, $this->getContentModel());
     foreach ($this->item->datastreams as $dsid => $attr) {
       if ($count >= $start && (empty($end) || $count < $end)) {
         module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
         $thumbnail = new Thumbnail($this->item, $dsid);
         $stream['dsid'] = $dsid;
+        $stream['viewable_dsid'] = $object_view->getViewableDSID($dsid);
         $stream['label'] = $attr['label'];
         $stream['img_url'] = $thumbnail->getUrl();
         $stream['download_url'] = $this->getDatastreamDownloadURL($dsid, $attr['label']);
@@ -160,7 +163,8 @@ class AjaxHandler {
           // the object has derived datastreams that have viewers even if the main datastream
           // does not have a viewer.  In this case we must find the DSID of the viewable
           // datastream to send to the viewer.
-          $stream['dsid'] = $object_view->getViewableDSID($dsid);
+          $stream['dsid'] = $dsid;
+          $stream['viewable_dsid'] = $object_view->getViewableDSID($dsid);
           $stream['label'] = $attr['label'];
           $stream['img_url'] = $thumbnail->getUrl();
           $stream['download_url'] = ($downloadable) ? $this->getDatastreamDownloadURL($dsid, $attr['label']) : NULL;

@@ -861,6 +861,15 @@
                     "userConfig": {
                         "name": "download_url"
                     }
+                },
+                {
+                    "id": "MyField7",
+                    "cid": "datafield",
+                    "jsClass": "MyField7",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "viewable_dsid"
+                    }
                 }
             ]
         },
@@ -978,6 +987,15 @@
                     "snapToGrid": 10,
                     "userConfig": {
                         "name": "download_url"
+                    }
+                },
+                {
+                    "id": "MyField6",
+                    "cid": "datafield",
+                    "jsClass": "MyField6",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "viewable_dsid"
                     }
                 }
             ]
