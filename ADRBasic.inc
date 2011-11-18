@@ -42,20 +42,22 @@ class ADRBasic {
     module_load_include('inc','islandora_xacml_editor','XacmlException');
     global $user;
 
-    try {
-      $xacml = Xacml::constructFromPid($this->pid);
-      if($xacml->managementRule->isPopulated()) {
-        $show = $xacml->managementRule->hasPermission($user->name, $user->roles);
-      }
-      elseif ($user->uid == 1) {
-        $show = TRUE;
-      }
-      else {
-        $show = in_array('administrator',$user->roles);
-      }
+    if ($user->uid == 1 || in_array('administrator', $user->roles)) {
+      $show = TRUE;
     }
-    catch (XacmlException $e) {
-      $show = FALSE;
+    else {
+      try {
+        $xacml = Xacml::constructFromPid($this->pid);
+        if($xacml->managementRule->isPopulated()) {
+          $show = $xacml->managementRule->hasPermission($user->name, $user->roles);
+        }
+        else {
+          $show = FALSE;
+        }
+      }
+      catch (XacmlException $e) {
+        $show = FALSE;
+      }
     }
 
     $show &= user_access('purge objects and datastreams')
