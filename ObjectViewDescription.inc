@@ -252,7 +252,7 @@ class ObjectViewDescription {
               $value .= $this->makeLinks($result) . '<br/>';
             }
             else if (isset($field)) {
-              $search = trim($field) . ':(' . $this->lesser_escape(trim($result)) . ')';
+              $search = trim($field) . ':"' . $this->lesser_escape(trim($result)) . '"';
               $search = htmlspecialchars(drupal_urlencode($search), ENT_QUOTES, 'utf-8', false);
               $search = str_replace('/', '~slsh~', $search); //replace the slash so url doesn't break
               $link = "<a href='$base_url/islandora/solr/search/$search/-'>$result</a><br/>";
@@ -295,7 +295,7 @@ class ObjectViewDescription {
                   $value .= $this->makeLinks((!$values_found) ? $result : $seperator . $result);
                 }
                 else if (isset($field)) {
-                  $search = trim($field) . ':(' . $this->lesser_escape(trim($result)) . ')';
+                  $search = trim($field) . ':"' . $this->lesser_escape(trim($result)) . '"';
                   $search = htmlspecialchars(drupal_urlencode($search), ENT_QUOTES, 'utf-8', false);
                   $search = str_replace('/', '~slsh~', $search); //replace the slash so url doesn't break
                   $link = "<a href='$base_url/islandora/solr/search/$search/-'>$result</a>";
