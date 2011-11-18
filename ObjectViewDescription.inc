@@ -252,7 +252,7 @@ class ObjectViewDescription {
               $value .= $this->makeLinks($result) . '<br/>';
             }
             else if (isset($field)) {
-              $search = trim($field) . ':(' . $this->lesser_escape(trim($result)) . ')';
+              $search = trim($field) . ':"' . $this->lesser_escape(trim($result)) . '"';
               $search = htmlspecialchars(drupal_urlencode($search), ENT_QUOTES, 'utf-8', false);
               $search = str_replace('/', '~slsh~', $search); //replace the slash so url doesn't break
               $link = "<a href='$base_url/islandora/solr/search/$search/-'>$result</a><br/>";
@@ -295,7 +295,7 @@ class ObjectViewDescription {
                   $value .= $this->makeLinks((!$values_found) ? $result : $seperator . $result);
                 }
                 else if (isset($field)) {
-                  $search = trim($field) . ':(' . $this->lesser_escape(trim($result)) . ')';
+                  $search = trim($field) . ':"' . $this->lesser_escape(trim($result)) . '"';
                   $search = htmlspecialchars(drupal_urlencode($search), ENT_QUOTES, 'utf-8', false);
                   $search = str_replace('/', '~slsh~', $search); //replace the slash so url doesn't break
                   $link = "<a href='$base_url/islandora/solr/search/$search/-'>$result</a>";
@@ -329,9 +329,11 @@ class ObjectViewDescription {
     $this->thumbnails = array();
     $this->derived = array();
     if ($xml) {
-      $rels_int = new SimpleXMLElement($xml);
-      // Thumbnails
-      $results = $rels_int->xpath('//*[local-name()=\'hasThumbnail\']/@rdf:resource');
+      $relsInt = new SimpleXMLElement($xml);
+
+      // Make a list of all the thumbnails (no association with DSIDs are necessary as
+      // the only use of this list is to hide thumbnails when that option is selected).
+      $results = $relsInt->xpath('//*[local-name()=\'hasThumbnail\']/@rdf:resource');
       if ($results !== FALSE) {
         foreach ($results as $result) {
           $matches = array();
@@ -340,16 +342,38 @@ class ObjectViewDescription {
           }
         }
       }
-      // Derived
-      $results = $rels_int->xpath('//rdf:Description/*/@rdf:resource');
-      if ($results !== FALSE) {
-        foreach ($results as $result) {
-          $matches = array();
-          if (preg_match('/\/([^\/]*)$/', (string) $result['resource'], $matches) == 1) {
-            // exclude the thumbnail from the list of derived types.
-            if (!in_array($matches[1], $this->thumbnails)) {
-              $this->derived[] = $matches[1];
+      
+      // check each description block to see if there are derived types.  The array of
+      // derived types is used to map the DSIDs of viewable types with the DSIDs that are
+      // recognized but for which there is no viewer installed)
+      $rdfDescriptions = $relsInt->xpath('//rdf:Description');
+      foreach($rdfDescriptions as $currDescription) {
+        
+        // see if there is an "about" tag that represents the DSID of the "base" datastream
+        // and if there is save the DSID name
+        $aboutAttribute = $currDescription->xpath('./@rdf:about');
+        $aboutNameMatches = array();
+        if (count($aboutAttribute) > 0 && 
+            preg_match('/\/([^\/]*)$/', (string) $aboutAttribute[0]['about'], $aboutNameMatches) == 1) {
+          $baseDsid = $aboutNameMatches[1];
+          
+          // if there is a base DSID then check for all the resources that are NOT thumbnails
+          // and store this list of resources in an array that represents the derived DSIDs
+          // for the base DSID.
+          $rdfResources = $currDescription->xpath('*/@rdf:resource');
+          $dsidDerived = array();
+          foreach($rdfResources as $currResource) {
+            $hasRelationshipMatches = array();
+            if (preg_match('/\/([^\/]*)$/', (string) $currResource['resource'], $hasRelationshipMatches) == 1 &&
+                !in_array($hasRelationshipMatches[1], $this->thumbnails)) {
+              $dsidDerived[] = $hasRelationshipMatches[1];
             }
+          }
+          
+          // finally, if there are derived types for a base type, add them to the derived array
+          // as an array of derived DSIDs assiciated with the base DSID.
+          if (count($dsidDerived) > 0) {
+            $this->derived[$baseDsid] = $dsidDerived;
           }
         }
       }
@@ -390,8 +414,9 @@ class ObjectViewDescription {
       // still possible that there is a derived datastream that the user is
       // permitted to view.  So ... check the derived streams to see if there
       // is one that the user can view.
-      if(!$xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$dsid]['MIMEType'], $dsid)){
-        foreach ($this->derived as $derived_dsid) {
+      if(!$xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$dsid]['MIMEType'], $dsid) &&
+          array_key_exists($dsid, $this->derived)){
+        foreach ($this->derived[$dsid] as $derived_dsid) {
           if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$derived_dsid]['MIMEType']) &&
               $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$derived_dsid]['MIMEType'], $derived_dsid)){
             return TRUE;
@@ -464,11 +489,13 @@ class ObjectViewDescription {
       // that there is a derived datastream that the user is permitted to view
       // and has a viewer.  So ... check the derived streams.
       else {
-        foreach ($this->derived as $derived_dsid) {
-          if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$derived_dsid]['MIMEType']) &&
-              $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$derived_dsid]['MIMEType'], $derived_dsid)){
-            $viewable_dsid = $derived_dsid;
-            break;
+        if (array_key_exists($dsid, $this->derived)) {
+          foreach ($this->derived[$dsid] as $derived_dsid) {
+            if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$derived_dsid]['MIMEType']) &&
+                $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$derived_dsid]['MIMEType'], $derived_dsid)){
+              $viewable_dsid = $derived_dsid;
+              break;
+            }
           }
         }
       }
@@ -547,8 +574,10 @@ class ObjectViewDescription {
    * @return boolean
    */
   public function isDerived($dsid) {
-    if (array_search($dsid, $this->derived) !== FALSE) {
-      return TRUE;
+    foreach($this->derived as $currDerivedArray) {
+      if (array_search($dsid, $currDerivedArray) !== FALSE) {
+        return TRUE;
+      }
     }
     return FALSE;
   }

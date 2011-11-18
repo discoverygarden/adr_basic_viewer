@@ -97,18 +97,18 @@ class AjaxHandler {
     foreach ($description as $label => $value) {
       $value = filter_xss($value, array('a', 'br'));
       $content .= '<tr>';
-      $content .= "<td style='padding:5px;font-size:1.5em; vertical-align: top;'>$label</td>";
+      $content .= "<td style='padding: 5px; background:#cccccc; font-size: 1em; font-weight:bold; vertical-align:top;'>$label</td>";
       $content .= "<td style='padding:5px;font-size:1.2em; vertical-align: middle;'>$value</td>";
       $content .= '</tr>';
     }
     $created = $this->getObjectCreationDate();
     $modified = $this->getObjectLastModifiedDate();
     // @TODO use classes instead of inlined values.
-    $footer = "<tr><td colspan='2'><br/></td></tr>";
-    $footer .= "<tr><td colspan='2' style='text-align: center;font-size:0.9em;'>";
+    $footer = "<tr><td><br/></td></tr>";
+    $footer .= "<tr><td style='text-align: center;font-size:0.9em;'>";
     $footer .= "This object was added {$created}. ";
     $footer .= "This object was last updated {$modified}.</td></tr>";
-    return "<table>{$content}{$footer}</table>";
+    return "<table>{$content}</table><table>{$footer}</table>";
   }
 
   /**
