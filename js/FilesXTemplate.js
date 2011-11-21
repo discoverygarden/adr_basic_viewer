@@ -11,7 +11,7 @@ var filesXTemplate = new Ext.XTemplate(
     '       <tpl if="this.showLabel(label)">',
     '           <div class="adr-file-label">{[fm.ellipsis(values.label, 30, true)]}</div>',
     '       </tpl>',
-    '       <img class="adr-file-img adr-file-show-view" src="{img_url}"></img>',
+    '       <img class="adr-file-img adr-file-show-view" src="{img_url}" onLoad="resizeImage(this, 96);"></img>',
     '       <div class="adr-file-controls">',
     '           <span class="adr-file-view">',
     '               <tpl if="this.showView(mime)">',

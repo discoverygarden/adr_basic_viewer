@@ -149,6 +149,7 @@ class ADRBasic {
     }
         
     drupal_add_js("$path/js/ADRBasic.js");
+    drupal_add_js("$path/js/resize.js");
   }
 
   /**
