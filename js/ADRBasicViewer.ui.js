@@ -10,6 +10,26 @@
  * Do NOT hand edit this file.
  */
 
+/*
+ * WARNING ... WARNING ... WARNING
+ * 
+ * This file has been edited by hand to resolve issues relating to Internet
+ * Explorer and that browser's ability to handle mis-formed JavaScript.
+ * 
+ * There are places in this code where the generated Javascript leaves
+ * trailing commas (,) at the end of lists.  IE will NOT parse these trailing
+ * commas and cause the entire ADRBasicViewerUi object to be invalid.
+ * 
+ * Currently, there are three places where such trailing commas had to be
+ * removed and they are commented in the code below.  If you change this
+ * file using Extjs Designer then make sure that the trailing commas that it
+ * generates are removed.
+ * 
+ * If you do not "diff" your files before checking in changes and (therefore)
+ * miss this warning, as well as the warnings in the code below you are a
+ * bad person and should be punished as such.
+ */
+
 ADRBasicViewerUi = Ext.extend(Ext.TabPanel, {
     activeTab: 0,
     width: 960,
@@ -25,8 +45,8 @@ ADRBasicViewerUi = Ext.extend(Ext.TabPanel, {
                 title: 'Overview',
                 layout: 'border',
                 defaults: {
-                    split: true,
-                    
+            	    // this line was edited by hand to remove a trailing comma
+                    split: true
                 },
                 id: 'adr-overview-tab',
                 items: [
@@ -35,8 +55,8 @@ ADRBasicViewerUi = Ext.extend(Ext.TabPanel, {
                         title: 'Description',
                         region: 'center',
                         autoLoad: {
-                            url: '/adrbasic/ajax/getDescription',
-                            
+                	        // this line was edited by hand to remove a trailing comma
+                            url: '/adrbasic/ajax/getDescription'
                         },
                         bodyStyle: '{\npadding: 15px\n}',
                         autoScroll: true,
@@ -57,8 +77,8 @@ ADRBasicViewerUi = Ext.extend(Ext.TabPanel, {
                 title: 'Viewer',
                 layout: 'border',
                 defaults: {
-                    split: true,
-                    
+        	        // this line was edited by hand to remove a trailing comma
+                    split: true
                 },
                 id: 'adr-viewer-tab',
                 items: [

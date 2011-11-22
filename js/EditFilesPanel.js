@@ -49,7 +49,7 @@ EditFilesPanel = Ext.extend(EditFilesPanelUi, {
         
         details.updateDetails = function(record) {
             this.tpl.overwrite(this.body, record.data);
-        }
+        };
 
         add.addListener('click', function(button, event) {
             var window = new AddFileWindow();
