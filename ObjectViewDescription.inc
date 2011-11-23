@@ -405,8 +405,8 @@ class ObjectViewDescription {
     global $user;
     // load xacml stuff
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
-    module_load_include('inc', 'islandora_xacml_editor', 'Xacml');
-    module_load_include('inc', 'islandora_xacml_editor', 'XacmlException');
+    module_load_include('inc', 'islandora_xacml_api', 'Xacml');
+    module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
     try {
       $xacml = Xacml::constructFromPid($this->item->pid);
       
@@ -472,8 +472,8 @@ class ObjectViewDescription {
     $viewable_dsid = NULL;
       
     try {
-      module_load_include('inc', 'islandora_xacml_editor', 'Xacml');
-      module_load_include('inc', 'islandora_xacml_editor', 'XacmlException');
+      module_load_include('inc', 'islandora_xacml_api', 'Xacml');
+      module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
       
       $xacml = Xacml::constructFromPid($this->item->pid);
 
