@@ -33,7 +33,7 @@
 ADRBasicViewerUi = Ext.extend(Ext.TabPanel, {
     activeTab: 0,
     width: 960,
-    height: 950,
+    height: 970,
     layoutOnTabChange: true,
     border: false,
     forceLayout: true,
