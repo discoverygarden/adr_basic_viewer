@@ -72,7 +72,7 @@ ManagePanel = Ext.extend(ManagePanelUi, {
 
     details.updateDetails = function(record) {
       this.tpl.overwrite(this.body, record.data);
-    }
+    };
 
     if (UserObjectPermissions.datastream_canAddStream) {
       add.enable();
