@@ -176,15 +176,26 @@ EOT;
     $xsl = new DOMDocument();
     $xsl->load($filename);
     $doc = new DOMDocument();
-    $doc->loadXML($this->item->get_datastream_dissemination($this->dsid));
+    $output = '';
+    
+    // Need to test if the datastream is a redirect stream.  If it is then the returned dissemination
+    // is a URL to the actual data.  If it is not a redirect stream then the data returned will be
+    // the actual displayable data.
+    $datastream = $this->item->get_datastream($this->dsid);
+    $datastream_dissemination = $this->item->get_datastream_dissemination($this->dsid);
+    if ($datastream->controlGroup == 'R') {
+      $datastream_dissemination = do_curl($datastream_dissemination);
+    }
+    $doc->loadXML($datastream_dissemination);
     $proc = new XSLTProcessor();
     $proc->importStylesheet($xsl);
     $content = $proc->transformToXml($doc);
     $content = htmlentities($content);
-    $output = '';
     foreach (preg_split("/(\r?\n)/", $content) as $line) {
       $output .= $line . '<br/>';
     }
+    
+    $output = $datastream_dissemination;    
     return "<code class='prettyprint xml' style='overflow: scroll; position: relative;'>$output</code>";
   }
 
