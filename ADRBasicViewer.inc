@@ -15,6 +15,7 @@ class ADRBasicViewer {
   static protected $allowedMimeTypes = array(
     'application/rdf+xml',
     'text/xml',
+    'text/html',
     'video/x-flv',
     'audio/mpeg',
     'audio/x-mpeg',
@@ -167,6 +168,16 @@ EOT;
     $this->mimeType = $this->item->datastreams[$this->dsid]['MIMEType'];
   }
 
+  private function getTextHtmlViewer() {
+    $content_url = variable_get('fedora_base_url', '') . '/objects/' . $this->pid . '/datastreams/' . $this->dsid . '/content';
+    $datastream = $this->item->get_datastream($this->dsid);
+    if ($datastream->controlGroup == 'R') {
+      $content_url = $this->item->get_datastream_dissemination($this->dsid);
+    }
+    
+    return '<iframe src="' . $content_url . '" frameborder="0" style="width: 100%; height: 880px">Error: unable to load viewer</iframe>';
+  }
+  
   /**
    *
    * @return string
@@ -195,7 +206,6 @@ EOT;
       $output .= $line . '<br/>';
     }
     
-    $output = $datastream_dissemination;    
     return "<code class='prettyprint xml' style='overflow: scroll; position: relative;'>$output</code>";
   }
 
@@ -264,6 +274,8 @@ EOT;
       case 'application/rdf+xml':
       case 'text/xml':
         return $this->getTextXmlViewer();
+      case 'text/html':
+        return $this->getTextHtmlViewer();
       case 'video/x-flv':
         return "<div id='playerFLV' style='margin-left:auto; margin-right: auto;'></div>";
       case 'audio/mpeg':
