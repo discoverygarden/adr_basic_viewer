@@ -457,9 +457,14 @@ class ObjectViewDescription {
   
   /**
    *
-   * Returns a viewable DSID based on whether the input DSID has a viewer (in which
-   * case the input DSID is returned) or if the object has derivbed types that are
-   * viewable and have a viewer.
+   * Returns a viewable DSID based on whether the object has derivbed types that are
+   * viewable and have a viewer or if the input DSID has a viewer (in which
+   * case the input DSID is returned).
+   * 
+   * Preference is given to the derived types first as they are usually created as
+   * viewable alterntives (either because they are using a differnt format or they
+   * are optimized for viewing in the same format--often made smaller) than the original
+   * datastream.
    *
    * @param string $dsid
    * @return string 
@@ -477,27 +482,24 @@ class ObjectViewDescription {
       
       $xacml = Xacml::constructFromPid($this->item->pid);
 
-      // test to see if the input DSID both has a viewer and that the user has
-      // permission to view the DSID and MIME type.
-      if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$dsid]['MIMEType']) &&
-          $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$dsid]['MIMEType'], $dsid)) {
-        $viewable_dsid = $dsid;
-      }
-      
-      // if the user does not have permission to view this DSID or if the user
-      // does not have permission to view the DSID then it is still possible
-      // that there is a derived datastream that the user is permitted to view
-      // and has a viewer.  So ... check the derived streams.
-      else {
-        if (array_key_exists($dsid, $this->derived)) {
-          foreach ($this->derived[$dsid] as $derived_dsid) {
-            if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$derived_dsid]['MIMEType']) &&
-                $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$derived_dsid]['MIMEType'], $derived_dsid)){
-              $viewable_dsid = $derived_dsid;
-              break;
-            }
+      // check to see if there are derived streams for a DSID and if they can be displayed
+      // by existing viewers AND also that the user has permission to view that datastream.
+      if (array_key_exists($dsid, $this->derived)) {
+        foreach ($this->derived[$dsid] as $derived_dsid) {
+          if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$derived_dsid]['MIMEType']) &&
+              $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$derived_dsid]['MIMEType'], $derived_dsid)){
+            $viewable_dsid = $derived_dsid;
+            break;
           }
         }
+      }
+      
+      // If no viewable dartastream has been found then test to see if the input DSID
+      // both has a viewer and that the user has permission to view the DSID and MIME type.
+      if (is_null($viewable_dsid) &&
+          ADRBasicViewer::allowedMimeType($this->item->datastreams[$dsid]['MIMEType']) &&
+          $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$dsid]['MIMEType'], $dsid)) {
+        $viewable_dsid = $dsid;
       }
     }
     
