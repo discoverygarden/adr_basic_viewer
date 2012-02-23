@@ -414,11 +414,11 @@ class ObjectViewDescription {
       // still possible that there is a derived datastream that the user is
       // permitted to view.  So ... check the derived streams to see if there
       // is one that the user can view.
-      if(!$xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$dsid]['MIMEType'], $dsid) &&
+      if(!$xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$dsid]['MIMEType'], $dsid) &&
           array_key_exists($dsid, $this->derived)){
         foreach ($this->derived[$dsid] as $derived_dsid) {
           if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$derived_dsid]['MIMEType']) &&
-              $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$derived_dsid]['MIMEType'], $derived_dsid)){
+              $xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$derived_dsid]['MIMEType'], $derived_dsid)){
             return TRUE;
           }
         }
@@ -487,7 +487,7 @@ class ObjectViewDescription {
       if (array_key_exists($dsid, $this->derived)) {
         foreach ($this->derived[$dsid] as $derived_dsid) {
           if (ADRBasicViewer::allowedMimeType($this->item->datastreams[$derived_dsid]['MIMEType']) &&
-              $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$derived_dsid]['MIMEType'], $derived_dsid)){
+              $xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$derived_dsid]['MIMEType'], $derived_dsid)){
             $viewable_dsid = $derived_dsid;
             break;
           }
@@ -498,7 +498,7 @@ class ObjectViewDescription {
       // both has a viewer and that the user has permission to view the DSID and MIME type.
       if (is_null($viewable_dsid) &&
           ADRBasicViewer::allowedMimeType($this->item->datastreams[$dsid]['MIMEType']) &&
-          $xacml->datastreamRule->hasPermission($user->name, $user->roles, $datastreams[$dsid]['MIMEType'], $dsid)) {
+          $xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$dsid]['MIMEType'], $dsid)) {
         $viewable_dsid = $dsid;
       }
     }
@@ -528,7 +528,18 @@ class ObjectViewDescription {
    * @return boolean
    */
   public function isDatastreamDownloadable($dsid) {
+    global $user;
+    
     if ($this->isDatastreamViewable($dsid)) {
+      try{
+        $xacml = Xacml::constructFromPid($this->item->pid);
+        if(!$xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$dsid]['MIMEType'], $dsid)) {
+          return FALSE;
+        }
+      }
+      catch (XacmlException $e) {
+        return FALSE;
+      }
       if ($this->searchPatternArray($dsid, $this->downloadableDatastreams)) {
         return TRUE;
       }
