@@ -152,7 +152,7 @@ class AjaxHandler {
     $end = $start + $limit;
     foreach ($this->item->datastreams as $dsid => $attr) {
       list($viewable, $downloadable) = $object_view->isViewableAndDownloadable($dsid);
-      if ($viewable) {
+      if ($viewable || $downloadable) {
         $within_range = $count >= $start && $count < $end;
         if ($within_range) {
           module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
@@ -164,7 +164,7 @@ class AjaxHandler {
           // does not have a viewer.  In this case we must find the DSID of the viewable
           // datastream to send to the viewer.
           $stream['dsid'] = $dsid;
-          $stream['viewable_dsid'] = $object_view->getViewableDSID($dsid);
+          $stream['viewable_dsid'] = ($viewable) ? $object_view->getViewableDSID($dsid) : NULL;
           $stream['label'] = $attr['label'];
           $stream['img_url'] = $thumbnail->getUrl();
           $stream['download_url'] = ($downloadable) ? $this->getDatastreamDownloadURL($dsid, $attr['label']) : NULL;
