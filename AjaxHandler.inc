@@ -184,7 +184,7 @@ class AjaxHandler {
    */
   private function getDatastreamDownloadURL($dsid, $label) {
     global $base_url;
-    return "$base_url/fedora/repository/object_download/" . drupal_urlencode($this->pid) . '/' . $dsid . '/' . drupal_urlencode(preg_replace('/\//i', '${1}_', $label));
+    return "$base_url/fedora/repository/object_download/" . drupal_urlencode($this->pid) . '/' . $dsid . '/' . drupal_urlencode(preg_replace('/\//i', '${1}_', $dsid));
   }
 
   /**
