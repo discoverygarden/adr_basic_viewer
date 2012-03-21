@@ -74,10 +74,6 @@ class Thumbnail {
     $this->item = &$fedora_item;
     $this->dsid = $dsid;
     $this->mime_type = $this->item->datastreams[$dsid]['MIMEType'];
-    $rels_int = $this->item->get_datastream_dissemination("RELS-INT");
-    if (trim($rels_int) != '') {
-      $this->relsInt = new SimpleXMLElement($rels_int);
-    }
   }
 
   /**
@@ -152,9 +148,11 @@ class Thumbnail {
    * @return SimpleXMLElement 
    */
   private function getRelsInt() {
-    $rels_int = $this->item->get_datastream_dissemination("RELS-INT");
-    if (trim($rels_int) != '') {
-      return new SimpleXMLElement($rels_int);
+    if(isset($this->item->datastreams['RELS-INT'])) {
+      $rels_int = $this->item->get_datastream_dissemination("RELS-INT");
+      if (trim($rels_int) != '') {
+        return new SimpleXMLElement($rels_int);
+      }
     }
     return NULL;
   }

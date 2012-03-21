@@ -125,8 +125,13 @@ class ObjectViewDescription {
    * @return SimpleXMLElement
    */
   private function getRelsInt() {
-    $rels_int = $this->item->get_datastream_dissemination("RELS-INT");
-    return (trim($rels_int) != '') ? $rels_int : NULL;
+    if(isset($this->item->datastreams['RELS-INT'])) {
+      $rels_int = $this->item->get_datastream_dissemination("RELS-INT");
+      return (trim($rels_int) != '') ? $rels_int : NULL;
+    }
+    else {
+      return NULL;
+    }
   }
 
   /**
