@@ -21,7 +21,7 @@ class ADRBasicViewer {
     'audio/x-mpeg',
     'video/mpeg',
     'video/mp4',
-    'application/pdf',
+    'application/x-shockwave-flash',
     'image/jpeg',
     'image/jp2',
     'image/tiff',
@@ -110,9 +110,6 @@ EOT;
     drupal_add_js("sites/all/libraries/swfobject/swfobject.js");
     $js = <<<EOT
     function loadFlexPlayer(dsid) {
-      var pattern = /\.pdf$/i;
-      var dsid = dsid.replace(pattern, '');
-      dsid = dsid + '.swf';
       var swfURL = '$base_url/fedora/repository/{$pid}/' + dsid;
       var swfVersionStr = "10.0.0";
       var xiSwfUrlStr = "/sites/all/libraries/flexpaper/js/swfobject/expressInstall.swf";
@@ -283,7 +280,7 @@ EOT;
       case 'video/mpeg':
       case 'video/mp4':
         return $this->getVideoViewer();
-      case 'application/pdf':
+      case 'application/x-shockwave-flash':
         return '<div id="playerFlexPaper"></div>';
       case 'image/jpeg':
       case 'image/jp2':
