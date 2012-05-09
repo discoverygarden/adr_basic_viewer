@@ -47,6 +47,7 @@ class Thumbnail {
     'audio/x-aiff' => 'audio.png',
     'audio/x-mpeg' => 'audio.png',
     'audio/x-wav' => 'audio.png',
+    'audio/vnd.wave' => 'audio.png',
     'audio/x-pn-realaudio' => 'audio.png',
     'audio/mpeg' => 'audio.png',
     'audio/mp3' => 'audio.png',
