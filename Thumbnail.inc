@@ -166,10 +166,14 @@ class Thumbnail {
    */
   private function getUrlFromName() {
     global $base_url;
+    
     if (preg_match('/\..+$/i', $this->dsid) > 0) { // Has extension.
-      $dsid = preg_replace('/\..+$/i', '-tn.jpg', $this->dsid);
-      if (array_key_exists($dsid, $this->item->datastreams)) {
-        return $this->getDatastreamUrl($dsid);
+      preg_match('/(.*)\/(.*)/', $this->mime_type, $matches);
+      if ($matches[1] != 'audio') {
+        $dsid = preg_replace('/\..+$/i', '-tn.jpg', $this->dsid);
+        if (array_key_exists($dsid, $this->item->datastreams)) {
+          return $this->getDatastreamUrl($dsid);
+        }
       }
     }
     return NULL;
