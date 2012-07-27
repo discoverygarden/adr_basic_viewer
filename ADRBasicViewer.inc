@@ -211,8 +211,44 @@ EOT;
    * @return string
    */
   private function getDjatokaViewer() {
-    $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
-    return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 835px;" scrolling="no">Errors: unable to load viewer</iframe>';
+    module_load_include('inc', 'fedora_repository', 'api/fedora_item');
+    
+    $object = new Fedora_Item($this->pid);
+    
+    // Grabs the extension from the dsid and searches to find the original
+    // datastream in which the derivatives were generated from. 
+    //
+    // @todo Find a better solution for displaying purposes when the file is 
+    //   less than 4 KBs in size.
+    $extpos = strpos(strrev($this->dsid), '.');
+    $templabel = substr(strrev($this->dsid), $extpos + 1, strlen($this->dsid));
+    $templabel = strrev($templabel);
+    $templabel = str_replace('.d', '', $templabel);
+        
+    foreach($object->datastreams as $key => $value) {
+      $dssearch = strpos($key, $templabel); 
+      
+      if ($dssearch !== false) {
+        if ($value['label'] != 'thumbnail' && $value['label'] != 'Compressed JPEG2000') {
+          $originalds = $key;
+        }
+      }
+    }
+        
+    $img_url = variable_get('fedora_base_url', '') . '/objects/' . $this->pid . '/datastreams/' . $this->dsid . '/content';
+    $img_size = strlen(file_get_contents($img_url));
+    
+    $kilob = $img_size / 1024;
+    
+    // Display the original content in an image as Djatoka seems to return null identifers and imagefiles for files < 4 KB
+    if ($kilob < 4) {
+      $original_url = variable_get('fedora_base_url', '') . '/objects/' . $this->pid . '/datastreams/' . $originalds . '/content';
+      return '<img src="' .$original_url . '"/>';
+    }
+    else {
+      $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
+      return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 835px;" scrolling="no">Errors: unable to load viewer</iframe>';
+    }
   }
 
   /**
