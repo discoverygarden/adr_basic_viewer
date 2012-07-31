@@ -214,27 +214,15 @@ EOT;
     module_load_include('inc', 'fedora_repository', 'api/fedora_item');
     
     $object = new Fedora_Item($this->pid);
+    $rels = $object->get_datastream_dissemination('RELS-INT');
+    $xml = new SimpleXMLElement($rels); 
+    $result = $xml->xpath('//coal:hasJP2/..'); 
     
-    // Grabs the extension from the dsid and searches to find the original
-    // datastream in which the derivatives were generated from. 
-    //
-    // @todo Find a better solution for displaying purposes when the file is 
-    //   less than 4 KBs in size.
-    $extpos = strpos(strrev($this->dsid), '.');
-    $templabel = substr(strrev($this->dsid), $extpos + 1, strlen($this->dsid));
-    $templabel = strrev($templabel);
-    $templabel = str_replace('.d', '', $templabel);
-        
-    foreach($object->datastreams as $key => $value) {
-      $dssearch = strpos($key, $templabel); 
-      
-      if ($dssearch !== false) {
-        if ($value['label'] != 'thumbnail' && $value['label'] != 'Compressed JPEG2000') {
-          $originalds = $key;
-        }
-      }
+    foreach($result as $test) {
+      preg_match('/info:fedora\/'.$this->pid.'\/(.*)"/', $test->asXML(), $match);
     }
-        
+       
+    $originalds = $match[1];
     $img_url = variable_get('fedora_base_url', '') . '/objects/' . $this->pid . '/datastreams/' . $this->dsid . '/content';
     $img_size = strlen(file_get_contents($img_url));
     
