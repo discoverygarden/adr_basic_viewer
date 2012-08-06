@@ -68,6 +68,18 @@ function adr_basic_viewer_menu() {
     'access callback' => 'user_access',
     'type' => MENU_CALLBACK,
   );
+  $items['adrbasic/ajax/setDatastreamLabel'] = array(
+    'page callback' => 'adr_basic_viewer_set_datastream_label',
+    'access arguments' => array('add fedora datastreams'),
+    'access callback' => 'user_access',
+    'type' => MENU_CALLBACK,
+  );
+  $items['adrbasic/ajax/checkFormAssociation'] = array(
+    'page callback' => 'adr_basic_viewer_get_form_association',
+    'access arguments' => array('add fedora datastreams'),
+    'access callback' => 'user_access',
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -226,6 +238,50 @@ function adr_basic_viewer_delete_object() {
     module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
     $handler = new AjaxHandler($pid);
     $response = $handler->deleteObject();
+    echo json_encode($response);
+  }
+}
+
+/**
+ * Ajax request to set the label of a datastream.
+ *
+ * Responds with a JSON object describing success or failure and a message
+ * indicating if it was changed, failed or not updated.
+ *
+ * Example: { success: true, msg: 'message' }
+ */
+function adr_basic_viewer_set_datastream_label() {
+  $pid = adr_basic_viewer_get_pid();
+  if (isset($pid)) {
+    module_load_include('inc', 'adr_basic_viewer', 'AjaxHandler');
+    $handler = new AjaxHandler($pid);
+    $response = $handler->setDatastreamLabel($_POST);
+    echo json_encode($response);
+  }
+}
+
+/**
+ * Synchronous AJAX request to query whether the specified datastream has a form
+ * association attached to it.
+ *
+ * Responds with a JSON object describing success or failure, and a message as 
+ * indicated if there is an association or not.
+ *
+ * Example: { success: true, msg: 'message' }
+ */
+function adr_basic_viewer_get_form_association() {
+  $result = db_query('SELECT dsid FROM {islandora_content_model_forms} WHERE dsid = "%s"', $_POST['ds']);
+  
+  while ($data = db_fetch_object($result)) {
+    $association = TRUE;
+  }
+  
+  if ($association) {
+    $response = array('success' => true, 'msg' => 'Found association');
+    echo json_encode($response);
+  }
+  else {
+    $response = array('success' => true, 'msg' => 'No association');
     echo json_encode($response);
   }
 }

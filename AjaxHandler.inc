@@ -297,6 +297,34 @@ class AjaxHandler {
       return array('success' => false, 'msg' => 'Failed to Delete Object');
     }
   }
+  
+   /**
+    * Sets the label of the specified datastream given the user's input.
+    * 
+    * @param array $values
+    *   Contains the pid, label text and the dsid of the object being modified.
+    * 
+    * @return array
+    *   Indicates whether the label was updated correctly, failed, or unchanged.
+    */
+  public function setDatastreamLabel($values) {
+    $dsarray = $this->item->get_datastreams_list_as_array();
+    $content = $this->item->get_datastream_dissemination($values['ds']);
+   
+    if ($dsarray[$values['ds']]['label'] != $values['label']) {
+      if ($this->item->modify_datastream($content, $values['ds'], $values['label'], $dsarray[$values['ds']]['MIMEType'])) {
+        $object_properties = $this->getObjectProperties();
+        return array('success' => true, 'msg' => 'Successfully Edited Object', 'data' => $object_properties);
+      }
+      else {
+        $object_properties = $this->getObjectProperties();
+        return array('success' => false, 'msg' => 'Failed to Edit Object', 'data' => $object_properties);
+      }
+    }
+    else {
+      return array('success' => true, 'msg' => 'Not updated');
+    }
+  }
 
   /**
    * Gets the fedora object's label.
