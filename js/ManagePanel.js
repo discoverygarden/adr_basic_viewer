@@ -11,6 +11,94 @@
  * class.
  */
 
+
+function modify_label(viewer, label, pid, ds) {
+  var win = new Ext.Window({
+    width:500,
+    height:100,
+    plain: true,   
+    layout:'form',
+    title: 'Edit Datastream',
+    closeAction: 'destroy',
+      buttons: [{
+        text:'Save',
+        handler: function() {
+          Ext.Ajax.request({
+            url: '/adrbasic/ajax/setDatastreamLabel',
+            params: {
+            pid: pid,
+            label: Ext.getCmp('labelid').getValue(),
+            ds: ds
+            },
+            success: function(response, opts) {
+              var obj = Ext.decode(response.responseText);
+              if(obj.success) {
+                if (obj.msg != 'Not updated') {
+                Ext.Msg.alert('Sucesss', 'The label for the ' + ds + ' datastream has been updated!');
+                viewer.getStore().load();
+                }
+                else {
+                  Ext.Msg.alert('Sucesss', 'The label for the ' + ds + ' datastream did not change!');
+                }
+                win.close();
+              }
+              else {
+                Ext.Msg.alert('Failure', obj.msg);
+              }
+
+            },
+            failure: function(response, opts) {
+              Ext.Msg.alert('Failure', 'Failed to Modify Label.');
+            }                        
+          });
+
+        }
+    }],
+      items: [{
+      xtype: 'textfield',
+      value: label,
+      name: 'dslabel',
+      fieldLabel: 'Label',
+      id: 'labelid',
+      width: 375
+    }]
+  });
+  win.show();
+    
+}
+
+// Need to use jQuery here to make a Sychronous AJAX call as we are returning
+// a value determined from the Drupal DB.
+function checkFormAssociation(dsid) {
+  var ret;
+  $.ajax({      
+    async: false,
+    type: 'POST',
+    dataType: 'json',
+    url: '/adrbasic/ajax/checkFormAssociation',
+    data: {
+      ds: dsid
+    },
+    success: function(response, opts) {
+      if(response.msg == 'Found association') {
+        ret = true;
+      }  
+      else {
+        ret = false;
+      }
+    },
+    failure: function(response, opts) {
+      Ext.Msg.alert('Failure', 'Failed to Get Association.');
+      ret = false;
+    },
+    error: function(response, opts) {
+      Ext.Msg.alert('Failure', 'Failed to Get Association.');
+      ret = 'failed';
+    }
+  })
+  return ret;
+}
+
 function gotoEditModsPage() {
   var pid = window.location.pathname.split('/')[3];
   var location = window.location;
@@ -139,24 +227,47 @@ ManagePanel = Ext.extend(ManagePanelUi, {
     });
     viewer.addListener('click', function(dataviewer, index, node, event) {
       var record = dataviewer.getStore().getAt(index);
+      var store = viewer.getStore();
+      
       if(record) {
         var dsid = record.get('dsid');
+        var pid = store.baseParams.pid;
+        
         details.updateDetails(record);
-        if(dsid == 'MODS') {
-          if (UserObjectPermissions.datastream_canEditStream) {
-            edit.enable();
-            edit.addListener('click', gotoEditModsPage);
-          }
-        }
-        else {
-          edit.disable();
-          edit.removeListener('click', gotoEditModsPage);
-        }
+        edit.purgeListeners();
+        
         if (UserObjectPermissions.datastream_canDeleteStream) {
           remove.enable();
         }
         view.enable();
         download.enable();
+        
+        var association = checkFormAssociation(dsid);
+        if (association == true && UserObjectPermissions.datastream_canEditStream) {
+          edit.enable();
+          edit.addListener('click', gotoEditModsPage);
+        }
+        else if (association != 'failed' && UserObjectPermissions.datastream_canEditStream) {
+          if (dsid == 'POLICY' || dsid == 'COLLECTION POLICY') {
+            edit.enable();
+            edit.addListener('click', function(button, event) {
+              gotoXACMLPage(ADRBasic.pid);
+            });
+          }
+          else {
+            edit.enable();
+            edit.addListener('click', function(button, event) {
+              modify_label(viewer, record.get('label'), pid, dsid);
+            });
+          }
+        } 
+        else {
+          edit.disable();
+          view.disable();
+          remove.disable();
+          download.disable();
+          add.disable();
+        }
       }
       else {
         edit.disable();

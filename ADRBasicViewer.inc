@@ -211,8 +211,32 @@ EOT;
    * @return string
    */
   private function getDjatokaViewer() {
-    $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
-    return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 835px;" scrolling="no">Errors: unable to load viewer</iframe>';
+    module_load_include('inc', 'fedora_repository', 'api/fedora_item');
+    
+    $object = new Fedora_Item($this->pid);
+    $rels = $object->get_datastream_dissemination('RELS-INT');
+    $xml = new SimpleXMLElement($rels); 
+    $result = $xml->xpath('//coal:hasJP2/..'); 
+    
+    foreach($result as $test) {
+      preg_match('/info:fedora\/'.$this->pid.'\/(.*)"/', $test->asXML(), $match);
+    }
+       
+    $originalds = $match[1];
+    $img_url = variable_get('fedora_base_url', '') . '/objects/' . $this->pid . '/datastreams/' . $this->dsid . '/content';
+    $img_size = strlen(file_get_contents($img_url));
+    
+    $kilob = $img_size / 1024;
+    
+    // Display the original content in an image as Djatoka seems to return null identifers and imagefiles for files < 4 KB
+    if ($kilob < 4) {
+      $original_url = variable_get('fedora_base_url', '') . '/objects/' . $this->pid . '/datastreams/' . $originalds . '/content';
+      return '<img src="' .$original_url . '"/>';
+    }
+    else {
+      $viewer_url = variable_get('fedora_base_url', '') . '/get/' . $this->pid . '/ilives:viewerSdef/getViewer?dsid=' . $this->dsid;
+      return '<iframe src="' . $viewer_url . '" frameborder="0" style="width: 100%; height: 835px;" scrolling="no">Errors: unable to load viewer</iframe>';
+    }
   }
 
   /**
