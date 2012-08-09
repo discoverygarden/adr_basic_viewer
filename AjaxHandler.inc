@@ -308,18 +308,32 @@ class AjaxHandler {
     *   Indicates whether the label was updated correctly, failed, or unchanged.
     */
   public function setDatastreamLabel($values) {
-    $dsarray = $this->item->get_datastreams_list_as_array();
-    $content = $this->item->get_datastream_dissemination($values['ds']);
-   
+    module_load_include('inc', 'fedora_repository', 'api/tuque');
+    global $user;
+    
+    // Tuque is only used here to get around the restrictions in fedora_item,
+    // when attempting to update a label. At some point it may be prudent to
+    // go back to change everything to implement Tuque.
+    try {
+      $connection = new IslandoraTuque($user);
+      $dsarray = $connection->api->a->listDatastreams($values['pid']);
+      $object = islandora_object_load($values['pid']);
+      $ds = $object->getDatastream($values['ds']);
+    } catch (RepositoryException $e) {
+      drupal_set_message(t('@message', array('@message' => check_plain($e->getMessage()))), 'error');
+      $object_properties = $this->getObjectProperties();
+      return array('success' => false, 'msg' => 'Failed to Edit Object', 'data' => $object_properties);
+    }
+    
     if ($dsarray[$values['ds']]['label'] != $values['label']) {
-      if ($this->item->modify_datastream($content, $values['ds'], $values['label'], $dsarray[$values['ds']]['MIMEType'])) {
+      try {
+        $ds->label = $values['label'];
         $object_properties = $this->getObjectProperties();
         return array('success' => true, 'msg' => 'Successfully Edited Object', 'data' => $object_properties);
-      }
-      else {
-        $object_properties = $this->getObjectProperties();
-        return array('success' => false, 'msg' => 'Failed to Edit Object', 'data' => $object_properties);
-      }
+      } catch (RepositoryException $e) {
+         drupal_set_message(t('@message', array('@message' => check_plain($e->getMessage()))), 'error');
+         $object_properties = $this->getObjectProperties();
+      }  return array('success' => false, 'msg' => 'Failed to Edit Object', 'data' => $object_properties);
     }
     else {
       return array('success' => true, 'msg' => 'Not updated');
