@@ -311,12 +311,15 @@ class AjaxHandler {
     module_load_include('inc', 'fedora_repository', 'api/tuque');
     global $user;
     
+    // Tuque is only used here to get around the restrictions in fedora_item,
+    // when attempting to update a label. At some point it may be prudent to
+    // go back to change everything to implement Tuque.
     try {
       $connection = new IslandoraTuque($user);
       $dsarray = $connection->api->a->listDatastreams($values['pid']);
       $object = islandora_object_load($values['pid']);
       $ds = $object->getDatastream($values['ds']);
-    } catch (exception $e) {
+    } catch (RepositoryException $e) {
       drupal_set_message(t('@message', array('@message' => check_plain($e->getMessage()))), 'error');
       $object_properties = $this->getObjectProperties();
       return array('success' => false, 'msg' => 'Failed to Edit Object', 'data' => $object_properties);
@@ -327,7 +330,7 @@ class AjaxHandler {
         $ds->label = $values['label'];
         $object_properties = $this->getObjectProperties();
         return array('success' => true, 'msg' => 'Successfully Edited Object', 'data' => $object_properties);
-      } catch (exception $e) {
+      } catch (RepositoryException $e) {
          drupal_set_message(t('@message', array('@message' => check_plain($e->getMessage()))), 'error');
          $object_properties = $this->getObjectProperties();
       }  return array('success' => false, 'msg' => 'Failed to Edit Object', 'data' => $object_properties);
