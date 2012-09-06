@@ -9,6 +9,7 @@
  *
  * Do NOT hand edit this file.
  */
+Ext.Ajax.timeout = 60000;
 
 Datastreams = Ext.extend(Ext.data.JsonStore, {
     constructor: function(cfg) {
