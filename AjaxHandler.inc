@@ -121,7 +121,15 @@ class AjaxHandler {
     $end = (isset($limit)) ? $start + $limit : NULL;
     module_load_include('inc', 'adr_basic_viewer', 'ObjectViewDescription');
     $object_view = new ObjectViewDescription($this->item, $this->getContentModel());
-    foreach ($this->item->datastreams as $dsid => $attr) {
+    $datastreams = $this->item->datastreams;
+    
+    foreach ($datastreams as $key => $row) {
+      $datastreams_sorted[$key]  = $row['label']; 
+    }
+    $datastreams_sorted = array_map('strtolower', $datastreams_sorted);
+    array_multisort($datastreams_sorted, SORT_ASC, $datastreams);
+  
+    foreach ($datastreams as $dsid => $attr) {
       if ($count >= $start && (empty($end) || $count < $end)) {
         module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
         $thumbnail = new Thumbnail($this->item, $dsid);
@@ -150,7 +158,15 @@ class AjaxHandler {
     $object_view = new ObjectViewDescription($this->item, $this->getContentModel());
     $count = 0;
     $end = $start + $limit;
-    foreach ($this->item->datastreams as $dsid => $attr) {
+    $datastreams = $this->item->datastreams;
+    
+    foreach ($datastreams as $key => $row) {
+      $datastreams_sorted[$key]  = $row['label']; 
+    }
+    $datastreams_sorted = array_map('strtolower', $datastreams_sorted);
+    array_multisort($datastreams_sorted, SORT_ASC, $datastreams);
+  
+    foreach ($datastreams as $dsid => $attr) { //foreach ($this->item->datastreams as $dsid => $attr) {
       list($viewable, $downloadable) = $object_view->isViewableAndDownloadable($dsid);
       if ($viewable || $downloadable) {
         $within_range = $count >= $start && $count < $end;
