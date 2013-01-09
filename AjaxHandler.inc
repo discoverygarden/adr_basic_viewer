@@ -15,7 +15,7 @@ class AjaxHandler {
 
   /**
    * Fedora Object PID.
-   * 
+   *
    * @var string
    */
   protected $pid;
@@ -30,7 +30,7 @@ class AjaxHandler {
    *
    * Access through the function AjaxHandler::getFoxmlDocument().
    * Do not access directly as it may not exist.
-   * 
+   *
    * @var DOMDocument
    */
   protected $foxml;
@@ -122,13 +122,7 @@ class AjaxHandler {
     module_load_include('inc', 'adr_basic_viewer', 'ObjectViewDescription');
     $object_view = new ObjectViewDescription($this->item, $this->getContentModel());
     $datastreams = $this->item->datastreams;
-    
-    foreach ($datastreams as $key => $row) {
-      $datastreams_sorted[$key]  = $row['label']; 
-    }
-    $datastreams_sorted = array_map('strtolower', $datastreams_sorted);
-    array_multisort($datastreams_sorted, SORT_ASC, $datastreams);
-  
+
     foreach ($datastreams as $dsid => $attr) {
       if ($count >= $start && (empty($end) || $count < $end)) {
         module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
@@ -159,13 +153,13 @@ class AjaxHandler {
     $count = 0;
     $end = $start + $limit;
     $datastreams = $this->item->datastreams;
-    
+
     foreach ($datastreams as $key => $row) {
-      $datastreams_sorted[$key]  = $row['label']; 
+      $datastreams_sorted[$key]  = $row['label'];
     }
     $datastreams_sorted = array_map('strtolower', $datastreams_sorted);
     array_multisort($datastreams_sorted, SORT_ASC, $datastreams);
-  
+
     foreach ($datastreams as $dsid => $attr) { //foreach ($this->item->datastreams as $dsid => $attr) {
       list($viewable, $downloadable) = $object_view->isViewableAndDownloadable($dsid);
       if ($viewable || $downloadable) {
@@ -173,7 +167,7 @@ class AjaxHandler {
         if ($within_range) {
           module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
           $thumbnail = new Thumbnail($this->item, $dsid);
-          
+
           // it is possible that we can get this far and the datastream MIMEtype is viewable
           // but there may be no viewer installed for the MIMEtype.  This can happen when
           // the object has derived datastreams that have viewers even if the main datastream
@@ -206,7 +200,7 @@ class AjaxHandler {
   /**
    *
    * @param <type> $values
-   * @return <type> 
+   * @return <type>
    */
   public function addDatastream($values) {
     $controls = array(
@@ -313,20 +307,20 @@ class AjaxHandler {
       return array('success' => false, 'msg' => 'Failed to Delete Object');
     }
   }
-  
+
    /**
     * Sets the label of the specified datastream given the user's input.
-    * 
+    *
     * @param array $values
     *   Contains the pid, label text and the dsid of the object being modified.
-    * 
+    *
     * @return array
     *   Indicates whether the label was updated correctly, failed, or unchanged.
     */
   public function setDatastreamLabel($values) {
     module_load_include('inc', 'fedora_repository', 'api/tuque');
     global $user;
-    
+
     // Tuque is only used here to get around the restrictions in fedora_item,
     // when attempting to update a label. At some point it may be prudent to
     // go back to change everything to implement Tuque.
@@ -340,7 +334,7 @@ class AjaxHandler {
       $object_properties = $this->getObjectProperties();
       return array('success' => false, 'msg' => 'Failed to Edit Object', 'data' => $object_properties);
     }
-    
+
     if ($dsarray[$values['ds']]['label'] != $values['label']) {
       try {
         $ds->label = $values['label'];
@@ -404,7 +398,7 @@ class AjaxHandler {
   }
 
   /**
-   * 
+   *
    *
    * @return ContentModel
    */
