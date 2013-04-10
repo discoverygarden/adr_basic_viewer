@@ -374,7 +374,6 @@ class ObjectViewDescription {
               if(stripos($hasRelationshipMatches[1], 'swf') === FALSE) {
                 $dsidDerived[] = $hasRelationshipMatches[1];
               }
-
             }
           }
 
