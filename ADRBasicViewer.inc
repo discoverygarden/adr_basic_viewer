@@ -79,7 +79,8 @@ class ADRBasicViewer {
           }
         },
         clip: {
-          autoPlay: false
+          autoPlay: false,
+          scaling: 'orig',
         }
       });
     }
