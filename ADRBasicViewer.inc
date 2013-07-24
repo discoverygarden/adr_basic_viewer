@@ -14,7 +14,6 @@ class ADRBasicViewer {
   protected $mimeType;
   static protected $allowedMimeTypes = array(
     'application/rdf+xml',
-    'application/pdf',
     'text/xml',
     'text/html',
     'video/x-flv',
@@ -311,9 +310,6 @@ EOT;
         return $this->getVideoViewer();
       case 'application/x-shockwave-flash':
         return '<div id="playerFlexPaper"></div>';
-      case 'application/pdf':
-        $file_url = $base_url . '/fedora/repository/' . $this->pid . "/$this->dsid";
-        return '<iframe src="'. $file_url .'" style="width:638px; height:878px; overflow:hidden; margin:0px;  padding:0px; border:0;" scrolling="no"></iframe>';
       case 'image/jpeg':
       case 'image/jp2':
       case 'image/tiff':
