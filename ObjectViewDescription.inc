@@ -371,9 +371,7 @@ class ObjectViewDescription {
             $hasRelationshipMatches = array();
             if (preg_match('/\/([^\/]*)$/', (string) $currResource['resource'], $hasRelationshipMatches) == 1 &&
                 !in_array($hasRelationshipMatches[1], $this->thumbnails)) {
-              if(stripos($hasRelationshipMatches[1], 'swf') === FALSE) {
-                $dsidDerived[] = $hasRelationshipMatches[1];
-              }
+              $dsidDerived[] = $hasRelationshipMatches[1];
             }
           }
 
