@@ -78,7 +78,8 @@ class ADRBasicViewer {
           }
         },
         clip: {
-          autoPlay: false
+          autoPlay: false,
+          scaling: 'orig',
         }
       });
     }
@@ -171,10 +172,10 @@ EOT;
     if ($datastream->controlGroup == 'R') {
       $content_url = $this->item->get_datastream_dissemination($this->dsid);
     }
-    
+
     return '<iframe src="' . $content_url . '" frameborder="0" style="width: 100%; height: 880px">Error: unable to load viewer</iframe>';
   }
-  
+
   /**
    *
    * @return string
@@ -185,7 +186,7 @@ EOT;
     $xsl->load($filename);
     $doc = new DOMDocument();
     $output = '';
-    
+
     // Need to test if the datastream is a redirect stream.  If it is then the returned dissemination
     // is a URL to the actual data.  If it is not a redirect stream then the data returned will be
     // the actual displayable data.
@@ -202,7 +203,7 @@ EOT;
     foreach (preg_split("/(\r?\n)/", $content) as $line) {
       $output .= $line . '<br/>';
     }
-    
+
     return "<code class='prettyprint xml' style='overflow: scroll; position: relative;'>$output</code>";
   }
 
