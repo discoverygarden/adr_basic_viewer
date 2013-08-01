@@ -35,7 +35,7 @@ class Thumbnail {
   /**
    * The default icon for a datastream. This is used when there is no thumbnail associated with the datastream.
    * The thumbnail will be choosen based on the datastreams mime type.
-   * 
+   *
    * @var array
    */
   protected $defaultMimeIcons = array(
@@ -146,7 +146,7 @@ class Thumbnail {
   /**
    * Gets the RELS-INT datastream as a SimpleXMLElement.
    *
-   * @return SimpleXMLElement 
+   * @return SimpleXMLElement
    */
   private function getRelsInt() {
     if(isset($this->item->datastreams['RELS-INT'])) {
@@ -160,13 +160,13 @@ class Thumbnail {
 
   /**
    * Gets the url from this datastreams dsid, if it exists.
-   * 
+   *
    * @global string $base_url
    * @return string
    */
   private function getUrlFromName() {
     global $base_url;
-    
+
     if (preg_match('/\..+$/i', $this->dsid) > 0) { // Has extension.
       preg_match('/(.*)\/(.*)/', $this->mime_type, $matches);
       if ($matches[1] != 'audio') {

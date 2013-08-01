@@ -16,100 +16,100 @@ class ObjectViewDescription {
 
   /**
    * If true don't show thumbnail datastreams in the files panel.
-   * 
+   *
    * @var boolean
    */
   protected $hideThumbnails;
 
   /**
    * If true don't show derived datastreams in the files panel.
-   * 
+   *
    * @var boolean
    */
   protected $hideDerived;
 
   /**
    * A list of datastreams defined as thumbnails in the rels-int.
-   * 
+   *
    * @var array
    */
   protected $thumbnails;
 
   /**
    * A list of datastreams defined as derived in the rels-int.
-   * 
+   *
    * @var array
    */
   protected $derived;
 
   /**
    * A list of all viewable MIME types.
-   * 
+   *
    * @var array
    */
   protected $viewableMimeTypes;
 
   /**
    * A list of all hidden MIME types.
-   * 
+   *
    * @var array
    */
   protected $hiddenMimeTypes;
 
   /**
    * A list of all downloadable MIME types.
-   * 
+   *
    * @var array
    */
   protected $downloadableMimeTypes;
 
   /**
    * A list of all downloadable MIME types.
-   * 
+   *
    * @var array
    */
   protected $nonDownloadableMimeTypes;
 
   /**
    * A list of viewable datastreams.
-   *  
+   *
    * @var array
    */
   protected $viewableDatastreams;
 
   /**
    * A list of hidden datastreams.
-   *  
+   *
    * @var array
    */
   protected $hiddenDatastreams;
 
   /**
    * A list of all downloadable datastreams.
-   * 
+   *
    * @var array
    */
   protected $downloadableDatastreams;
 
   /**
    * A list of all non-downloadable datastreams.
-   * 
+   *
    * @var array
    */
   protected $nonDownloadableDatastreams;
 
   /**
    * A collection of labels and values for use in the description panel.
-   * 
+   *
    * @var array
    */
   protected $description;
 
   /**
    * Create the object view description.
-   * 
+   *
    * @param Fedora_Item $fedora_item
-   * @param ContentModel $content_model 
+   * @param ContentModel $content_model
    */
   public function __construct(Fedora_Item &$fedora_item, ContentModel &$content_model) {
     $this->item = &$fedora_item;
@@ -136,7 +136,7 @@ class ObjectViewDescription {
 
   /**
    * Get the description that defines the Obj Viewers properties.
-   * @param string $pid 
+   * @param string $pid
    */
   private function getObjViewerDefinition($pid) {
     $content_model = new Fedora_Item($pid);
@@ -149,7 +149,7 @@ class ObjectViewDescription {
 
   /**
    * Intialize this instances members based on information stored within the obj_viewer definition.
-   * 
+   *
    * @param string $xml
    */
   private function processObjViewerDefinition($xml) {
@@ -168,8 +168,8 @@ class ObjectViewDescription {
   }
 
   /**
-   * 
-   * 
+   *
+   *
    * @param SimpleXMLElement $object_viewer
    * @param string $path
    * @return array
@@ -185,7 +185,7 @@ class ObjectViewDescription {
 
   /**
    *
-   * @param SimpleXMLElement $description 
+   * @param SimpleXMLElement $description
    */
   private function initializeDescription(SimpleXMLElement $description) {
     $this->description = array();
@@ -204,7 +204,7 @@ class ObjectViewDescription {
   /**
    *
    * @param SimpleXMLElement $description
-   * @return SimpleXMLElement 
+   * @return SimpleXMLElement
    */
   private function getDescriptionMetadata(SimpleXMLElement $description) {
     $metadata_dsid = (string) $description['dsid'];
@@ -222,7 +222,7 @@ class ObjectViewDescription {
    *
    * @param SimpleXMLElement $item
    * @param SimpleXMLElement $metadata
-   * @return type 
+   * @return type
    */
   private function getItemLabelAndValue(SimpleXMLElement $item, SimpleXMLElement $metadata) {
     $label = (string) $item->label;
@@ -236,7 +236,7 @@ class ObjectViewDescription {
    * @param SimpleXMLElement $metadata
    * this is basically the worst code I've read in awhile. I have no idea what foo and bar do.
    * fixed a big that was returning bad data, but i'm not sure if i fixed the root cause.
-   * @return type 
+   * @return type
    */
   private function getItemValue(SimpleXMLElement $item, SimpleXMLElement $metadata) {
     global $base_url;
@@ -327,8 +327,8 @@ class ObjectViewDescription {
 
   /**
    * Initialize instance members based on information stored within this objects rels-int.
-   * 
-   * @param string $xml 
+   *
+   * @param string $xml
    */
   private function processRelsInt($xml) {
     $this->thumbnails = array();
@@ -347,21 +347,21 @@ class ObjectViewDescription {
           }
         }
       }
-      
+
       // check each description block to see if there are derived types.  The array of
       // derived types is used to map the DSIDs of viewable types with the DSIDs that are
       // recognized but for which there is no viewer installed)
       $rdfDescriptions = $relsInt->xpath('//rdf:Description');
       foreach($rdfDescriptions as $currDescription) {
-        
+
         // see if there is an "about" tag that represents the DSID of the "base" datastream
         // and if there is save the DSID name
         $aboutAttribute = $currDescription->xpath('./@rdf:about');
         $aboutNameMatches = array();
-        if (count($aboutAttribute) > 0 && 
+        if (count($aboutAttribute) > 0 &&
             preg_match('/\/([^\/]*)$/', (string) $aboutAttribute[0]['about'], $aboutNameMatches) == 1) {
           $baseDsid = $aboutNameMatches[1];
-          
+
           // if there is a base DSID then check for all the resources that are NOT thumbnails
           // and store this list of resources in an array that represents the derived DSIDs
           // for the base DSID.
@@ -374,7 +374,7 @@ class ObjectViewDescription {
               $dsidDerived[] = $hasRelationshipMatches[1];
             }
           }
-          
+
           // finally, if there are derived types for a base type, add them to the derived array
           // as an array of derived DSIDs assiciated with the base DSID.
           if (count($dsidDerived) > 0) {
@@ -387,7 +387,7 @@ class ObjectViewDescription {
 
   /**
    * Search for...
-   * 
+   *
    * @param string $needle
    * @param array $haystack
    * @return boolean
@@ -404,7 +404,7 @@ class ObjectViewDescription {
   /**
    *
    * @param string $dsid
-   * @return boolean 
+   * @return boolean
    */
   public function isDatastreamViewable($dsid) {
     global $user;
@@ -412,16 +412,16 @@ class ObjectViewDescription {
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
     module_load_include('inc', 'islandora_xacml_api', 'Xacml');
     module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
-    
+
     try {
       $xacml = Xacml::constructFromPid($this->item->pid);
-      
+
       // if the user does not have permission to view this DSID then it is
       // still possible that there is a derived datastream that the user is
       // permitted to view.  So ... check the derived streams to see if there
       // is one that the user can view.
       if(!$xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$dsid]['MIMEType'], $dsid)){
-        
+
         $viewable = $this->getViewableDSID($dsid);
 
         if( $viewable && $xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$viewable]['MIMEType'], $viewable)) {
@@ -461,32 +461,32 @@ class ObjectViewDescription {
       return $this->isMimeTypeViewable($this_mime, $viewable_mime);
     }
   }
-  
+
   /**
    *
    * Returns a viewable DSID based on whether the object has derivbed types that are
    * viewable and have a viewer or if the input DSID has a viewer (in which
    * case the input DSID is returned).
-   * 
+   *
    * Preference is given to the derived types first as they are usually created as
    * viewable alterntives (either because they are using a differnt format or they
    * are optimized for viewing in the same format--often made smaller) than the original
    * datastream.
    *
    * @param string $dsid
-   * @return string 
+   * @return string
    */
   public function getViewableDSID($dsid) {
     global $user;
-    
+
     module_load_include('inc', 'adr_basic_viewer', 'ADRBasicViewer');
-    
+
     $viewable_dsid = NULL;
-      
+
     try {
       module_load_include('inc', 'islandora_xacml_api', 'Xacml');
       module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
-      
+
       $xacml = Xacml::constructFromPid($this->item->pid);
 
       // check to see if there are derived streams for a DSID and if they can be displayed
@@ -500,7 +500,7 @@ class ObjectViewDescription {
           }
         }
       }
-      
+
       // If no viewable dartastream has been found then test to see if the input DSID
       // both has a viewer and that the user has permission to view the DSID and MIME type.
       if (is_null($viewable_dsid) &&
@@ -509,22 +509,22 @@ class ObjectViewDescription {
         $viewable_dsid = $dsid;
       }
     }
-    
+
     // default action is to return a NULL DSID.
     catch (XacmlException $e) {
     }
-    
+
     return $viewable_dsid;
   }
 
   /**
    *
    * @param string $mime_type
-   * @return boolean 
+   * @return boolean
    */
   public function isMimeTypeViewable($mime_type, $viewable_mime) {
     if (array_search($mime_type, $this->viewableMimeTypes) !== FALSE) {
-      
+
       if(ADRBasicViewer::allowedMimeType($viewable_mime)) {
         return TRUE;
       }
@@ -534,12 +534,12 @@ class ObjectViewDescription {
 
   /**
    *
-   * @param type $dsid 
+   * @param type $dsid
    * @return boolean
    */
   public function isDatastreamDownloadable($dsid) {
     global $user;
-    
+
     //if ($this->isDatastreamViewable($dsid)) {
       try{
         $xacml = Xacml::constructFromPid($this->item->pid);
@@ -573,7 +573,7 @@ class ObjectViewDescription {
 
   /**
    *
-   * @param string $mime_type 
+   * @param string $mime_type
    * @return boolean
    */
   public function isMimeTypeDownloadable($mime_type) {
@@ -588,8 +588,8 @@ class ObjectViewDescription {
 
   /**
    * Determines if the datastream is a thumbnail.
-   * 
-   * @param string $dsid 
+   *
+   * @param string $dsid
    * @return boolean
    */
   public function isThumbnail($dsid) {
@@ -601,7 +601,7 @@ class ObjectViewDescription {
 
   /**
    *
-   * @param string $dsid 
+   * @param string $dsid
    * @return boolean
    */
   public function isDerived($dsid) {
@@ -614,8 +614,8 @@ class ObjectViewDescription {
   }
 
   /**
-   * 
-   * @param string $dsid 
+   *
+   * @param string $dsid
    * @return array
    */
   public function isViewableAndDownloadable($dsid) {
@@ -632,11 +632,11 @@ class ObjectViewDescription {
 
   /**
    * This code snippit comes from the Remark Markup Library, Authored by Alan Tick. GNU GPL v3.
-   * 
+   *
    * https://launchpad.net/remark
-   * 
+   *
    * @param type $text
-   * @return type 
+   * @return type
    */
   private function isLink($text) {
     $SCHEMES = array('http', 'https', 'ftp', 'mailto', 'news',
@@ -689,7 +689,7 @@ class ObjectViewDescription {
 
 /**
  * Code from Paul.
- * 
+ *
  * if(!empty($value)){
    if($fieldName == 'Author' || $fieldName == 'Topic' || $fieldName == "Publisher" || $fieldName == "Corporate Name(s)" || $fieldName == "Subject (Personal)" ||
            $fieldName == "Subject (Time)" || $fieldName == "Geography" || $fieldName == "Form" || $fieldName == "Place Of Publication" ||

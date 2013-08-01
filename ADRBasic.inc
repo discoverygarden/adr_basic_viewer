@@ -15,7 +15,7 @@ class ADRBasic {
 
   /**
    * The PID of the object to be viewed/managed.
-   * 
+   *
    * @var string
    */
   protected $pid;
@@ -66,9 +66,9 @@ class ADRBasic {
 
     return $show;
   }
-  
+
   /**
-   * 
+   *
    */
   private function includeRequiredScripts() {
     $path = drupal_get_path('module', 'adr_basic_viewer');
@@ -128,7 +128,7 @@ class ADRBasic {
     $canAddStream = user_access("add fedora datastreams");
     $canEditStream = user_access("edit fedora meta data");
     $canDeleteStream = user_access("purge objects and datastreams");
-    
+
     $permissions_block =
         "UserObjectPermissions.manage_canEditObjects=" . ($canEditObjects ? "true" : "false") . ";" .
         "UserObjectPermissions.manage_canEditPermissions=" . ($canEditPermissions ? "true" : "false") . ";" .
@@ -137,7 +137,7 @@ class ADRBasic {
         "UserObjectPermissions.datastream_canEditStream=" . ($canEditStream ? "true" : "false") . ";" .
         "UserObjectPermissions.datastream_canDeleteStream=" . ($canDeleteStream ? "true" : "false") . ";";
     drupal_add_js($permissions_block, 'inline');
-    
+
     drupal_add_js("$path/js/IncludeFirst.js");
     $this->includeScripts($data_stores, $path);
     $this->includeScripts($custom_components, $path);
@@ -147,7 +147,7 @@ class ADRBasic {
       $this->includeScripts($manage_panel, $path);
       $this->includeScripts($manage_windows, $path);
     }
-        
+
     drupal_add_js("$path/js/ADRBasic.js");
     drupal_add_js("$path/js/resize.js");
   }
@@ -167,7 +167,12 @@ class ADRBasic {
    *
    */
   public function render() {
-    $this->includeRequiredScripts(); // Javascript all the way!
+    module_load_include('inc', 'fedora_repository', 'api/fedora_item');
+    $item = new Fedora_Item($this->pid);
+    $models = (isset($item->objectProfile->objModels->model) ? $item->objectProfile->objModels->model : array());
+    if(!in_array('info:fedora/islandora:iaBookCModel', $models) && !in_array('info:fedora/islandora:bookCModel', $models)) {
+      $this->includeRequiredScripts(); // Javascript all the way!
+    }
   }
 
 }
