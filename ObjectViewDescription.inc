@@ -106,17 +106,28 @@ class ObjectViewDescription {
   protected $description;
 
   /**
+   * Store the XACML for the object so it can be used when determining if the ds is viewable and or downloadable
+   * @var type
+   */
+  protected $xacml;
+
+  /**
    * Create the object view description.
    *
    * @param Fedora_Item $fedora_item
    * @param ContentModel $content_model
+   * @param Xacml $xacml
    */
-  public function __construct(Fedora_Item &$fedora_item, ContentModel &$content_model) {
+  public function __construct(Fedora_Item &$fedora_item, ContentModel &$content_model, Xacml $xacml = NULL) {
     $this->item = &$fedora_item;
     $xml = $this->getObjViewerDefinition($content_model->pid);
     $this->processObjViewerDefinition($xml);
     $xml = $this->getRelsInt();
     $this->processRelsInt($xml);
+
+    if($xacml) {
+      $this->xacml = $xacml;
+    }
   }
 
   /**
@@ -414,14 +425,20 @@ class ObjectViewDescription {
     module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
 
     try {
-      $xacml = Xacml::constructFromPid($this->item->pid);
+      if($this->xacml) {
+        $xacml = $this->xacml;
+      }
+      else {
+        module_load_include('inc', 'islandora_xacml_api', 'Xacml');
+        module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
+        $xacml = Xacml::constructFromPid($this->item->pid);
+      }
 
       // if the user does not have permission to view this DSID then it is
       // still possible that there is a derived datastream that the user is
       // permitted to view.  So ... check the derived streams to see if there
       // is one that the user can view.
       if(!$xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$dsid]['MIMEType'], $dsid)){
-
         $viewable = $this->getViewableDSID($dsid);
 
         if( $viewable && $xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$viewable]['MIMEType'], $viewable)) {
@@ -484,10 +501,14 @@ class ObjectViewDescription {
     $viewable_dsid = NULL;
 
     try {
-      module_load_include('inc', 'islandora_xacml_api', 'Xacml');
-      module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
-
-      $xacml = Xacml::constructFromPid($this->item->pid);
+      if($this->xacml) {
+        $xacml = $this->xacml;
+      }
+      else {
+        module_load_include('inc', 'islandora_xacml_api', 'Xacml');
+        module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
+        $xacml = Xacml::constructFromPid($this->item->pid);
+      }
 
       // check to see if there are derived streams for a DSID and if they can be displayed
       // by existing viewers AND also that the user has permission to view that datastream.
@@ -540,9 +561,16 @@ class ObjectViewDescription {
   public function isDatastreamDownloadable($dsid) {
     global $user;
 
-    //if ($this->isDatastreamViewable($dsid)) {
       try{
-        $xacml = Xacml::constructFromPid($this->item->pid);
+        if ($this->xacml) {
+          $xacml = $this->xacml;
+        }
+        else {
+          module_load_include('inc', 'islandora_xacml_api', 'Xacml');
+          module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
+          $xacml = Xacml::constructFromPid($this->item->pid);
+        }
+
         if(!$xacml->datastreamRule->hasPermission($user->name, $user->roles, $this->item->datastreams[$dsid]['MIMEType'], $dsid)) {
           return FALSE;
         }
