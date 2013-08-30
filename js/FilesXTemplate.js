@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -16,17 +16,17 @@ var filesXTemplate = new Ext.XTemplate(
     '           <tpl if="viewable_dsid">',
     '           <span class="adr-file-view">',
     '               <tpl if="this.showView(mime)">',
-    '                   <input type="button" onClick="ADRBasic.viewer.show(\'{label}\', \'{viewable_dsid}\');" value="View"/>',
+    '                   <input type="button" onClick="ADRBasic.viewer.show(\'{label}\', \'{viewable_dsid}\'); _gaq.push([\'_trackEvent\', \'File Pane\', \'view\', \'{download_url}\']);" value="View"/>',
     '               </tpl>',
     '               <tpl if="this.showPlay(mime)">',
-    '                   <input type="button" onClick="ADRBasic.viewer.show(\'{label}\', \'{viewable_dsid}\');" value="Play"/>',
+    '                   <input type="button" onClick="ADRBasic.viewer.show(\'{label}\', \'{viewable_dsid}\'); _gaq.push([\'_trackEvent\', \'File Pane\', \'play\', \'{download_url}\']);" value="Play"/>',
     '               </tpl>',
     '           </span>',
     '           </tpl>',
     '           <tpl if="download_url">',
     '               <span class="adr-file-download">',
     '                   <form method="GET" action="{download_url}" style="display:inline;">',
-    '                       <input type="submit" value="Download"></input>',
+    '                       <input type="submit" value="Download" class="file-pane-download" onClick="_gaq.push([\'_trackEvent\', \'File Pane\', \'download\', \'{download_url}\']);"></input>',
     '                   </form>',
     '               </span>',
     '           </tpl>',
