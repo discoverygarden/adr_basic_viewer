@@ -89,6 +89,10 @@ function adr_basic_viewer_get_pid() {
   return $pid;
 }
 
+function adr_basic_viewer_init() {
+  $path = drupal_get_path('module', 'adr_basic_viewer');
+  drupal_add_js("$path/js/ADRBasicGATracking.js");
+}
 /**
  *
  */
@@ -103,7 +107,7 @@ function adr_basic_viewer_get_description() {
 }
 
 /**
- * 
+ *
  */
 function adr_basic_viewer_get_datastreams() {
   $pid = adr_basic_viewer_get_pid();
@@ -133,7 +137,7 @@ function adr_basic_viewer_get_overview_datastreams() {
 }
 
 /**
- * 
+ *
  */
 function adr_basic_viewer_get_viewer() {
   $pid = adr_basic_viewer_get_pid();
@@ -146,7 +150,7 @@ function adr_basic_viewer_get_viewer() {
 }
 
 /**
- * 
+ *
  */
 function adr_basic_viewer_add_datastream() {
   $pid = adr_basic_viewer_get_pid();
@@ -159,7 +163,7 @@ function adr_basic_viewer_add_datastream() {
 }
 
 /**
- * 
+ *
  */
 function adr_basic_viewer_remove_datastream() {
   $pid = adr_basic_viewer_get_pid();
@@ -264,18 +268,18 @@ function adr_basic_viewer_set_datastream_label() {
  * Synchronous AJAX request to query whether the specified datastream has a form
  * association attached to it.
  *
- * Responds with a JSON object describing success or failure, and a message as 
+ * Responds with a JSON object describing success or failure, and a message as
  * indicated if there is an association or not.
  *
  * Example: { success: true, msg: 'message' }
  */
 function adr_basic_viewer_get_form_association() {
   $result = db_query('SELECT dsid FROM {islandora_content_model_forms} WHERE dsid = "%s"', $_POST['ds']);
-  
+
   while ($data = db_fetch_object($result)) {
     $association = TRUE;
   }
-  
+
   if ($association) {
     $response = array('success' => true, 'msg' => 'Found association');
     echo json_encode($response);

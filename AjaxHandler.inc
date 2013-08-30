@@ -160,7 +160,7 @@ class AjaxHandler {
     $datastreams_sorted = array_map('strtolower', $datastreams_sorted);
     array_multisort($datastreams_sorted, SORT_ASC, $datastreams);
 
-    foreach ($datastreams as $dsid => $attr) { //foreach ($this->item->datastreams as $dsid => $attr) {
+    foreach ($datastreams as $dsid => $attr) {   //foreach ($this->item->datastreams as $dsid => $attr) {
       list($viewable, $downloadable) = $object_view->isViewableAndDownloadable($dsid);
       if ($viewable || $downloadable) {
         $within_range = $count >= $start && $count < $end;
