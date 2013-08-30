@@ -120,12 +120,15 @@ class AjaxHandler {
     $count = 0;
     $end = (isset($limit)) ? $start + $limit : NULL;
     module_load_include('inc', 'adr_basic_viewer', 'ObjectViewDescription');
-    $object_view = new ObjectViewDescription($this->item, $this->getContentModel());
+    module_load_include('inc', 'islandora_xacml_api', 'Xacml');
+    module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
+    module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
+    $xacml = Xacml::constructFromPid($this->pid);
+    $object_view = new ObjectViewDescription($this->item, $this->getContentModel(), $xacml);
     $datastreams = $this->item->datastreams;
 
     foreach ($datastreams as $dsid => $attr) {
       if ($count >= $start && (empty($end) || $count < $end)) {
-        module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
         $thumbnail = new Thumbnail($this->item, $dsid);
         $stream['dsid'] = $dsid;
         $stream['viewable_dsid'] = $object_view->getViewableDSID($dsid);
@@ -149,7 +152,13 @@ class AjaxHandler {
   public function getOverviewDatastreams($start, $limit) {
     $data = array();
     module_load_include('inc', 'adr_basic_viewer', 'ObjectViewDescription');
-    $object_view = new ObjectViewDescription($this->item, $this->getContentModel());
+    module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
+
+    module_load_include('inc', 'islandora_xacml_api', 'Xacml');
+    module_load_include('inc', 'islandora_xacml_api', 'XacmlException');
+    $xacml = Xacml::constructFromPid($this->pid);
+
+    $object_view = new ObjectViewDescription($this->item, $this->getContentModel(), $xacml);
     $count = 0;
     $end = $start + $limit;
     $datastreams = $this->item->datastreams;
@@ -160,12 +169,12 @@ class AjaxHandler {
     $datastreams_sorted = array_map('strtolower', $datastreams_sorted);
     array_multisort($datastreams_sorted, SORT_ASC, $datastreams);
 
-    foreach ($datastreams as $dsid => $attr) {   //foreach ($this->item->datastreams as $dsid => $attr) {
+    foreach ($datastreams as $dsid => $attr) {
       list($viewable, $downloadable) = $object_view->isViewableAndDownloadable($dsid);
       if ($viewable || $downloadable) {
         $within_range = $count >= $start && $count < $end;
         if ($within_range) {
-          module_load_include('inc', 'adr_basic_viewer', 'Thumbnail');
+
           $thumbnail = new Thumbnail($this->item, $dsid);
 
           // it is possible that we can get this far and the datastream MIMEtype is viewable
