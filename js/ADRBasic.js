@@ -16,6 +16,5 @@ Ext.onReady(function(){
         }
     });
     adrbasic.show();
-    console.log('ggg--');
 });
 
